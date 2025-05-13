@@ -16,7 +16,8 @@
     <modules>
         <module>msvc-clientes</module>
         <module>msvc-productos</module>
-        <module>msvc-boletas</module>
+        <module>msvc-detallecompras</module>
+        <module>msvc-sucursales</module>
     </modules>
     <properties>
         <java.version>21</java.version>
