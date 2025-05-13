@@ -19,6 +19,7 @@
         <module>msvc-detallecompras</module>
         <module>msvc-sucursales</module>
         <module>msvc-inventarios</module>
+        <module>msvc-boletas</module>
     </modules>
     <properties>
         <java.version>21</java.version>
