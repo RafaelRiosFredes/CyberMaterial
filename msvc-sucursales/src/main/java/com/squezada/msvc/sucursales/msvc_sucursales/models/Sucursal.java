@@ -12,11 +12,13 @@ import lombok.*;
 public class Sucursal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_sucursal")
-    private long idSucursal;
+    private long idsucursal;
+    private String horario;
+    private String direccion;
+
 
     @Column(nullable = false, unique = true)
     @NotEmpty(message = "El id de la sucursal no puede ser vacio")
-    private String id;
+    private long id;
 
 }

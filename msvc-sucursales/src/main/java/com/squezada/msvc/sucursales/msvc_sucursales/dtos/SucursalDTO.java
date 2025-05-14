@@ -1,6 +1,7 @@
 package com.squezada.msvc.sucursales.msvc_sucursales.dtos;
 
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 
 public class SucursalDTO {
-    private long id;
-    private LocalDateTime horaAtencion;
+    private long idsucursal;
+
+    @NotBlank (message = "El horario de atencion no puede estar vacio")
+    private String horarioAtencion;
+
+    @NotBlank(message = "La direccion no puede estar vacia")
     private String direccion;
+
+
 }
