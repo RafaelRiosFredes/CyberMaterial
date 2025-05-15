@@ -1,6 +1,7 @@
 package com.farancibia.msvc.clientes.msvc_clientes.models.entities;
 
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
