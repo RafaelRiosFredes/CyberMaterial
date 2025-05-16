@@ -1,7 +1,6 @@
 package com.squezada.msvc.sucursales.msvc_sucursales.controllers;
 
 
-import com.squezada.msvc.sucursales.msvc_sucursales.dtos.SucursalDTO;
 import com.squezada.msvc.sucursales.msvc_sucursales.models.Sucursal;
 import com.squezada.msvc.sucursales.msvc_sucursales.services.SucursalService;
 import jakarta.validation.Valid;
@@ -19,28 +18,20 @@ import java.util.List;
 public class SucursalController {
 
     @Autowired
-    SucursalService service;
-
-
-    @PostMapping
-    public SucursalDTO save(@RequestBody SucursalDTO dto) {
-        return service.save(dto);
-    }
-
+    private SucursalService sucursalService;
 
     @GetMapping
-    public List<SucursalDTO> findAll() {
-        return service.findAll();
+    public ResponseEntity<List<Sucursal>> findAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(this.sucursalService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SucursalDTO> findById(@PathVariable Long id) {
-        SucursalDTO dto = service.findById(id);
-        if (dto != null) {
-            return ResponseEntity.ok(dto);
-        } else {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<Sucursal> findById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(this.sucursalService.findById(id));
+    }
 
-        }
+    @PostMapping
+    public ResponseEntity<Sucursal> save(@Valid @RequestBody Sucursal sucursal){
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.sucursalService.save(sucursal));
     }
 }

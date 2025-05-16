@@ -6,19 +6,24 @@ import lombok.*;
 
 @Entity
 @Table( name = "sucursales")
-@Getter @Setter
+@Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
 
 public class Sucursal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, unique = true)
+    @NotEmpty(message = "El id de la sucursal no puede ser vacio")
     private long idsucursal;
+
     private String horario;
+
+    @Column(nullable = false, unique = true)
+    @NotEmpty(message = "La direccion de la sucursal no puede ser vacio")
     private String direccion;
 
 
-    @Column(nullable = false, unique = true)
-    @NotEmpty(message = "El id de la sucursal no puede ser vacio")
-    private long id;
+
+
 
 }
