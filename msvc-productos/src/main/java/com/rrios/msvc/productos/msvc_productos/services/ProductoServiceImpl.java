@@ -29,9 +29,7 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public Producto save(Producto producto) {
-        try {
-
-        }
+        return this.productoRepository.save(producto);
     }
 }
 
