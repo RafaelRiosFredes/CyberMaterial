@@ -1,6 +1,7 @@
 package com.squezada.msvc.detallecompras.msvc_detallecompras.controllers;
 
 
+import com.squezada.msvc.detallecompras.msvc_detallecompras.models.entities.Detallecompras;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.services.DetallecomprasService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,24 +21,27 @@ public class DetallecomprasController {
     private DetallecomprasService detallecomprasService;
 
     @GetMapping
-    public ResponseEntity<List<Detallecompra>> findAll(){
-        List<Detallecompra> detallecompras = this.detallecomprasService.findAll();
+    public ResponseEntity<List<Detallecompras>> findAll(){
+        List<Detallecompras> detallecompras = this.detallecomprasService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(detallecompras);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Detallecompra> findById(@PathVariable Long id){
-        Detallecompra detallecompra = this.detallecomprasService.findById(id);
-        if(detallecompra == null){
+    public ResponseEntity<Detallecompras> findById(@PathVariable Long id){
+        Detallecompras detallecompras = this.detallecomprasService.findById(id);
+        if(detallecompras == null){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.status(HttpStatus.OK).body(detallecompra);
+        return ResponseEntity.status(HttpStatus.OK).body(detallecompras);
+
 
     }
 
     @PostMapping
-    public ResponseEntity<Detallecompra> save(@Valid @RequestBody Detallecompra detallecompra){
-        Detallecompra saved = this.detallecomprasService.save(detallecompra);
+    public ResponseEntity<Detallecompras> save(@Valid @RequestBody Detallecompras detallecompra){
+        Detallecompras saved = this.detallecomprasService.save(detallecompra);
         return ResponseEntity.status(HttpStatus.OK).body(saved);
     }
+
+
 }

@@ -1,6 +1,8 @@
 package com.squezada.msvc.detallecompras.msvc_detallecompras.services;
 
+import com.squezada.msvc.detallecompras.msvc_detallecompras.clients.ProductoClientRest;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.models.Producto;
+import com.squezada.msvc.detallecompras.msvc_detallecompras.models.entities.Detallecompras;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.repositories.DetallecomprasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +18,12 @@ public class DetallecomprasServicelmpl {
         private DetallecomprasRepository detallecomprasRepository;
 
         @Autowired
-        private ProductoRepository productorepository;
+        private ProductoClientRest productoClientRest;
 
         // Guardar un nuevo DetalleCompra en la base de datos
 
         @Override
-        public Detallecompra crear(Detallecompra detalleCompra) {
+        public Detallecompras crear(Detallecompras detalleCompra) {
 
             // Busca el producto por ID para asegurarse de que existe (findById)
 
@@ -39,21 +41,17 @@ public class DetallecomprasServicelmpl {
 
         // Busca un detalle de compra por su ID (findById)
         @Override
-        public Detallecompra obtenerPorId(Long id) {
+        public Detallecompras obtenerPorId(Long id) {
             return detallecomprasRepository.findById(id).orElse(null);
         }
 
         // Retorna todos los detalles de compra existentes (findAll)
         @Override
-        public List<Detallecompra> obtenerTodos() {
+        public List<Detallecompras> obtenerTodos() {
             return detallecomprasRepository.findAll();
         }
 
-        // Elimina un detalle de compra por su ID
-        @Override
-        public void eliminar(Long id) {
-            detallecomprasRepository.deleteById(id);
-        }
+
     }
 
 }
