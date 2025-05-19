@@ -1,7 +1,7 @@
 package com.squezada.msvc.sucursales.msvc_sucursales.services;
 
 import com.squezada.msvc.sucursales.msvc_sucursales.exceptions.SucursalException;
-import com.squezada.msvc.sucursales.msvc_sucursales.models.Sucursal;
+import com.squezada.msvc.sucursales.msvc_sucursales.models.entities.Sucursal;
 import com.squezada.msvc.sucursales.msvc_sucursales.repositories.SucursalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

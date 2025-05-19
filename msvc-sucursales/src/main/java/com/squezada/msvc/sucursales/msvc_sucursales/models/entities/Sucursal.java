@@ -1,4 +1,4 @@
-package com.squezada.msvc.sucursales.msvc_sucursales.models;
+package com.squezada.msvc.sucursales.msvc_sucursales.models.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -16,6 +16,7 @@ public class Sucursal {
     @NotEmpty(message = "El id de la sucursal no puede ser vacio")
     private long idsucursal;
 
+    @Column(nullable = false, unique = true)
     private String horario;
 
     @Column(nullable = false, unique = true)

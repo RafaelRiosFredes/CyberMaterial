@@ -1,5 +1,4 @@
-package com.squezada.msvc.detallecompras.msvc_detallecompras.models;
-
+package com.squezada.msvc.sucursales.msvc_sucursales.models;
 
 import lombok.*;
 
@@ -16,4 +15,3 @@ public class Producto {
     private String descripcion;
 
 }
-

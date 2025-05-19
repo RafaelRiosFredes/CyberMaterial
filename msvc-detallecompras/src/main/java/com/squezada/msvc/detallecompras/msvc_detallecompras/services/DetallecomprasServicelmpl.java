@@ -1,7 +1,6 @@
 package com.squezada.msvc.detallecompras.msvc_detallecompras.services;
 
 import com.squezada.msvc.detallecompras.msvc_detallecompras.models.Producto;
-import com.squezada.msvc.detallecompras.msvc_detallecompras.models.entities.Detallecompra;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.repositories.DetallecomprasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

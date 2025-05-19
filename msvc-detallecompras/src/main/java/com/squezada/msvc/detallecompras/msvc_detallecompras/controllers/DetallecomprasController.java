@@ -1,7 +1,6 @@
 package com.squezada.msvc.detallecompras.msvc_detallecompras.controllers;
 
 
-import com.squezada.msvc.detallecompras.msvc_detallecompras.models.entities.Detallecompra;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.services.DetallecomprasService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
