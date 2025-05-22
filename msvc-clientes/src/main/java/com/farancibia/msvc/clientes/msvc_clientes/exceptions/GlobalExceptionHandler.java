@@ -29,13 +29,6 @@ public class GlobalExceptionHandler {
         return errorDTO;
     }
 
-    /**
-     * De esta forma se permite capturar los mensajes de error en caso que los argumenteos que fueron solicitado, no
-     * cumplan con la condicion de valitaion que fue generadoa futuro.
-     *
-     * @param exception
-     * @return
-     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorDTO> handleValidationFields(MethodArgumentNotValidException exception) {
         Map<String, String> errorMap = new HashMap<>();
