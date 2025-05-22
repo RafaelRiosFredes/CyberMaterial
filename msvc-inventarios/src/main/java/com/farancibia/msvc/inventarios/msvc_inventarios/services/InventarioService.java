@@ -5,4 +5,5 @@ import com.farancibia.msvc.inventarios.msvc_inventarios.models.entities.Inventar
 public interface InventarioService {
 
     Inventario findByIdSucursalAndIdProducto(Long idSucursal, Long idProducto);
+    Inventario save(Inventario inventario);
 }

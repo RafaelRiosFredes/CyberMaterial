@@ -2,6 +2,7 @@ package com.rrios.msvc.productos.msvc_productos.models.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -22,7 +23,7 @@ public class Producto {
 
     @Column(nullable = false)
     @NotNull(message = "El campo precio no puede estar vacío")
-    private double precio;
+    private Double precio;
 
     @Column(nullable = false)
     @NotBlank(message = "El campo descripcion no puede estar vacío")

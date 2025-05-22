@@ -1,8 +1,13 @@
 package com.rrios.msvc.productos.msvc_productos.services;
 
+import com.rrios.msvc.productos.msvc_productos.clients.InventarioClientRest;
+import com.rrios.msvc.productos.msvc_productos.clients.SucursalClientRest;
 import com.rrios.msvc.productos.msvc_productos.exceptions.ProductoException;
+import com.rrios.msvc.productos.msvc_productos.models.Inventario;
+import com.rrios.msvc.productos.msvc_productos.models.Sucursal;
 import com.rrios.msvc.productos.msvc_productos.models.entities.Producto;
 import com.rrios.msvc.productos.msvc_productos.repositories.ProductoRepository;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +18,8 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Autowired
     private ProductoRepository productoRepository;
+    private InventarioClientRest inventarioClientRest;
+    private SucursalClientRest sucursalClientRest;
 
 
     @Override
