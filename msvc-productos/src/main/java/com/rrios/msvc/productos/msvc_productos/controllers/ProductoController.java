@@ -36,8 +36,6 @@ public class ProductoController {
         Producto saved = this.productoService.save(producto);
         return ResponseEntity.status(HttpStatus.OK).body(saved);
     }
-
-
 }
 
 

@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Inventario {
+    private Long idInventario;
     private Integer stock;
-
-
+    private Long idSucursal;
+    private Long idProducto;
 }

@@ -1,7 +1,7 @@
 package com.squezada.msvc.sucursales.msvc_sucursales.services;
 
 import com.squezada.msvc.sucursales.msvc_sucursales.exceptions.SucursalException;
-import com.squezada.msvc.sucursales.msvc_sucursales.models.Sucursal;
+import com.squezada.msvc.sucursales.msvc_sucursales.models.entities.Sucursal;
 import com.squezada.msvc.sucursales.msvc_sucursales.repositories.SucursalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +27,8 @@ public class SucursalServicelmpl implements SucursalService {
 
     @Override
     public Sucursal save(Sucursal sucursal) {
-        if(this.sucursalRepository.findByDireccion(sucursal.getDireccion()).isPresent()){
-            throw new SucursalException("La sucursal con la direccion "+sucursal.getDireccion()+" ya existe en la base de datos");
+        if(this.sucursalRepository.findById(sucursal.getIdsucursal()).isPresent()){
+            throw new SucursalException("La sucursal con la ID "+sucursal.getIdsucursal()+" ya existe en la base de datos");
         }
         return this.sucursalRepository.save(sucursal);
     }

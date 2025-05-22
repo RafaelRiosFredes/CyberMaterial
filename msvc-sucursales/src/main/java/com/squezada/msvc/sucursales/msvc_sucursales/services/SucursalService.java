@@ -1,7 +1,7 @@
 package com.squezada.msvc.sucursales.msvc_sucursales.services;
 
 
-import com.squezada.msvc.sucursales.msvc_sucursales.models.Sucursal;
+import com.squezada.msvc.sucursales.msvc_sucursales.models.entities.Sucursal;
 
 import java.util.List;
 

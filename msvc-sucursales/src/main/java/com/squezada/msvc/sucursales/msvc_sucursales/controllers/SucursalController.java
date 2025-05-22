@@ -1,7 +1,7 @@
 package com.squezada.msvc.sucursales.msvc_sucursales.controllers;
 
 
-import com.squezada.msvc.sucursales.msvc_sucursales.models.Sucursal;
+import com.squezada.msvc.sucursales.msvc_sucursales.models.entities.Sucursal;
 import com.squezada.msvc.sucursales.msvc_sucursales.services.SucursalService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -25,10 +25,10 @@ public class ClienteServiceImpl implements ClienteService {
         );
     }
 
-
-
-
-
+    @Override
+    public Cliente save(Cliente cliente) {
+        return this.clienteRepository.save(cliente);
+    }
 
 
 }
