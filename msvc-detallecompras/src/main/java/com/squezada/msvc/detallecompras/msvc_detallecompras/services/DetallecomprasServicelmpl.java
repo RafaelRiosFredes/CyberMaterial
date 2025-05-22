@@ -1,8 +1,13 @@
 package com.squezada.msvc.detallecompras.msvc_detallecompras.services;
 
+import com.squezada.msvc.detallecompras.msvc_detallecompras.clients.ProductoClientRest;
+import com.squezada.msvc.detallecompras.msvc_detallecompras.dtos.DetalledecomprasDTO;
+import com.squezada.msvc.detallecompras.msvc_detallecompras.dtos.ProductoDTO;
+import com.squezada.msvc.detallecompras.msvc_detallecompras.exceptions.DetallecomprasException;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.models.Producto;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.models.entities.Detallecompra;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.repositories.DetallecomprasRepository;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,51 +15,72 @@ import java.util.List;
 
 public class DetallecomprasServicelmpl {
 
-        @Service
-        public abstract class DetallecomprasServicel implements DetallecomprasService {
+      @Service
+      public abstract class DetallecomprasServiceImpl implements DetallecomprasService {
 
-        @Autowired
-        private DetallecomprasRepository detallecomprasRepository;
+          @Autowired
+          private DetallecomprasRepository detallecomprasRepository;
 
-        @Autowired
-        private ProductoRepository productorepository;
+          @Autowired
+          private ProductoClientRest productoClientRest;
 
-        // Guardar un nuevo DetalleCompra en la base de datos
 
-        @Override
-        public Detallecompra crear(Detallecompra detalleCompra) {
 
-            // Busca el producto por ID para asegurarse de que existe (findById)
 
-            Long idProducto = detalleCompra.getProducto().getIdProducto();
-            Producto producto = productoRepository.findById(idProducto)
-                    .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-            // Asigna el producto encontrado al detalle
+          // Guardar un nuevo DetalleCompra en la base de datos
 
-            detalleCompra.setProducto(producto);
+          @Override
+          public List<DetalledecomprasDTO> findAll() {
+              return this.detallecomprasRepository.findAll().stream().map(Detallecompra -> {
 
-            // Guarda el detalle de compra (save)
-            return detallecomprasRepository.save(detalleCompra);
-        }
+                  Producto producto = null;
+                  try {
+                      producto = this.productoClientRest.findById(detallecompras.getIdProducto());
 
-        // Busca un detalle de compra por su ID (findById)
-        @Override
-        public Detallecompra obtenerPorId(Long id) {
-            return detallecomprasRepository.findById(id).orElse(null);
-        }
+                  } catch (FeignException ex) {
+                      throw new DetallecomprasException("El producto no existe");
+                  }
 
-        // Retorna todos los detalles de compra existentes (findAll)
-        @Override
-        public List<Detallecompra> obtenerTodos() {
-            return detallecomprasRepository.findAll();
-        }
+                  ProductoDTO productoDTO = new ProductoDTO();
+                  productoDTO.setIdProducto(producto.getIdproducto());
+                  productoDTO.setNombreProducto(producto.getNombre());
+                  productoDTO.setPrecio(producto.getPrecio());
+                  productoDTO.setDescripcion(producto.getDescripcion());
 
-        // Elimina un detalle de compra por su ID
-        @Override
-        public void eliminar(Long id) {
-            detallecomprasRepository.deleteById(id);
-        }
-    }
+                  DetalledecomprasDTO detalledecomprasDTO = new DetalledecomprasDTO();
+                  DetalledecomprasDTO.setProducto(productoDTO);
+                  return detalledecomprasDTO;
 
-}
+
+              }).toList();
+          }
+
+
+          // Busca un detalle de compra por su ID (findById)
+          @Override
+          public Detallecompra findById(Long id) {
+              return this.detallecomprasRepository.findById(id).orElseThrow(
+                      () -> new DetallecomprasException("El detalle de compra con id: " + id + " no se encuentra en la base de datos")
+              );
+
+          }
+
+          @Override
+          public Detallecompra save(Detallecompra detallecompra) {
+              try {
+                  Producto producto = this.productoClientRest.findById(detallecompra.getIdproducto);
+
+              } catch (FeignException ex) {
+                  throw new DetallecomprasException("Existen problemas con la asoción de producto detalle de compras");
+              }
+              return this.detallecomprasRepository.save(detallecompra);
+          }
+
+          @Override
+          public List<Detallecompra> findByProductoId(Long productoId) {
+              return this.detallecomprasRepository.findByidProducto(productoId);
+          }
+
+      }
+  }

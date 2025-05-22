@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal" created-in="IU-251.25410.129">
+    <data-source name="msvc_productos" uuid="d252f3d2-908c-4ff0-9337-71c72e40cb41">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="H2" />
+      <user-name>admin</user-name>
+      <schema-mapping />
+    </data-source>
+    <data-source name="msvc_sucursales" uuid="ebe1d862-1ca1-4fe0-8b8a-3ca2a0743a3e">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="H2" />
+      <user-name>admin</user-name>
+      <schema-mapping />
+    </data-source>
+    <data-source name="msvc-boletas" uuid="38d02bfb-a68a-438e-91c7-52e51be700fb">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="H2" />
+      <user-name>admin</user-name>
+      <schema-mapping />
+    </data-source>
+    <data-source name="msvc_clientes" uuid="560a2db9-b3f8-4c50-806d-7cde6b0669b2">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="H2" />
+      <user-name>admin</user-name>
+      <schema-mapping />
+    </data-source>
+    <data-source name="msvc_inventarios" uuid="71912483-1614-49ea-a8c5-8e9dce973577">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="H2" />
+      <user-name>admin</user-name>
+      <schema-mapping />
+    </data-source>
+    <data-source name="msvc_detallecompras" uuid="3f1e592a-7c0e-45a0-a9b9-e4ab3668e8dd">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="H2" />
+      <user-name>admin</user-name>
+      <schema-mapping />
+    </data-source>
+  </component>
+</project>

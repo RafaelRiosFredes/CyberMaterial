@@ -9,4 +9,5 @@ public interface DetallecomprasService {
     List<Detallecompra> findAll();
     Detallecompra findById(Long id);
     Detallecompra save(Detallecompra detallecompra);
+    List<Detallecompra> findByidproducto(Long idProducto);
 }

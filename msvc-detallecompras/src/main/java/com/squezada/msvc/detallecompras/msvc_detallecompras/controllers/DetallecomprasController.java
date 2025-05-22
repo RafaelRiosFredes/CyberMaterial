@@ -36,9 +36,17 @@ public class DetallecomprasController {
 
     }
 
+
     @PostMapping
     public ResponseEntity<Detallecompra> save(@Valid @RequestBody Detallecompra detallecompra){
         Detallecompra saved = this.detallecomprasService.save(detallecompra);
         return ResponseEntity.status(HttpStatus.OK).body(saved);
+    }
+
+    // Estos metodos nos permitiran mostrar los detalles de compras filtradas por id producto
+
+    @GetMapping("/producto/{id}")
+    public ResponseEntity<List<Detallecompra>> findByidproducto(@PathVariable Long id){
+      return ResponseEntity.status(HttpStatus.OK).body(this.detallecomprasService.findByidproducto(id));
     }
 }
