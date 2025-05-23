@@ -34,7 +34,7 @@ public class Cliente {
 
     @Column(nullable = false)
     @NotNull(message = "El campo telefono no puede ser vacio")
-    private int telefono;
+    private Integer telefono;
 
     @Column(nullable = true)
     private String correo;
@@ -42,9 +42,5 @@ public class Cliente {
     @Column(nullable = false)
     @NotBlank(message = "El campo direccion no puede ser vacio")
     private String direccion;
-
-    @Column(nullable = false, name= "numero_compras")
-    @NotNull(message = "El campo numero de compras")
-    private int numeroCompras;
 
 }

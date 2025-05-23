@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/cliente")
+@RequestMapping("/api/v1/clientes")
 @Validated
 public class ClienteController {
 
