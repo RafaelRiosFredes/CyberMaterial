@@ -31,5 +31,9 @@ public class Detallecompras {
     @NotEmpty(message = "El total del detalle de compras no puede ser vacio")
     private BigDecimal total;
 
+    @Column(name="id_producto", nullable = false)
+    @NotEmpty(message = "El id de producto no puede ser vacio")
+    private Long idproducto;
+
 
 }
