@@ -1,4 +1,4 @@
-package com.rrios.msvc.boletas.msvc_boletas.models;
+package com.rrios.msvc.boletas.msvc_boletas.models.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
