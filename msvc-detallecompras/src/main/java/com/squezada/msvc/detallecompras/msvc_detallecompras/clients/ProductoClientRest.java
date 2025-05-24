@@ -2,7 +2,6 @@ package com.squezada.msvc.detallecompras.msvc_detallecompras.clients;
 
 
 import com.squezada.msvc.detallecompras.msvc_detallecompras.models.Producto;
-import com.squezada.msvc.detallecompras.msvc_detallecompras.models.entities.Detallecompra;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
