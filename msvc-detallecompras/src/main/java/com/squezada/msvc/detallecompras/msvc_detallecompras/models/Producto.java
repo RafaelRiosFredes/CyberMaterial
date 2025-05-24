@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Producto {
-    private Long idproducto;
+    private Long idProducto;
     private String nombreProducto;
     private BigDecimal precio;
     private String descripcion;

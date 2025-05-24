@@ -2,7 +2,10 @@ package com.squezada.msvc.detallecompras.msvc_detallecompras.models.entities;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -19,21 +22,21 @@ public class Detallecompras {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, unique = true)
-    @NotEmpty(message = "El id del detalle de compras no puede ser vacio")
-    private long iddetallecompras;
+    private Long idDetallecompras;
 
 
     @Column(nullable = false, unique = true)
-    @NotEmpty(message = "La cantidad del detalle de compras no puede ser vacio")
+    @NotBlank(message = "La cantidad del detalle de compras no puede ser vacio")
     private String cantidad;
 
     @Column(nullable = false, unique = true)
-    @NotEmpty(message = "El total del detalle de compras no puede ser vacio")
+    @NotNull(message = "El total del detalle de compras no puede ser vacio")
     private BigDecimal total;
 
     @Column(name="id_producto", nullable = false)
-    @NotEmpty(message = "El id de producto no puede ser vacio")
-    private Long idproducto;
+    @NotNull(message = "El ID del producto no puede ser nulo")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El total debe ser mayor que cero")
+    private Long idProducto;
 
 
 }

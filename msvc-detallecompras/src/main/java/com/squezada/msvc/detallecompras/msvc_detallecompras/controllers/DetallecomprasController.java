@@ -1,7 +1,8 @@
 package com.squezada.msvc.detallecompras.msvc_detallecompras.controllers;
 
 
-import com.squezada.msvc.detallecompras.msvc_detallecompras.models.Detallecompras;
+import com.squezada.msvc.detallecompras.msvc_detallecompras.dtos.DetalledecomprasDTO;
+import com.squezada.msvc.detallecompras.msvc_detallecompras.models.entities.Detallecompras;
 
 import com.squezada.msvc.detallecompras.msvc_detallecompras.services.DetallecomprasService;
 import jakarta.validation.Valid;
@@ -21,33 +22,18 @@ public class DetallecomprasController {
     @Autowired
     private DetallecomprasService detallecomprasService;
 
+    @GetMapping("/producto/{idProducto}")
+    public ResponseEntity<Detallecompras> getDetallecompras(@PathVariable Long idProducto){
+        return ResponseEntity.status(HttpStatus.OK).body(this.detallecomprasService.findByIdproducto(idProducto));
+    }
+
     @GetMapping
-    public ResponseEntity<List<Detallecompras>> findAll(){
-        List<Detallecompras> detallecompras = this.detallecomprasService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(detallecompras);
+    public ResponseEntity<List<DetalledecomprasDTO>> findAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(this.detallecomprasService.findAll());
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Detallecompras> findById(@PathVariable Long id){
-        Detallecompras detallecompra = this.detallecomprasService.findById(id);
-        if(detallecompra == null){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(detallecompra);
-
-    }
-
 
     @PostMapping
-    public ResponseEntity<Detallecompras> save(@Valid @RequestBody Detallecompras detallecompra){
-        Detallecompras saved = this.detallecomprasService.save(detallecompra);
-        return ResponseEntity.status(HttpStatus.OK).body(saved);
-    }
-
-    // Estos metodos nos permitiran mostrar los detalles de compras filtradas por id producto
-
-    @GetMapping("/producto/{id}")
-    public ResponseEntity<List<Detallecompras>> findByidproducto(@PathVariable Long id){
-      return ResponseEntity.status(HttpStatus.OK).body(this.detallecomprasService.findByIdproducto(id));
+    public ResponseEntity<Detallecompras> save(@RequestBody Detallecompras detallecompras){
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.detallecomprasService.save(detallecompras));
     }
 }
