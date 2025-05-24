@@ -8,7 +8,9 @@ import com.farancibia.msvc.inventarios.msvc_inventarios.models.Sucursal;
 import com.farancibia.msvc.inventarios.msvc_inventarios.models.entities.Inventario;
 import com.farancibia.msvc.inventarios.msvc_inventarios.repositories.InventarioRepository;
 import feign.FeignException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class InventarioServiceImpl implements InventarioService{
     private InventarioRepository inventarioRepository;
     private SucursalClientRest sucursalClientRest;
