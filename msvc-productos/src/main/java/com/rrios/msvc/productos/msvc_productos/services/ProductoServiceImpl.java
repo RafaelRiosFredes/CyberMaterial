@@ -18,7 +18,11 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Autowired
     private ProductoRepository productoRepository;
+
+    @Autowired
     private InventarioClientRest inventarioClientRest;
+
+    @Autowired
     private SucursalClientRest sucursalClientRest;
 
 

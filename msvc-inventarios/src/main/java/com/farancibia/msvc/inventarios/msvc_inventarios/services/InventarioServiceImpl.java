@@ -5,7 +5,7 @@ import com.farancibia.msvc.inventarios.msvc_inventarios.clients.SucursalClientRe
 import com.farancibia.msvc.inventarios.msvc_inventarios.dtos.InventarioDTO;
 import com.farancibia.msvc.inventarios.msvc_inventarios.dtos.ProductoDTO;
 import com.farancibia.msvc.inventarios.msvc_inventarios.dtos.SucursalDTO;
-import com.farancibia.msvc.inventarios.msvc_inventarios.exceptions.InventarioExceptions;
+import com.farancibia.msvc.inventarios.msvc_inventarios.exceptions.InventarioException;
 import com.farancibia.msvc.inventarios.msvc_inventarios.models.Producto;
 import com.farancibia.msvc.inventarios.msvc_inventarios.models.Sucursal;
 import com.farancibia.msvc.inventarios.msvc_inventarios.models.entities.Inventario;
@@ -41,14 +41,14 @@ public class InventarioServiceImpl implements InventarioService{
             try {
                 sucursal = this.sucursalClientRest.findById(sucursal.getIdSucursal());
             } catch (FeignException ex) {
-                throw new InventarioExceptions("La sucursal buscada no existe");
+                throw new InventarioException("La sucursal buscada no existe");
             }
 
             Producto producto = null;
             try {
                 producto = this.productoClientRest.findById(producto.getIdProducto());
             } catch (FeignException ex) {
-                throw new InventarioExceptions("el producto buscado no existe");
+                throw new InventarioException("el producto buscado no existe");
             }
 
             SucursalDTO sucursalDTO = new SucursalDTO();
@@ -70,7 +70,7 @@ public class InventarioServiceImpl implements InventarioService{
             Producto producto = this.productoClientRest.findById(inventario.getIdProducto());
             Sucursal sucursal = this.sucursalClientRest.findById(inventario.getIdSucursal());
         }catch (FeignException ex){
-            throw new InventarioExceptions("Existe problemas con la asociacion sucursal y producto");
+            throw new InventarioException("Existe problemas con la asociacion sucursal y producto");
         }
         return this.inventarioRepository.save(inventario);
     }
