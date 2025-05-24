@@ -24,8 +24,8 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
     private ProductoClientRest productoClientRest;
 
     @Override
-    public List<Detallecompras> findByIdproducto(Long productoId) {
-        return detallecomprasRepository.findByIdproducto(productoId);
+    public Detallecompras findByIdproducto( Long idProducto) {
+        return findByIdproducto( idProducto);
     }
 
     @Override
@@ -55,14 +55,10 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
 
 
 
+
+
     @Override
     public Detallecompras save(Detallecompras detallecompras) {
-        try {
-            Producto producto = this.productoClientRest.findById(detallecompras.getIdProducto());
-
-        } catch (FeignException ex) {
-            throw new DetallecomprasException("Existen problemas con la asoción de producto detalle de compras");
-        }
         return this.detallecomprasRepository.save(detallecompras);
     }
 

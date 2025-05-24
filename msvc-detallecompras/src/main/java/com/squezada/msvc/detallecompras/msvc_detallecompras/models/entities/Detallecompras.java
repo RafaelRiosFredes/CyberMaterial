@@ -21,15 +21,15 @@ public class Detallecompras {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, unique = true)
+    @Column(name ="id_detallecompras")
     private Long idDetallecompras;
 
 
     @Column(nullable = false, unique = true)
-    @NotBlank(message = "La cantidad del detalle de compras no puede ser vacio")
-    private String cantidad;
+    @NotNull(message = "La cantidad del detalle de compras no puede ser vacio")
+    private Long cantidad;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     @NotNull(message = "El total del detalle de compras no puede ser vacio")
     private BigDecimal total;
 
