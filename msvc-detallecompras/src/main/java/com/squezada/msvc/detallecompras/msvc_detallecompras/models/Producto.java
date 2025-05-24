@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class Producto {
     private Long idProducto;
     private String nombreProducto;
-    private BigDecimal precio;
+    private Double precio;
     private String descripcion;
 }
 

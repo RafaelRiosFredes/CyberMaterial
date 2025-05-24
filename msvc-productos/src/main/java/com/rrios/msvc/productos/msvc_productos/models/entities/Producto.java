@@ -21,6 +21,7 @@ public class Producto {
     @NotBlank(message = "EL campo nombre de producto no puede estar vacío")
     private String nombreProducto;
 
+
     @Column(nullable = false)
     @NotNull(message = "El campo precio no puede estar vacío")
     private Double precio;
