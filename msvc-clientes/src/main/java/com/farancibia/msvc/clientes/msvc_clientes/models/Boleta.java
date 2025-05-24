@@ -16,5 +16,4 @@ public class Boleta {
     private Boolean entregaPresencial;
     private Boolean estadoPago;
 
-
 }
