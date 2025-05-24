@@ -35,31 +35,33 @@ public class InventarioServiceImpl implements InventarioService{
 
     @Override
     public List<InventarioDTO> findAll() {
-        return this.inventarioRepository.findAll().stream().map(inventario->{
+        return this.inventarioRepository.findAll().stream().map(inventario-> {
 
             Sucursal sucursal = null;
-            try{
+            try {
                 sucursal = this.sucursalClientRest.findById(sucursal.getIdSucursal());
-            }catch (FeignException ex){
+            } catch (FeignException ex) {
                 throw new InventarioExceptions("La sucursal buscada no existe");
             }
 
             Producto producto = null;
-            try{
+            try {
                 producto = this.productoClientRest.findById(producto.getIdProducto());
-            }catch (FeignException ex){
+            } catch (FeignException ex) {
                 throw new InventarioExceptions("el producto buscado no existe");
             }
 
-            SucursalDTO sucursalDTO = new SucursalDTO() ;
+            SucursalDTO sucursalDTO = new SucursalDTO();
             sucursalDTO.setIdSucursal(sucursal.getIdSucursal());
 
-            ProductoDTO productoDTO = new ProductoDTO() ;
+            ProductoDTO productoDTO = new ProductoDTO();
             productoDTO.setIdProducto(producto.getIdProducto());
 
-            InventarioDTO inventarioDTO = new InventarioDTO() ;
+            InventarioDTO inventarioDTO = new InventarioDTO();
             inventarioDTO.setStock(inventarioDTO.getStock());
-                }).toList();
+
+            return inventarioDTO;
+        }).toList();
     }
 
     @Override
