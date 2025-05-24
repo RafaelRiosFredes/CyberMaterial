@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public abstract class DetallecomprasServiceImpl  implements DetallecomprasService {
+public class DetallecomprasServiceImpl  implements DetallecomprasService {
 
 
     @Autowired
@@ -33,6 +33,11 @@ public abstract class DetallecomprasServiceImpl  implements DetallecomprasServic
     @Override
     public Detallecompras save(Detallecompras detallecompras) {
         return this.detallecomprasRepository.save(detallecompras);
+    }
+
+    @Override
+    public List<Detallecompras> findByIdproducto(Long idProducto) {
+        return this.detallecomprasRepository.findByIdProducto(idProducto);
     }
 }
 
