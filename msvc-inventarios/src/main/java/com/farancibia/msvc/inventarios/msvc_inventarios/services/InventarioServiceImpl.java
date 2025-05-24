@@ -30,7 +30,8 @@ public class InventarioServiceImpl implements InventarioService{
 
     @Override
     public Inventario findByIdSucursalAndIdProducto(Long idSucursal, Long idProducto) {
-            return findByIdSucursalAndIdProducto(idSucursal, idProducto);
+            return inventarioRepository.findByIdSucursalAndIdProducto(idSucursal, idProducto)
+                    .orElseThrow(() -> new InventarioException("Inventario no encontrado"));
     }
 
     @Override
@@ -39,14 +40,14 @@ public class InventarioServiceImpl implements InventarioService{
 
             Sucursal sucursal = null;
             try {
-                sucursal = this.sucursalClientRest.findById(sucursal.getIdSucursal());
+                sucursal = this.sucursalClientRest.findById(inventario.getIdSucursal());
             } catch (FeignException ex) {
                 throw new InventarioException("La sucursal buscada no existe");
             }
 
             Producto producto = null;
             try {
-                producto = this.productoClientRest.findById(producto.getIdProducto());
+                producto = this.productoClientRest.findById(inventario.getIdProducto());
             } catch (FeignException ex) {
                 throw new InventarioException("el producto buscado no existe");
             }
