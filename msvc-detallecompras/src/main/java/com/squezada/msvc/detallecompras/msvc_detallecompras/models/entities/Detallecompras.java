@@ -1,4 +1,4 @@
-package com.squezada.msvc.detallecompras.msvc_detallecompras.models;
+package com.squezada.msvc.detallecompras.msvc_detallecompras.models.entities;
 
 
 import jakarta.persistence.*;
