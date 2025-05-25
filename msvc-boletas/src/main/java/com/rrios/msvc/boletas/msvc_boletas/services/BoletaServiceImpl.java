@@ -4,6 +4,8 @@ import com.rrios.msvc.boletas.msvc_boletas.clients.ClienteClientRest;
 import com.rrios.msvc.boletas.msvc_boletas.clients.DetallecomprasClientRest;
 import com.rrios.msvc.boletas.msvc_boletas.clients.SucursalClientRest;
 import com.rrios.msvc.boletas.msvc_boletas.dtos.BoletaDTO;
+import com.rrios.msvc.boletas.msvc_boletas.dtos.ClienteDTO;
+import com.rrios.msvc.boletas.msvc_boletas.dtos.DetallecomprasDTO;
 import com.rrios.msvc.boletas.msvc_boletas.dtos.SucursalDTO;
 import com.rrios.msvc.boletas.msvc_boletas.exceptions.BoletaException;
 import com.rrios.msvc.boletas.msvc_boletas.models.Cliente;
@@ -30,6 +32,7 @@ public class BoletaServiceImpl implements BoletaService{
     @Autowired
     private SucursalClientRest sucursalClientRest;
 
+
     @Override
     public List<BoletaDTO> findAll() {
         return this.boletaRepository.findAll().stream().map(boleta -> {
@@ -52,8 +55,23 @@ public class BoletaServiceImpl implements BoletaService{
             }catch (FeignException ex){
                 throw new BoletaException("El detalle de compra no existe en la base de datos");
             }
+
+            ClienteDTO clienteDTO = new ClienteDTO();
+            clienteDTO.setIdCliente(boleta.getIdCliente());
+
             SucursalDTO sucursalDTO = new SucursalDTO();
-            sucursalDTO.se
+            sucursalDTO.setIdSucursal(boleta.getIdSucursal());
+
+            DetallecomprasDTO detallecomprasDTO = new DetallecomprasDTO();
+            detallecomprasDTO.setIdDetallecompras(boleta.getIdDetalleCompra());
+
+            BoletaDTO boletaDTO = new BoletaDTO();
+            boletaDTO.setClienteDTO(clienteDTO);
+            boletaDTO.setDetallecomprasDTO(detallecomprasDTO);
+            boletaDTO.setSucursalDTO(sucursalDTO);
+            boletaDTO.setFechaBoleta(boleta.getFechaBoleta());
+            boletaDTO.setEntregaPresencial(boleta.getEntregaPresencial());
+            boletaDTO.setEstadoPago(boleta.getEstadoPago());
 
             return boletaDTO;
         }).toList();
@@ -70,6 +88,7 @@ public class BoletaServiceImpl implements BoletaService{
     public Boleta save(Boleta boleta) {
         try {
             Cliente cliente = this.clienteClientRest.findById(boleta.getIdCliente());
+            Detallecompras detallecompras = this.detallecomprasClientRest.findById(boleta.getIdDetalleCompra());
             Sucursal sucursal = this.sucursalClientRest.findById(boleta.getIdSucursal());
         }catch (FeignException ex){
             throw new BoletaException("Existen problemas con la asociación");

@@ -1,4 +1,4 @@
-package com.rrios.msvc.productos.msvc_productos.dtos;
+package com.rrios.msvc.boletas.msvc_boletas.models;
 
 import lombok.*;
 
@@ -7,7 +7,8 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductoDTO {
+public class Producto {
+    private Long idProducto;
     private String nombreProducto;
     private Double precio;
     private String descripcion;
