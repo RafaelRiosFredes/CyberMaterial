@@ -27,8 +27,17 @@ public class DetallecomprasController {
         return ResponseEntity.status(HttpStatus.OK).body(this.detallecomprasService.findById(id));
     }
 
+
+    @GetMapping
+    public ResponseEntity<List<Detallecompras>> getAllDetallecompras(){
+        List<Detallecompras> detalles = detallecomprasService.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(detalles);
+    }
+
     @PostMapping
-    public ResponseEntity<Detallecompras> save(@RequestBody Detallecompras detallecompras){
+    public ResponseEntity<Detallecompras> save(@RequestBody @Valid  Detallecompras detallecompras){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.detallecomprasService.save(detallecompras));
     }
+
+
 }

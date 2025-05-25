@@ -48,6 +48,11 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
         return this.detallecomprasRepository.save(detallecompras);
     }
 
+    @Override
+    public List<Detallecompras> findAll() {
+        return detallecomprasRepository.findAll();
+    }
+
 
 }
 
