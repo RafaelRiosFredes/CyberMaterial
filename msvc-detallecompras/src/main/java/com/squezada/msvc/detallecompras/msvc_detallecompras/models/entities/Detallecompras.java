@@ -31,7 +31,7 @@ public class Detallecompras {
 
     @Column(nullable = false)
     @NotNull(message = "El total del detalle de compras no puede ser vacio")
-    private BigDecimal total;
+    private Double total;
 
     @Column(name="id_producto", nullable = false)
     @NotNull(message = "El ID del producto no puede ser nulo")

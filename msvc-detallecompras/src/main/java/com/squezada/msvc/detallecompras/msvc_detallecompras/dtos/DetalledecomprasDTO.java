@@ -16,7 +16,7 @@ public class DetalledecomprasDTO {
     private long iddetallecompras;
     private long idProducto;
     private String cantidad;
-    private BigDecimal total;
+    private Double total;
     private ProductoDTO producto;
 
 

@@ -3,6 +3,8 @@ package com.rrios.msvc.boletas.msvc_boletas.services;
 import com.rrios.msvc.boletas.msvc_boletas.clients.ClienteClientRest;
 import com.rrios.msvc.boletas.msvc_boletas.clients.DetallecomprasClientRest;
 import com.rrios.msvc.boletas.msvc_boletas.clients.SucursalClientRest;
+import com.rrios.msvc.boletas.msvc_boletas.dtos.BoletaDTO;
+import com.rrios.msvc.boletas.msvc_boletas.dtos.SucursalDTO;
 import com.rrios.msvc.boletas.msvc_boletas.exceptions.BoletaException;
 import com.rrios.msvc.boletas.msvc_boletas.models.Cliente;
 import com.rrios.msvc.boletas.msvc_boletas.models.Detallecompras;
@@ -29,7 +31,7 @@ public class BoletaServiceImpl implements BoletaService{
     private SucursalClientRest sucursalClientRest;
 
     @Override
-    public List<Boleta> findAll() {
+    public List<BoletaDTO> findAll() {
         return this.boletaRepository.findAll().stream().map(boleta -> {
             Cliente cliente = null;
             try {
@@ -50,7 +52,10 @@ public class BoletaServiceImpl implements BoletaService{
             }catch (FeignException ex){
                 throw new BoletaException("El detalle de compra no existe en la base de datos");
             }
-            return boleta;
+            SucursalDTO sucursalDTO = new SucursalDTO();
+            sucursalDTO.se
+
+            return boletaDTO;
         }).toList();
     }
 

@@ -9,6 +9,6 @@ import java.math.BigDecimal;
 public class Detallecompras {
     private Long idDetallecompras;
     private String cantidad;
-    private BigDecimal total;
+    private Double total;
     private Long idProducto;
 }

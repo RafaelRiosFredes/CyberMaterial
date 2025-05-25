@@ -1,5 +1,6 @@
 package com.rrios.msvc.boletas.msvc_boletas.controllers;
 
+import com.rrios.msvc.boletas.msvc_boletas.dtos.BoletaDTO;
 import com.rrios.msvc.boletas.msvc_boletas.models.entities.Boleta;
 import com.rrios.msvc.boletas.msvc_boletas.services.BoletaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class BoletaController {
     private BoletaService boletaService;
 
     @GetMapping
-    public ResponseEntity<List<Boleta>> findAll(){
+    public ResponseEntity<List<BoletaDTO>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(this.boletaService.findAll());
     }
 
