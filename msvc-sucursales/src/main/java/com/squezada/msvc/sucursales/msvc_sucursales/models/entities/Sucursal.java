@@ -26,7 +26,7 @@ public class Sucursal {
     private String direccion;
 
 
-
-
-
+    public Long getIdsucursal() {
+        return idSucursal;
+    }
 }
