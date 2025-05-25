@@ -22,14 +22,9 @@ public class DetallecomprasController {
     @Autowired
     private DetallecomprasService detallecomprasService;
 
-    @GetMapping("/producto/{idProducto}")
-    public ResponseEntity<Detallecompras> getDetallecompras(@PathVariable Long idProducto){
-        return ResponseEntity.status(HttpStatus.OK).body(this.detallecomprasService.findByIdproducto(idProducto));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<DetalledecomprasDTO>> findAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(this.detallecomprasService.findAll());
+    @GetMapping("/{id}")
+    public ResponseEntity<Detallecompras> getDetallecompras(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(this.detallecomprasService.findById(id));
     }
 
     @PostMapping

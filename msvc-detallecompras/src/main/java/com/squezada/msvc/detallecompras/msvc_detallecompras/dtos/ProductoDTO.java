@@ -14,10 +14,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductoDTO {
-
     private Long idProducto;
     private String nombreProducto;
     private Double precio;
     private String descripcion;
-    private DetalledecomprasDTO detallecompras;
 }

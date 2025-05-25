@@ -1,4 +1,4 @@
-package com.rrios.msvc.boletas.msvc_boletas.dtos;
+package com.squezada.msvc.detallecompras.msvc_detallecompras.models;
 
 import lombok.*;
 
@@ -6,9 +6,10 @@ import java.util.Date;
 
 @Getter@Setter@ToString
 @NoArgsConstructor@AllArgsConstructor
-public class BoletaDTO {
-    private ClienteDTO clienteDTO;
-    private SucursalDTO sucursalDTO;
+public class Boleta {
+    private Long idBoleta;
+    private Long idCliente;
+    private Long idSucursal;
     private Date fechaBoleta;
     private Boolean entregaPresencial;
     private Boolean estadoPago;

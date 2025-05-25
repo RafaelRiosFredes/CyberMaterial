@@ -18,7 +18,6 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Se crea metodo privado que permite generar el error DTO con los elementos basicos del error
     private ErrorDTO createErrorDTO(int status, Date date, Map<String, String> errorMap) {
         ErrorDTO errorDTO = new ErrorDTO();
 
@@ -38,6 +37,22 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(this.createErrorDTO(HttpStatus.BAD_REQUEST.value(), new Date(), errorMap));
+    }
+
+    @ExceptionHandler(ClienteException.class)
+    public ResponseEntity<ErrorDTO> handleClienteException(ClienteException exception){
+
+        if(exception.getMessage().contains("no se encuentra en la base de datos")) {
+            Map<String, String> errorMap = Collections.singletonMap("Cliente no encontrado", exception.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(this.createErrorDTO(HttpStatus.NOT_FOUND.value(), new Date(), errorMap));
+
+
+        }else{
+            Map<String, String> errorMap = Collections.singletonMap("Cliente existente", exception.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(this.createErrorDTO(HttpStatus.CONFLICT.value(), new Date(), errorMap));
+        }
     }
 
 }

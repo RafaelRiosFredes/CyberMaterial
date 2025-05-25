@@ -1,5 +1,6 @@
 package com.squezada.msvc.detallecompras.msvc_detallecompras.repositories;
 
+import com.squezada.msvc.detallecompras.msvc_detallecompras.dtos.DetalledecomprasDTO;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.models.entities.Detallecompras;
 
 
@@ -11,7 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface DetallecomprasRepository  extends JpaRepository<Detallecompras, Long> {
-
-    Optional<Detallecompras> findByIdProducto(Long productoId);
+    Optional<List<DetalledecomprasDTO>> findByIdBoleta(Long id);
 
 }

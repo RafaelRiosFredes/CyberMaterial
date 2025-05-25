@@ -3,7 +3,7 @@ package com.squezada.msvc.detallecompras.msvc_detallecompras.dtos;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Map;
 
 @Getter

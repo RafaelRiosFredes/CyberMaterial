@@ -16,7 +16,7 @@ public class Sucursal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sucursal", nullable = false, unique = true)
     @NotNull(message = "El id de la sucursal no puede ser vacio")
-    private long idsucursal;
+    private Long idSucursal;
 
     @Column(name = "horario", nullable = false, unique = true)
     private String horario;

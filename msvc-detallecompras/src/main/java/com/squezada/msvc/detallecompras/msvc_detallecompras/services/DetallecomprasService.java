@@ -9,8 +9,7 @@ import java.util.List;
 
 public interface DetallecomprasService {
 
-    Detallecompras findByIdproducto(Long productoId);
-    List<DetalledecomprasDTO> findAll();
+    Detallecompras findById(Long id);
     Detallecompras save(Detallecompras detallecompras);
 
 

@@ -1,10 +1,13 @@
 package com.squezada.msvc.detallecompras.msvc_detallecompras.services;
 
+import com.squezada.msvc.detallecompras.msvc_detallecompras.clients.BoletaClientRest;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.clients.ProductoClientRest;
+import com.squezada.msvc.detallecompras.msvc_detallecompras.dtos.BoletaDTO;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.dtos.DetalledecomprasDTO;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.dtos.ProductoDTO;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.exceptions.DetallecomprasException;
 
+import com.squezada.msvc.detallecompras.msvc_detallecompras.models.Boleta;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.models.Producto;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.models.entities.Detallecompras;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.repositories.DetallecomprasRepository;
@@ -23,45 +26,27 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
     @Autowired
     private ProductoClientRest productoClientRest;
 
-    @Override
-    public Detallecompras findByIdproducto( Long idProducto) {
-        return findByIdproducto( idProducto);
-    }
+    @Autowired
+    private BoletaClientRest boletaClientRest;
 
     @Override
-    public List<DetalledecomprasDTO> findAll() {
-        return this.detallecomprasRepository.findAll().stream().map(Detallecompras -> {
-
-            Producto producto = null;
-            try {
-                producto = this.productoClientRest.findById(producto.getIdProducto());
-
-                ProductoDTO productoDTO = new ProductoDTO();
-                productoDTO.setIdProducto(producto.getIdProducto());
-
-                DetalledecomprasDTO detalledecomprasDTO = new DetalledecomprasDTO();
-                detalledecomprasDTO.setProducto(productoDTO);
-
-                return detalledecomprasDTO;
-            } catch (FeignException ex) {
-                throw new DetallecomprasException("el producto buscado no existe");
-            }
-
-
-
-
-        }).toList();
+    public Detallecompras findById(Long id) {
+        return this.detallecomprasRepository.findById(id).orElseThrow(
+                () -> new DetallecomprasException("El detalle de compra con id: " + id + " no se encuentra en la base de datos")
+        );
     }
-
-
-
 
 
     @Override
     public Detallecompras save(Detallecompras detallecompras) {
+        try {
+            Producto producto = this.productoClientRest.findById(detallecompras.getIdProducto());
+            Boleta boleta = this.boletaClientRest.findById(detallecompras.getIdBoleta());
+        }catch (FeignException ex){
+            throw new DetallecomprasException("Existen problemas con la asociación producto boleta");
+        }
         return this.detallecomprasRepository.save(detallecompras);
     }
-
 
 
 }

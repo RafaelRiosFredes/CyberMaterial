@@ -17,7 +17,7 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "id_cliente")
-    private long idCliente;
+    private Long idCliente;
 
     @Column(nullable = false, unique = true)
     @NotBlank(message = "El campo run cliente no pude quedar vacio")

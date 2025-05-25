@@ -2,23 +2,11 @@ package com.squezada.msvc.detallecompras.msvc_detallecompras.dtos;
 
 import lombok.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter@Setter@ToString
+@NoArgsConstructor@AllArgsConstructor
 public class DetalledecomprasDTO {
-
-    private long iddetallecompras;
-    private long idProducto;
-    private String cantidad;
+    private Long cantidad;
     private Double total;
-    private ProductoDTO producto;
-
-
-
+    private ProductoDTO productoDTO;
+    private BoletaDTO boletaDTO;
 }

@@ -1,6 +1,6 @@
-package com.farancibia.msvc.inventarios.msvc_inventarios.exceptions;
+package com.squezada.msvc.detallecompras.msvc_detallecompras.exceptions;
 
-import com.farancibia.msvc.inventarios.msvc_inventarios.dtos.ErrorDTO;
+import com.squezada.msvc.detallecompras.msvc_detallecompras.dtos.ErrorDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -26,8 +26,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorDTO> handleValidationFields(MethodArgumentNotValidException exception){
-        Map<String,String> errorMap = new HashMap<>();
+    public ResponseEntity<ErrorDTO> handleValidationFields(MethodArgumentNotValidException exception) {
+        Map<String, String> errorMap = new HashMap<>();
         for (FieldError fieldError : exception.getBindingResult().getFieldErrors()) {
             errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
@@ -36,16 +36,19 @@ public class GlobalExceptionHandler {
                 .body(this.createErrorDTO(HttpStatus.BAD_REQUEST.value(), new Date(), errorMap));
     }
 
-    @ExceptionHandler(InventarioException.class)
-    public ResponseEntity<ErrorDTO> handleInventarioException(InventarioException exception){
-        if(exception.getMessage().contains("no se encuentra en la base de datos")){
-            Map<String,String> errorMap = Collections.singletonMap("Inventario no encontrado",exception.getMessage());
+    @ExceptionHandler(DetallecomprasException.class)
+    public ResponseEntity<ErrorDTO> handleDetallecompraException(DetallecomprasException exception){
+
+        if(exception.getMessage().contains("no se encuentra en la base de datos")) {
+            Map<String, String> errorMap = Collections.singletonMap("Detalle compra no encontrada", exception.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(this.createErrorDTO(HttpStatus.NOT_FOUND.value(),new Date(), errorMap));
-        }else {
-            Map<String,String> errorMap = Collections.singletonMap("Inventario existente",exception.getMessage());
+                    .body(this.createErrorDTO(HttpStatus.NOT_FOUND.value(), new Date(), errorMap));
+
+
+        }else{
+            Map<String, String> errorMap = Collections.singletonMap("Detalle compra existente", exception.getMessage());
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(this.createErrorDTO(HttpStatus.CONFLICT.value(), new Date(),errorMap));
+                    .body(this.createErrorDTO(HttpStatus.CONFLICT.value(), new Date(), errorMap));
         }
     }
 }

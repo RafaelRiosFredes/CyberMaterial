@@ -7,8 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter @Setter@ToString
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor@AllArgsConstructor
 public class Producto {
     private Long idProducto;
     private String nombreProducto;

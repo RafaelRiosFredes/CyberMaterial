@@ -23,10 +23,6 @@ public class Boleta {
     @NotNull(message = "El campo id cliente no puede estar vacío")
     private Long idCliente;
 
-    @Column(name = "id_detalle_compra")
-    @NotNull(message = "El campo id detalle de compra no puede estar vacío")
-    private Long idDetalleCompra;
-
     @Column(name = "id_sucursal")
     @NotNull(message = "El campo id sucursal no puede estar vacío")
     private Long idSucursal;
