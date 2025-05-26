@@ -4,6 +4,7 @@ import com.farancibia.msvc.inventarios.msvc_inventarios.dtos.InventarioDTO;
 import com.farancibia.msvc.inventarios.msvc_inventarios.models.entities.Inventario;
 import com.farancibia.msvc.inventarios.msvc_inventarios.repositories.InventarioRepository;
 import com.farancibia.msvc.inventarios.msvc_inventarios.services.InventarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,8 @@ public class InventarioController {
         return ResponseEntity.status(HttpStatus.OK).body(this.inventarioService.findByIdSucursalAndIdProducto(idSucursal, idProducto));
     }
 
-    @GetMapping
-    public ResponseEntity<List<InventarioDTO>> findAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(this.inventarioService.findAll());
-    }
-
     @PostMapping
-    public ResponseEntity<Inventario> save(@RequestBody Inventario inventario){
+    public ResponseEntity<Inventario> save(@Valid  @RequestBody Inventario inventario){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.inventarioService.save(inventario));
     }
 }
