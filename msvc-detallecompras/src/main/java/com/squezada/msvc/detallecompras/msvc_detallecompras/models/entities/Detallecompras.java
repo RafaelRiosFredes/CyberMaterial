@@ -34,7 +34,7 @@ public class Detallecompras {
     private Double total;
 
     @Column(name="id_producto", nullable = false)
-    @NotNull(message = "El campo id producto no puede ser vacío\"")
+    @NotNull(message = "El campo id producto no puede ser vacío")
     private Long idProducto;
 
     @Column(name = "id_boleta",nullable = false)

@@ -3,6 +3,7 @@ package com.rrios.msvc.boletas.msvc_boletas.controllers;
 import com.rrios.msvc.boletas.msvc_boletas.dtos.BoletaDTO;
 import com.rrios.msvc.boletas.msvc_boletas.models.entities.Boleta;
 import com.rrios.msvc.boletas.msvc_boletas.services.BoletaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class BoletaController {
     }
 
     @PostMapping
-    public ResponseEntity<Boleta> save(@RequestBody Boleta boleta){
+    public ResponseEntity<Boleta> save(@Valid @RequestBody Boleta boleta){
         return ResponseEntity.status((HttpStatus.CREATED)).body(this.boletaService.save(boleta));
     }
 }

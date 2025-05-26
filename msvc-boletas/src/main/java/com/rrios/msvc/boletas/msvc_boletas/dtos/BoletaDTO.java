@@ -2,6 +2,7 @@ package com.rrios.msvc.boletas.msvc_boletas.dtos;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter@Setter@ToString
@@ -9,7 +10,7 @@ import java.util.Date;
 public class BoletaDTO {
     private ClienteDTO clienteDTO;
     private SucursalDTO sucursalDTO;
-    private Date fechaBoleta;
+    private LocalDate fechaBoleta;
     private Boolean entregaPresencial;
     private Boolean estadoPago;
 }

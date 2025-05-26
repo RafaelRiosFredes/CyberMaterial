@@ -71,10 +71,19 @@ public class BoletaServiceImpl implements BoletaService{
     public Boleta save(Boleta boleta) {
         try {
             Cliente cliente = this.clienteClientRest.findById(boleta.getIdCliente());
+
+        }catch (FeignException ex){
+            throw new BoletaException("Existen problemas con el cliente");
+        }
+
+        try {
+
             Sucursal sucursal = this.sucursalClientRest.findById(boleta.getIdSucursal());
         }catch (FeignException ex){
-            throw new BoletaException("Existen problemas con la asociación");
+            throw new BoletaException("Existen problemas con la sucursal");
         }
+
+
         return this.boletaRepository.save(boleta);
     }
 

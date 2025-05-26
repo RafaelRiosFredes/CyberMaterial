@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -29,7 +30,7 @@ public class Boleta {
 
     @Column(name = "fecha_boleta")
     @NotNull(message = "El campo fecha boleta no puede estar vacío")
-    private Date fechaBoleta;
+    private LocalDate fechaBoleta;
 
     @Column(name = "entrega_presencial")
     @NotNull(message = "El campo entrega presencial no puede estar vacío")

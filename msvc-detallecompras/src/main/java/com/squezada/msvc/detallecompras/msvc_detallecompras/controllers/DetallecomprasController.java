@@ -35,7 +35,7 @@ public class DetallecomprasController {
     }
 
     @PostMapping
-    public ResponseEntity<Detallecompras> save(@RequestBody @Valid  Detallecompras detallecompras){
+    public ResponseEntity<Detallecompras> save(@Valid @RequestBody Detallecompras detallecompras){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.detallecomprasService.save(detallecompras));
     }
 
