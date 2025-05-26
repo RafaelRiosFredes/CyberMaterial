@@ -41,4 +41,8 @@ public class Detallecompras {
     @NotNull(message = "El campo id boleta no puede ser vacío")
     private Long idBoleta;
 
+    @Column(name = "id_inventario",nullable = false)
+    @NotNull(message = "El campo id inventario no puede ser vacío")
+    private Long idInventario;
+
 }

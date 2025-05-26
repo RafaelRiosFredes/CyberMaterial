@@ -4,9 +4,9 @@ import lombok.*;
 
 @Getter@Setter@ToString
 @NoArgsConstructor@AllArgsConstructor
-public class ProductoDTO {
+public class InventarioDTO {
+    private Long idInventario;
+    private Integer stock;
+    private Long idSucursal;
     private Long idProducto;
-    private String nombreProducto;
-    private Double precio;
-    private String descripcion;
 }

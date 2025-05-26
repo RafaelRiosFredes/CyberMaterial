@@ -27,9 +27,6 @@ public class SucursalServicelmpl implements SucursalService {
 
     @Override
     public Sucursal save(Sucursal sucursal) {
-        if(this.sucursalRepository.findById(sucursal.getIdsucursal()).isPresent()){
-            throw new SucursalException("La sucursal con la ID "+sucursal.getIdsucursal()+" ya existe en la base de datos");
-        }
         return this.sucursalRepository.save(sucursal);
     }
 }
