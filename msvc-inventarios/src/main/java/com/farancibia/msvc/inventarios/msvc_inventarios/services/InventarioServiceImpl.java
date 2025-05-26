@@ -30,8 +30,13 @@ public class InventarioServiceImpl implements InventarioService{
 
     @Override
     public Inventario findByIdSucursalAndIdProducto(Long idSucursal, Long idProducto) {
-            return inventarioRepository.findByIdSucursalAndIdProducto(idSucursal, idProducto)
-                    .orElseThrow(() -> new InventarioException("Inventario no encontrado"));
+        List<Inventario> inventarioList = inventarioRepository.findByIdSucursalAndIdProducto(idSucursal, idProducto);
+
+        if (!inventarioList.isEmpty()){
+            return inventarioList.getFirst();
+        }else{
+            throw new  InventarioException("Inventario no encontrado");
+        }
     }
 
     @Override
