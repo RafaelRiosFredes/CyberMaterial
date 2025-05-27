@@ -36,6 +36,12 @@ public class ProductoController {
         Producto saved = this.productoService.save(producto);
         return ResponseEntity.status(HttpStatus.OK).body(saved);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        this.productoService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
 
 

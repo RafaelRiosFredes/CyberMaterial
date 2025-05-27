@@ -29,6 +29,11 @@ public class SucursalServicelmpl implements SucursalService {
     public Sucursal save(Sucursal sucursal) {
         return this.sucursalRepository.save(sucursal);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        this.sucursalRepository.deleteById(id);
+    }
 }
 
 

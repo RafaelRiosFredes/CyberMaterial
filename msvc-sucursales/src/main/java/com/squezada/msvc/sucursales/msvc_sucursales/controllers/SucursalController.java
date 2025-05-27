@@ -34,4 +34,11 @@ public class SucursalController {
     public ResponseEntity<Sucursal> save(@Valid @RequestBody Sucursal sucursal){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.sucursalService.save(sucursal));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        this.sucursalService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }

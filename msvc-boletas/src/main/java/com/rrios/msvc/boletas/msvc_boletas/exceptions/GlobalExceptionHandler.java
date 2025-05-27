@@ -37,19 +37,19 @@ public class GlobalExceptionHandler {
                 .body(this.createErrorDTO(HttpStatus.BAD_REQUEST.value(), new Date(), errorMap));
     }
 
-    @ExceptionHandler(BoletaException.class)
-    public ResponseEntity<ErrorDTO> handleBoletaException(BoletaException exception){
-
-        if(exception.getMessage().contains("no se encuentra en la base de datos")) {
-            Map<String, String> errorMap = Collections.singletonMap("Boleta no encontrada", exception.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(this.createErrorDTO(HttpStatus.NOT_FOUND.value(), new Date(), errorMap));
-
-
-        }else{
-            Map<String, String> errorMap = Collections.singletonMap("Boleta existente", exception.getMessage());
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(this.createErrorDTO(HttpStatus.CONFLICT.value(), new Date(), errorMap));
-        }
-    }
+//    @ExceptionHandler(BoletaException.class)
+//    public ResponseEntity<ErrorDTO> handleBoletaException(BoletaException exception){
+//
+//        if(exception.getMessage().contains("no se encuentra en la base de datos")) {
+//            Map<String, String> errorMap = Collections.singletonMap("Boleta no encontrada", exception.getMessage());
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//                    .body(this.createErrorDTO(HttpStatus.NOT_FOUND.value(), new Date(), errorMap));
+//
+//
+//        }else{
+//            Map<String, String> errorMap = Collections.singletonMap("Boleta existente", exception.getMessage());
+//            return ResponseEntity.status(HttpStatus.CONFLICT)
+//                    .body(this.createErrorDTO(HttpStatus.CONFLICT.value(), new Date(), errorMap));
+//        }
+//    }
 }

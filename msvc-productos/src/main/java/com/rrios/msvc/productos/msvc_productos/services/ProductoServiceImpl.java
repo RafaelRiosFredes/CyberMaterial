@@ -42,6 +42,11 @@ public class ProductoServiceImpl implements ProductoService {
     public Producto save(Producto producto) {
         return this.productoRepository.save(producto);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        this.productoRepository.deleteById(id);
+    }
 }
 
 

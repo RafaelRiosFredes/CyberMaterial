@@ -40,4 +40,10 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        this.clienteService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }
