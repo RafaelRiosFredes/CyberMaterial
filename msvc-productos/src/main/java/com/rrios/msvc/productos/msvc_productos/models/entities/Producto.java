@@ -2,7 +2,6 @@ package com.rrios.msvc.productos.msvc_productos.models.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -29,4 +28,7 @@ public class Producto {
     @Column(nullable = false)
     @NotBlank(message = "El campo descripcion no puede estar vacío")
     private String descripcion;
+
+    public Producto(String nombreProducto, Double precio, String descripcion) {
+    }
 }
