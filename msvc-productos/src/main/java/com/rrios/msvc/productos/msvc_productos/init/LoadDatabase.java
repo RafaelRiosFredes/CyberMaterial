@@ -11,15 +11,18 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
+
     //CommandLineRunner:elemento que automaticamente se ejecuta cuando parte el main SOLO TEST
     @Bean
     CommandLineRunner initDataBase(ProductoRepository productoRepository){
         return args -> {
-            Producto caja = new Producto("Caja",1200.00,"");
-            Producto lapizGrafito = new Producto("Lapiz",1200.00,"");
+            if(productoRepository.count() == 0) {
+                Producto caja = new Producto("Caja", 1200.00, "Caja");
+                Producto lapizGrafito = new Producto("Lapiz grafito", 1200.00, "Lapiz grafito");
 
-            log.info("Carga inicial {}",productoRepository.save(caja));
-            log.info("Carga inicial {}",productoRepository.save(lapizGrafito));
+                log.info("Carga inicial {}", productoRepository.save(caja));
+                log.info("Carga inicial {}", productoRepository.save(lapizGrafito));
+            }
         };
     }
 }
