@@ -11,5 +11,5 @@ public interface DetallecomprasService {
 
     Detallecompras findById(Long id);
     Detallecompras save(Detallecompras detallecompras);
-    List<Detallecompras> findAll();
+    List<Detallecompras> findByIdBoleta(Long id);
 }

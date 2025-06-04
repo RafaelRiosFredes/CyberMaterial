@@ -2,27 +2,38 @@ package com.rrios.msvc.productos.msvc_productos.init;
 
 import com.rrios.msvc.productos.msvc_productos.models.entities.Producto;
 import com.rrios.msvc.productos.msvc_productos.repositories.ProductoRepository;
+import net.datafaker.Faker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
-public class LoadDatabase {
+import java.util.Locale;
+
+@Component
+public class LoadDatabase implements CommandLineRunner{
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
+    @Autowired
+    ProductoRepository productoRepository;
     //CommandLineRunner:elemento que automaticamente se ejecuta cuando parte el main SOLO TEST
-    @Bean
-    CommandLineRunner initDataBase(ProductoRepository productoRepository){
-        return args -> {
-            if(productoRepository.count() == 0) {
-                Producto caja = new Producto("Caja", 1200.00, "Caja");
-                Producto lapizGrafito = new Producto("Lapiz grafito", 1200.00, "Lapiz grafito");
 
-                log.info("Carga inicial {}", productoRepository.save(caja));
-                log.info("Carga inicial {}", productoRepository.save(lapizGrafito));
+    @Override
+    public void run(String... args) throws Exception {
+        Faker faker = new Faker(Locale.of("es","CL"));
+
+        if(productoRepository.count() == 0){
+            for(int i = 0;i<100;i++){
+                Producto producto = new Producto();
+
+                producto.setDescripcion(faker.);
+                producto.setNombreProducto();
+                producto.setPrecio();
+
+                String numeroStr = faker.idNumber().valid();
             }
-        };
+        }
     }
 }
