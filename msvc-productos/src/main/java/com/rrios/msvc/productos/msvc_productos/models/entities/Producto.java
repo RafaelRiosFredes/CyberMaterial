@@ -7,8 +7,11 @@ import lombok.*;
 
 @Entity
 @Table(name="productos")
-@Getter@Setter@ToString
-@NoArgsConstructor@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Producto {
 
     @Id
@@ -29,9 +32,9 @@ public class Producto {
     @NotBlank(message = "El campo descripcion no puede estar vacío")
     private String descripcion;
 
-    public Producto(String nombreProducto, Double precio, String descripcion) {
+    public Producto(String nombreProducto, int precio, String descripcion) {
         this.nombreProducto = nombreProducto;
-        this.precio = precio;
+        this.precio = Double.valueOf(precio);
         this.descripcion = descripcion;
     }
 }

@@ -64,7 +64,7 @@ public class ProductoControllerTest {
     @Test
     @DirtiesContext
     public void shouldCreateANewProducto(){
-        Producto producto = new Producto("Lapiz grafito", 1200.00, "Lapiz grafito");
+        Producto producto = new Producto("Lapiz grafito", 200000, "Lapiz grafito");
         ResponseEntity<String> response = restTemplate.postForEntity("/api/v1/productos",producto, String.class);
         DocumentContext documentContext = JsonPath.parse(response.getBody());
         Number idProducto = documentContext.read("$.idProducto");

@@ -34,7 +34,7 @@ public class ProductoServiceTest {
     @BeforeEach
     public void setUp(){
         this.productoPrueba = new Producto(
-                "Lapiz pasta",1200.0,"Lapiz pasta azul"
+                "Lapiz pasta",1200,"Lapiz pasta azul"
         );
 
 
@@ -44,7 +44,7 @@ public class ProductoServiceTest {
     @DisplayName("Debo listar todos los metodos")
     public void shouldFindAllProductos(){
         Producto otroProducto = new Producto(
-                "Cartulina",5000.0,"Cartulina española rosa"
+                "Cartulina",5000,"Cartulina española rosa"
         );
         List<Producto> productos = Arrays.asList(productoPrueba,otroProducto);
         when(productoRepository.findAll()).thenReturn(productos);

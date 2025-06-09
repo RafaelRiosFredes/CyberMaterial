@@ -10,6 +10,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 @Component
@@ -28,9 +30,9 @@ public class LoadDatabase implements CommandLineRunner{
             for(int i = 0;i<100;i++){
                 Producto producto = new Producto();
 
-                producto.setDescripcion(faker.);
-                producto.setNombreProducto();
-                producto.setPrecio();
+                producto.setDescripcion("Caja 30x40x50");
+                producto.setNombreProducto("Caja");
+                producto.setPrecio(4200);
 
                 String numeroStr = faker.idNumber().valid();
             }
