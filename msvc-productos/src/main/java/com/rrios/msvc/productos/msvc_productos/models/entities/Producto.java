@@ -26,7 +26,7 @@ public class Producto {
 
     @Column(nullable = false)
     @NotNull(message = "El campo precio no puede estar vacío")
-    private Double precio;
+    private Integer precio;
 
     @Column(nullable = false)
     @NotBlank(message = "El campo descripcion no puede estar vacío")
@@ -34,7 +34,7 @@ public class Producto {
 
     public Producto(String nombreProducto, int precio, String descripcion) {
         this.nombreProducto = nombreProducto;
-        this.precio = Double.valueOf(precio);
+        this.precio = precio;
         this.descripcion = descripcion;
     }
 }

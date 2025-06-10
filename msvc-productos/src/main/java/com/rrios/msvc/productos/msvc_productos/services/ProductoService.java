@@ -1,5 +1,6 @@
 package com.rrios.msvc.productos.msvc_productos.services;
 
+import com.rrios.msvc.productos.msvc_productos.dtos.ProductoDTO;
 import com.rrios.msvc.productos.msvc_productos.models.entities.Producto;
 
 import java.util.List;
@@ -7,6 +8,6 @@ import java.util.List;
 public interface ProductoService {
     List<Producto> findAll();
     Producto findById(Long id);
-    Producto save(Producto producto);
+    Producto save(ProductoDTO productoDTO);
     void deleteById(Long id);
 }

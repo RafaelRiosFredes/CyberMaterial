@@ -1,5 +1,6 @@
 package com.rrios.msvc.productos.msvc_productos.services;
 
+import com.rrios.msvc.productos.msvc_productos.dtos.ProductoDTO;
 import com.rrios.msvc.productos.msvc_productos.exceptions.ProductoException;
 import com.rrios.msvc.productos.msvc_productos.models.entities.Producto;
 import com.rrios.msvc.productos.msvc_productos.repositories.ProductoRepository;
@@ -30,6 +31,7 @@ public class ProductoServiceTest {
     private ProductoServiceImpl productoService;
 
     private Producto productoPrueba;
+    private ProductoDTO productoPruebaDTO;
 
     @BeforeEach
     public void setUp(){
@@ -83,7 +85,7 @@ public class ProductoServiceTest {
     @DisplayName("Debe guardar un nuevo producto")
     public void shouldSaveProducto(){
         when(productoRepository.save(any(Producto.class))).thenReturn(productoPrueba);
-        Producto result = productoService.save(productoPrueba);
+        Producto result = productoService.save(productoPruebaDTO);
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(productoPrueba);
 

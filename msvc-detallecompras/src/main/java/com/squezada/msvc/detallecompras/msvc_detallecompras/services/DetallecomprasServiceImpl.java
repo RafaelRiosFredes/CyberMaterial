@@ -62,7 +62,7 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
 
     @Override
     public List<Detallecompras> findByIdBoleta(Long id) {
-         this.detallecomprasRepository.findById(detallecompras.)
+         this.detallecomprasRepository.findById()
     }
 
 

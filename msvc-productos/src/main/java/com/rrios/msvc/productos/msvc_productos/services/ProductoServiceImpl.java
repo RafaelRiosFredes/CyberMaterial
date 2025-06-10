@@ -2,6 +2,7 @@ package com.rrios.msvc.productos.msvc_productos.services;
 
 import com.rrios.msvc.productos.msvc_productos.clients.InventarioClientRest;
 import com.rrios.msvc.productos.msvc_productos.clients.SucursalClientRest;
+import com.rrios.msvc.productos.msvc_productos.dtos.ProductoDTO;
 import com.rrios.msvc.productos.msvc_productos.exceptions.ProductoException;
 import com.rrios.msvc.productos.msvc_productos.models.Inventario;
 import com.rrios.msvc.productos.msvc_productos.models.Sucursal;
@@ -39,8 +40,9 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public Producto save(Producto producto) {
-        return this.productoRepository.save(producto);
+    public Producto save(ProductoDTO productoDTO)
+    {
+        return this.productoRepository.save(productoDTO);
     }
 
     @Override
