@@ -24,6 +24,9 @@ public class Sucursal {
     @NotBlank(message = "La direccion de la sucursal no puede ser vacio")
     private String direccion;
 
+    public Sucursal(String horario, String direccion) {
+    }
+
 
     public Long getIdsucursal() {
         return idSucursal;
