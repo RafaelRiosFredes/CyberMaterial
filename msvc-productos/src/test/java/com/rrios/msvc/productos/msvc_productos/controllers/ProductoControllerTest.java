@@ -2,6 +2,7 @@ package com.rrios.msvc.productos.msvc_productos.controllers;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
+import com.rrios.msvc.productos.msvc_productos.dtos.ProductoDTO;
 import com.rrios.msvc.productos.msvc_productos.models.entities.Producto;
 import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.Test;
@@ -64,6 +65,7 @@ public class ProductoControllerTest {
     @Test
     @DirtiesContext
     public void shouldCreateANewProducto(){
+        ProductoDTO productoDTO = new ProductoDTO("Lapiz grafito", 200000, "Lapiz grafito");
         Producto producto = new Producto("Lapiz grafito", 200000, "Lapiz grafito");
         ResponseEntity<String> response = restTemplate.postForEntity("/api/v1/productos",producto, String.class);
         DocumentContext documentContext = JsonPath.parse(response.getBody());

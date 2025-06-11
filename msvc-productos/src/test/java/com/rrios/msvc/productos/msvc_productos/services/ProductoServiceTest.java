@@ -31,6 +31,7 @@ public class ProductoServiceTest {
     private ProductoServiceImpl productoService;
 
     private Producto productoPrueba;
+
     private ProductoDTO productoPruebaDTO;
 
     @BeforeEach

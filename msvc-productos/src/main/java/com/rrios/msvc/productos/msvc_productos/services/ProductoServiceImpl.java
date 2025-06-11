@@ -42,7 +42,13 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public Producto save(ProductoDTO productoDTO)
     {
-        return this.productoRepository.save(productoDTO);
+        Producto producto = new Producto();
+        producto.setNombreProducto(productoDTO.getNombreProducto());
+        producto.setPrecio(productoDTO.getPrecio());
+        producto.setDescripcion(productoDTO.getDescripcion());
+
+
+        return this.productoRepository.save(producto);
     }
 
     @Override

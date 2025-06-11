@@ -9,6 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 public class ProductoDTO {
     private String nombreProducto;
-    private Double precio;
+    private Integer precio;
     private String descripcion;
 }

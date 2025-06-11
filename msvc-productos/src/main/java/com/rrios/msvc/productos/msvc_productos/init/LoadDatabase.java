@@ -35,6 +35,8 @@ public class LoadDatabase implements CommandLineRunner{
                 producto.setPrecio(4200);
 
                 String numeroStr = faker.idNumber().valid();
+                producto = productoRepository.save(producto);
+                log.info("EL producto creado es {}",producto);
             }
         }
     }
