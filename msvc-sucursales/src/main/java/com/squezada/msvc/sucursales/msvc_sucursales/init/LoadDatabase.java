@@ -4,17 +4,17 @@ package com.squezada.msvc.sucursales.msvc_sucursales.init;
 import com.squezada.msvc.sucursales.msvc_sucursales.models.entities.Sucursal;
 import com.squezada.msvc.sucursales.msvc_sucursales.repositories.SucursalRepository;
 import net.datafaker.Faker;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
-import java.util.logging.Logger;
 
 @Component
 public class LoadDatabase implements CommandLineRunner {
-    private static final Logger log = (Logger) LoggerFactory.getLogger(LoadDatabase.class);
+    private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Autowired
     SucursalRepository sucursalRepository;
