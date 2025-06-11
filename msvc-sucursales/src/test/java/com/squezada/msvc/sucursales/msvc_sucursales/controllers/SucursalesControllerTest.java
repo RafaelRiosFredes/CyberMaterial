@@ -5,7 +5,8 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.squezada.msvc.sucursales.msvc_sucursales.models.entities.Sucursal;
 import feign.Response;
-import org.json.JSONArray;
+
+import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +28,7 @@ public class SucursalesControllerTest {
     @Test
     public void shouldReturnAllSucursalesWhenListIsRequested(){
         ResponseEntity<String> response = restTemplate.getForEntity("api/v1/sucursales", String.class);
+
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         DocumentContext documentContext = JsonPath.parse(response.getBody());
@@ -37,10 +39,10 @@ public class SucursalesControllerTest {
         assertThat(ids).containsExactlyInAnyOrder(1,2);
 
         JSONArray horario = documentContext.read("$..horario");
-        assertThat(horario).containsExactlyInOrder("9:00-19:00");
+        assertThat(horario).containsExactlyInAnyOrder("9:00-19:00");
 
         JSONArray direccion = documentContext.read("$..Direccion");
-        assertThat(direccion).containsExactlyInOrder("Pedro Aguirre 123, Vitacura");
+        assertThat(direccion).containsExactlyInAnyOrder("Pedro Aguirre 123, Vitacura");
 
 
     }

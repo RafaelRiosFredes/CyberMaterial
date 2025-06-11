@@ -3,7 +3,8 @@ package com.farancibia.msvc.clientes.msvc_clientes.Controllers;
 import com.farancibia.msvc.clientes.msvc_clientes.models.entities.Cliente;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
-import org.json.JSONArray;
+
+import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
