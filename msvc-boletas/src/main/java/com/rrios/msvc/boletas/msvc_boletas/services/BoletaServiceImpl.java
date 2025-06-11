@@ -71,7 +71,6 @@ public class BoletaServiceImpl implements BoletaService{
     public Boleta save(Boleta boleta) {
         try {
             Cliente cliente = this.clienteClientRest.findById(boleta.getIdCliente());
-
         }catch (FeignException ex){
             throw new BoletaException("Existen problemas con el cliente");
         }
@@ -86,5 +85,6 @@ public class BoletaServiceImpl implements BoletaService{
 
         return this.boletaRepository.save(boleta);
     }
+
 
 }

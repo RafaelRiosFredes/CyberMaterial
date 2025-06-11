@@ -1,7 +1,6 @@
 package com.farancibia.msvc.clientes.msvc_clientes.models.entities;
 
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -42,5 +41,14 @@ public class Cliente {
     @Column(nullable = false)
     @NotBlank(message = "El campo direccion no puede ser vacio")
     private String direccion;
+
+    public Cliente(String run, String nombres, String apellidos, String correo, String direccion) {
+        this.run = run;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        // REVISAR TELEFONO EN "CLIENTECONTROLLERTEST" this.telefono = 0;
+        this.correo = correo;
+        this.direccion = direccion;
+    }
 
 }

@@ -23,7 +23,7 @@ public class InventarioController {
     private InventarioService inventarioService;
 
     @GetMapping("/sucursales/{idSucursal}/productos/{idProducto}")
-    public ResponseEntity<Inventario> getInventario(@PathVariable Long idSucursal, @PathVariable Long idProducto){
+    public ResponseEntity<Inventario> getInventario(@Valid @PathVariable Long idSucursal, @PathVariable Long idProducto){
         return ResponseEntity.status(HttpStatus.OK).body(this.inventarioService.findByIdSucursalAndIdProducto(idSucursal, idProducto));
     }
 

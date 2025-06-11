@@ -23,7 +23,7 @@ public class DetallecomprasController {
     private DetallecomprasService detallecomprasService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Detallecompras> getDetallecompras(@PathVariable Long id){
+    public ResponseEntity<Detallecompras> getDetallecompras(@Valid @PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.detallecomprasService.findById(id));
     }
 
