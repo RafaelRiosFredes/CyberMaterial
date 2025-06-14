@@ -92,7 +92,6 @@ public class ClienteServiceTest {
         assertThat(result).isEqualTo(clientePrueba);
         verify(clienteRepository, times(1)).findById(Long.valueOf(1L));
 
-
     }
 
     @Test
