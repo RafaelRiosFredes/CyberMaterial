@@ -82,11 +82,11 @@ public class ProductoController {
                     )
             )
     })
-
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Producto a crear",
             content = @Content(
-
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Producto.class)
             )
     )
     public ResponseEntity<Producto> save(@Valid @RequestBody ProductoDTO productoDTO){

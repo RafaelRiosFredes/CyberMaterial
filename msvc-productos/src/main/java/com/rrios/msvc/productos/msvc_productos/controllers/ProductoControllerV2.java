@@ -61,9 +61,10 @@ public class ProductoControllerV2 {
                 .map(productoModelAssembler::toModel)
                 .toList();
 
-        CollectionModel<EntityModel<Producto> collectionModel = CollectionModel.of(
+        CollectionModel<EntityModel<Producto>> collectionModel = CollectionModel.of(
                 entityModels,
-                linkTo(methodOn(ProductoControllerV2.class)));
+                linkTo(methodOn(ProductoControllerV2.class).findAll()).withSelfRel());
+
         return ResponseEntity.status(HttpStatus.OK).body(collectionModel);
     }
 
@@ -116,7 +117,7 @@ public class ProductoControllerV2 {
 
             )
     )
-    public ResponseEntity<Producto> save(@Valid @RequestBody ProductoDTO productoDTO){
+    public ResponseEntity<EntityModel<Producto>> save(@Valid @RequestBody ProductoDTO productoDTO){
         Producto saved = this.productoService.save(productoDTO);
         EntityModel<Producto> entityModel = this.productoModelAssembler.toModel(saved);
 
