@@ -14,4 +14,5 @@ import java.util.Optional;
 public interface DetallecomprasRepository  extends JpaRepository<Detallecompras, Long> {
     Optional<List<DetalledecomprasDTO>> findByIdBoleta(Long id);
 
+    List<Detallecompras> findById();
 }
