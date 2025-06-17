@@ -21,7 +21,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public Cliente findById(Long id){
         return this.clienteRepository.findById(id).orElseThrow(
-                () -> new ClienteException("El Cliente con is "+id+" no se encunetra en la base de datos")
+                () -> new ClienteException("El Cliente con id "+id+" no se encuentra en la base de datos")
         );
     }
 

@@ -11,9 +11,7 @@ import java.util.List;
 @FeignClient(name = "msvc-boleta", url = "localhost:8085/api/v1/boletas")
 public interface BoletaClientRest {
 
-    @GetMapping
-    List<Boleta> findAll();
-
     @GetMapping("/{id}")
     Boleta findById(@PathVariable Long id);
+
 }
