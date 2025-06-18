@@ -2,7 +2,9 @@ package com.squezada.msvc.detallecompras.msvc_detallecompras.dtos;
 
 import lombok.*;
 
-@Getter@Setter@ToString
+@ToString
+@Getter
+@Setter
 @NoArgsConstructor@AllArgsConstructor
 public class DetalledecomprasDTO {
     private Long cantidad;

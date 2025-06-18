@@ -68,7 +68,7 @@ public class BoletaServiceImpl implements BoletaService{
 
     @Override
     public BoletaDTO findById(Long id) {
-        Boleta boleta =  this.boletaRepository.findById(id).orElseThrow(
+        Boleta boleta = this.boletaRepository.findById(id).orElseThrow(
                 () -> new BoletaException("La boleta con id: " + id + " no se encuentra en la base de datos")
         );
 
@@ -76,9 +76,9 @@ public class BoletaServiceImpl implements BoletaService{
 
 
         BoletaDTO boletaDTO = new BoletaDTO();
-
-
     }
+
+
 
     @Override
     public Boleta save(Boleta boleta) {
