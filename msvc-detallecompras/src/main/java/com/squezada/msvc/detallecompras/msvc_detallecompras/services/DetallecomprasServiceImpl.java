@@ -35,10 +35,15 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
     private InventarioClientRest inventarioClientRest;
 
     @Override
-    public Detallecompras findById(Long id) {
-        return this.detallecomprasRepository.findById(id).orElseThrow(
+    public DetalledecomprasDTO findById(Long id) {
+        Detallecompras detallecompras =  this.detallecomprasRepository.findById(id).orElseThrow(
                 () -> new DetallecomprasException("El detalle de compra con id: " + id + " no se encuentra en la base de datos")
         );
+        DetalledecomprasDTO detalledecomprasDTO = new DetalledecomprasDTO();
+        detalledecomprasDTO.setCantidad(detallecompras.getCantidad());
+        detalledecomprasDTO.setTotal(detallecompras.getTotal());
+        Long idSucursal = this.boletaClientRest.findById(detallecompras)
+        detalledecomprasDTO.setProductoDTO(detallecompras.);
     }
 
 

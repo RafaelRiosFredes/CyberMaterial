@@ -1,12 +1,15 @@
 package com.rrios.msvc.boletas.msvc_boletas.services;
 
 import com.rrios.msvc.boletas.msvc_boletas.clients.ClienteClientRest;
+import com.rrios.msvc.boletas.msvc_boletas.clients.DetallecomprasClientRest;
 import com.rrios.msvc.boletas.msvc_boletas.clients.SucursalClientRest;
 import com.rrios.msvc.boletas.msvc_boletas.dtos.BoletaDTO;
 import com.rrios.msvc.boletas.msvc_boletas.dtos.ClienteDTO;
+import com.rrios.msvc.boletas.msvc_boletas.dtos.DetallecomprasDTO;
 import com.rrios.msvc.boletas.msvc_boletas.dtos.SucursalDTO;
 import com.rrios.msvc.boletas.msvc_boletas.exceptions.BoletaException;
 import com.rrios.msvc.boletas.msvc_boletas.models.Cliente;
+import com.rrios.msvc.boletas.msvc_boletas.models.Detallecompras;
 import com.rrios.msvc.boletas.msvc_boletas.models.Sucursal;
 import com.rrios.msvc.boletas.msvc_boletas.models.entities.Boleta;
 import com.rrios.msvc.boletas.msvc_boletas.repositories.BoletaRepository;
@@ -26,6 +29,9 @@ public class BoletaServiceImpl implements BoletaService{
     @Autowired
     private SucursalClientRest sucursalClientRest;
 
+    @Autowired
+    private DetallecomprasClientRest detallecomprasClientRest;
+
 
     @Override
     public List<BoletaDTO> findAll() {
@@ -34,7 +40,7 @@ public class BoletaServiceImpl implements BoletaService{
             try {
                 cliente = this.clienteClientRest.findById(boleta.getIdCliente());
             }catch (FeignException ex){
-                throw new BoletaException("La boleta no existe en la base de datos");
+                throw new BoletaException("El cliente no existe en la base de datos");
             }
             Sucursal sucursal = null;
             try {
@@ -61,10 +67,17 @@ public class BoletaServiceImpl implements BoletaService{
     }
 
     @Override
-    public Boleta findById(Long id) {
-        return this.boletaRepository.findById(id).orElseThrow(
+    public BoletaDTO findById(Long id) {
+        Boleta boleta =  this.boletaRepository.findById(id).orElseThrow(
                 () -> new BoletaException("La boleta con id: " + id + " no se encuentra en la base de datos")
         );
+
+        Detallecompras detallecompras = this.detallecomprasClientRest.getDetallecompras(id);
+
+
+        BoletaDTO boletaDTO = new BoletaDTO();
+
+
     }
 
     @Override
@@ -74,14 +87,12 @@ public class BoletaServiceImpl implements BoletaService{
         }catch (FeignException ex){
             throw new BoletaException("Existen problemas con el cliente");
         }
-
         try {
 
             Sucursal sucursal = this.sucursalClientRest.findById(boleta.getIdSucursal());
         }catch (FeignException ex){
             throw new BoletaException("Existen problemas con la sucursal");
         }
-
 
         return this.boletaRepository.save(boleta);
     }

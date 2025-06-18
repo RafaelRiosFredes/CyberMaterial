@@ -30,13 +30,13 @@ public class ProductoServiceTest {
     @InjectMocks
     private ProductoServiceImpl productoService;
 
-    private Producto productoPrueba;
+    private Producto productoTest;
 
     private ProductoDTO productoPruebaDTO;
 
     @BeforeEach
     public void setUp(){
-        this.productoPrueba = new Producto(
+        this.productoTest = new Producto(
                 "Lapiz pasta",1200,"Lapiz pasta azul"
         );
 
@@ -49,13 +49,13 @@ public class ProductoServiceTest {
         Producto otroProducto = new Producto(
                 "Cartulina",5000,"Cartulina española rosa"
         );
-        List<Producto> productos = Arrays.asList(productoPrueba,otroProducto);
+        List<Producto> productos = Arrays.asList(productoTest,otroProducto);
         when(productoRepository.findAll()).thenReturn(productos);
 
         List<Producto> result = productoService.findAll();
 
         assertThat(result).hasSize(101);
-        assertThat(result).contains(productoPrueba);
+        assertThat(result).contains(productoTest);
 
         verify(productoRepository,times(1)).findAll();
     }
@@ -63,11 +63,11 @@ public class ProductoServiceTest {
     @Test
     @DisplayName("Debo buscar un producto")
     public void shouldFIndById(){
-        when(productoRepository.findById(1L)).thenReturn(Optional.of(productoPrueba));
+        when(productoRepository.findById(1L)).thenReturn(Optional.of(productoTest));
 
         Producto result = productoService.findById(1L);
         assertThat(result).isNotNull();
-        assertThat(result).isEqualTo(productoPrueba);
+        assertThat(result).isEqualTo(productoTest);
         verify(productoRepository,times(1)).findById(1L);
     }
 
@@ -85,10 +85,10 @@ public class ProductoServiceTest {
     @Test
     @DisplayName("Debe guardar un nuevo producto")
     public void shouldSaveProducto(){
-        when(productoRepository.save(any(Producto.class))).thenReturn(productoPrueba);
+        when(productoRepository.save(any(Producto.class))).thenReturn(productoTest);
         Producto result = productoService.save(productoPruebaDTO);
         assertThat(result).isNotNull();
-        assertThat(result).isEqualTo(productoPrueba);
+        assertThat(result).isEqualTo(productoTest);
 
         verify(productoRepository,times(1)).save(any(Producto.class));
     }

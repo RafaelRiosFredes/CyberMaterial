@@ -5,6 +5,7 @@ import com.rrios.msvc.boletas.msvc_boletas.clients.SucursalClientRest;
 import com.rrios.msvc.boletas.msvc_boletas.models.Cliente;
 import com.rrios.msvc.boletas.msvc_boletas.models.Sucursal;
 import com.rrios.msvc.boletas.msvc_boletas.models.entities.Boleta;
+import com.rrios.msvc.boletas.msvc_boletas.repositories.BoletaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,6 +14,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class BoletaServiceTest {
+    @Mock
+    private BoletaRepository boletaRepository;
+
     @Mock
     private ClienteClientRest clienteClientRest;
 

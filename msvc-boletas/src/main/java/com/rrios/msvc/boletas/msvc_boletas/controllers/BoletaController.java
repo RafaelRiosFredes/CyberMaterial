@@ -25,7 +25,7 @@ public class BoletaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Boleta> findById(@PathVariable Long id){
+    public ResponseEntity<BoletaDTO> findById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.boletaService.findById(id));
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface DetallecomprasService {
 
-    Detallecompras findById(Long id);
+    DetalledecomprasDTO findById(Long id);
     Detallecompras save(Detallecompras detallecompras);
     List<Detallecompras> findByIdBoleta(Long id);
 }
