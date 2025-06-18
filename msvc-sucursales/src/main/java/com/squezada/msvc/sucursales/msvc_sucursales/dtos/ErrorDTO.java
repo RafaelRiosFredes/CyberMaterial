@@ -4,7 +4,8 @@ package com.squezada.msvc.sucursales.msvc_sucursales.dtos;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-import java.sql.Date;
+
+import java.util.Date;
 import java.util.Map;
 
 @Getter
@@ -18,7 +19,7 @@ public class ErrorDTO {
 
     @Override
     public String toString() {
-        return"{"+
+        return "{" +
                 "status=" + status +
                 ", date=" + date +
                 ", errors=" + errors +

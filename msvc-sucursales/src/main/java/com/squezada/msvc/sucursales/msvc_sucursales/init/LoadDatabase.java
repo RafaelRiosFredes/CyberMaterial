@@ -29,7 +29,8 @@ public class LoadDatabase implements CommandLineRunner {
 
                 sucursal.setHorario("Horario 9:00-19:00 hrs.");
                 sucursal.setDireccion("Av Matta 123, Coquimbo");
-                //String numeroStr = faker.idNumber().valid();
+
+                String numeroStr = faker.idNumber().valid();
                 sucursal = sucursalRepository.save(sucursal);
                 log.info("La sucursal creado es {}",sucursal);
             }

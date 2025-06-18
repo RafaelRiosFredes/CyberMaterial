@@ -1,6 +1,5 @@
 package com.squezada.msvc.sucursales.msvc_sucursales.controllers;
 
-
 import com.squezada.msvc.sucursales.msvc_sucursales.dtos.ErrorDTO;
 import com.squezada.msvc.sucursales.msvc_sucursales.models.entities.Sucursal;
 import com.squezada.msvc.sucursales.msvc_sucursales.services.SucursalService;
@@ -15,7 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,10 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/sucursales")
+@RequestMapping("/api/v2/sucursales")
 @Validated
 @Tag(name= "Sucursales", description = "Operaciones CRUD")
-public class SucursalController {
+public class SucursalControllerV2 {
 
     @Autowired
     private SucursalService sucursalService;
@@ -50,13 +48,13 @@ public class SucursalController {
             summary = "Obtiene una sucursal por su id",
             description = "Devuelve una sucursal por el body")
     @ApiResponses(value = {
-             @ApiResponse(responseCode = "200", description = "Completacion exitosa"),
-              @ApiResponse(
-                      responseCode = "404",
-                      description = "Sucursal no encontrada con el id administrador",
-                      content = @Content(
-                              mediaType = "application/json",
-                              schema = @Schema(implementation = ErrorDTO.class)))})
+            @ApiResponse(responseCode = "200", description = "Completacion exitosa"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Sucursal no encontrada con el id administrador",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorDTO.class)))})
     @Parameters(value = {
             @Parameter(name = "Id", description = "Este es eñ id unico de la sucursal", required = true)})
     public ResponseEntity<Sucursal> findById(@PathVariable Long id){
@@ -70,7 +68,7 @@ public class SucursalController {
             description = "Con este metodo podemos enviar datos a traves de un body y crear una sucursal"
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Guardado exitoso"),
+            @ApiResponse(responseCode = "201", description = "Guardado ecitoso"),
             @ApiResponse(
                     responseCode = "409",
                     description = "La sucursal ya se encuentra en la base de datos",

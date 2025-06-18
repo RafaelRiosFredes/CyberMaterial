@@ -13,7 +13,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Entidad que representa un médico")
+@Schema(description = "Entidad que representa un producto")
 public class Producto {
 
     @Id
