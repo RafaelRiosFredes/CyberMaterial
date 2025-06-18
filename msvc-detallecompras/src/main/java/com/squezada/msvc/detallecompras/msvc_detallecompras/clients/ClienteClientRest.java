@@ -1,12 +1,12 @@
 package com.squezada.msvc.detallecompras.msvc_detallecompras.clients;
 
-import com.squezada.msvc.detallecompras.msvc_detallecompras.models.Boleta;
+import com.squezada.msvc.detallecompras.msvc_detallecompras.models.Cliente;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name ="msvc-boletas", url = "localhost:8085/api/v1/boletas")
-public interface BoletaClientRest {
+@FeignClient(name ="msvc-clientes", url = "localhost:8081/api/v1/clientes")
+public interface ClienteClientRest {
     @GetMapping("/{id}")
-    Boleta findById(@PathVariable Long id);
+    Cliente findById(@PathVariable Long id);
 }
