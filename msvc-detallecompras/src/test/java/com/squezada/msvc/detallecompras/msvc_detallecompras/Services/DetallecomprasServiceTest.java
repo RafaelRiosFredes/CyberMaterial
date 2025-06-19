@@ -74,13 +74,17 @@ public class DetallecomprasServiceTest {
 
     @Test
     @DisplayName("Debo buscar un detalle de compras por id")
-    public void shouldFIndDetallecomprasById(){
+    public void shouldFindDetallecomprasById() {
         when(detallecomprasRepository.findById(1L)).thenReturn(Optional.of(detallecomprasTest));
 
-        Detallecompras result = detallecomprasService.findById(1L);
+
+        DetalledecomprasDTO result = detallecomprasService.findById(1L);
+
         assertThat(result).isNotNull();
-        assertThat(result).isEqualTo(detallecomprasTest);
-        verify(detallecomprasRepository,times(1)).findById(1L);
+        assertThat(result.getCantidad()).isEqualTo(detallecomprasTest.getCantidad());
+        assertThat(result.getTotal()).isEqualTo(detallecomprasTest.getTotal());
+
+        verify(detallecomprasRepository, times(1)).findById(1L);
     }
 
     @Test
@@ -97,11 +101,22 @@ public class DetallecomprasServiceTest {
     @Test
     @DisplayName("Debe guardar un nuevo detalle de compras")
     public void shouldSaveDetallecompras(){
-        when(detallecomprasService.save(any(Detallecompras.class))).thenReturn(detallecomprasTest);
-        Detallecompras result = detallecomprasService.save(detallecomprasPruebaDTO);
+
+        when(detallecomprasRepository.save(any(Detallecompras.class))).thenReturn(detallecomprasTest);
+
+        Detallecompras nuevo = new Detallecompras();
+        nuevo.setCantidad(2L);
+        nuevo.setTotal(2000.0);
+        nuevo.setIdProducto(1L);
+        nuevo.setIdBoleta(1L);
+        nuevo.setIdInventario(1L);
+
+        Detallecompras result = detallecomprasService.save(nuevo);
+
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(detallecomprasTest);
 
-        verify(detallecomprasRepository,times(1)).save(any(Detallecompras.class));
+        verify(detallecomprasRepository, times(1)).save(any(Detallecompras.class));
     }
+
 }

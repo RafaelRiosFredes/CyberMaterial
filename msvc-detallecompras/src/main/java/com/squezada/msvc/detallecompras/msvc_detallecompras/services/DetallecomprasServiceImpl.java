@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class DetallecomprasServiceImpl  implements DetallecomprasService {
@@ -33,6 +35,11 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
 
     @Autowired
     private SucursalClientRest sucursalClientRest;
+
+    @Override
+    public List<Detallecompras> findAll() {
+        return detallecomprasRepository.findAll();
+    }
 
     @Override
     public DetalledecomprasDTO findById(Long id) {
@@ -92,16 +99,54 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
             Long idProducto = this.productoClientRest.findById(detallecompras.getIdProducto()).getIdProducto();
             Inventario inventario = this.inventarioClientRest.findByIdSucursalAndIdProducto(idSucursal,idProducto);
 
-            if(inventario.getStock() > 0){
-                return this.detallecomprasRepository.save(detallecompras);
+            long cantidadSolicitada = detallecompras.getCantidad();
+            int stockDisponible = inventario.getStock();
+
+            if (cantidadSolicitada <= 0) {
+                throw new DetallecomprasException("La cantidad debe ser mayor a 0");
             }
+
+            if (cantidadSolicitada > stockDisponible) {
+                throw new DetallecomprasException("Stock insuficiente. Disponible: " + stockDisponible);
+            }
+
+            // Calcular total
+            double total = cantidadSolicitada * producto.getPrecio();
+            detallecompras.setTotal(total);
+
+            // Guardar detalle
+            Detallecompras detalleGuardado = this.detallecomprasRepository.save(detallecompras);
+
+            // Descontar stock
+            int nuevoStock = inventario.getStock() - detallecompras.getCantidad().intValue();
+            inventario.setStock(nuevoStock);
+            this.inventarioClientRest.update(inventario.getIdInventario(), inventario);
+
+            return detalleGuardado;
+
+
+
+
         }catch (FeignException ex){
             throw new DetallecomprasException("Existen problemas con la asociación producto boleta");
         }
-        return null;
+
     }
 
+
     @Override
-    public List<Detallecompras> findByIdBoleta(Long id) { return this.detallecomprasRepository.findById();}
+    public List<DetalledecomprasDTO> findByIdBoleta(Long id) {
+        List<Detallecompras> detalles = this.detallecomprasRepository.findByIdBoleta(id);
+
+        return detalles.stream().map(detalle -> {
+            DetalledecomprasDTO dto = new DetalledecomprasDTO();
+            dto.setCantidad(detalle.getCantidad());
+            dto.setTotal(detalle.getTotal());
+
+
+            return dto;
+        }).toList();
+    }
+
 
 }

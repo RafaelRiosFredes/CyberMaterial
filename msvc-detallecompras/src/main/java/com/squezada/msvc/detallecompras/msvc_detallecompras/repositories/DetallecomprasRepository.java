@@ -12,7 +12,8 @@ import java.util.Optional;
 
 @Repository
 public interface DetallecomprasRepository  extends JpaRepository<Detallecompras, Long> {
-    Optional<List<DetalledecomprasDTO>> findByIdBoleta(Long id);
 
-    List<Detallecompras> findById();
+
+
+    List<Detallecompras>findByIdBoleta(Long idBoleta);
 }
