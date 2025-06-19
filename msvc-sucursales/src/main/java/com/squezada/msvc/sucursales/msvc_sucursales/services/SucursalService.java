@@ -9,6 +9,7 @@ public interface SucursalService {
   List<Sucursal> findAll();
   Sucursal findById(Long id);
   Sucursal save(Sucursal sucursal);
+  Sucursal update(Long id, Sucursal sucursalActualizado);
   void deleteById(Long id);
 
 

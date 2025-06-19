@@ -148,5 +148,55 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
         }).toList();
     }
 
+    @Override
+    public Detallecompras update(Long id, Detallecompras detalleActualizado) {
+        Detallecompras existente = this.detallecomprasRepository.findById(id)
+                .orElseThrow(() -> new DetallecomprasException("El detalle de compra con id: " + id + " no existe."));
+
+        try {
+            Producto producto = this.productoClientRest.findById(detalleActualizado.getIdProducto());
+            Boleta boleta = this.boletaClientRest.findById(detalleActualizado.getIdBoleta());
+            Long idSucursal = boleta.getIdSucursal();
+            Long idProducto = producto.getIdProducto();
+            Inventario inventario = this.inventarioClientRest.findByIdSucursalAndIdProducto(idSucursal, idProducto);
+
+            long cantidadSolicitada = detalleActualizado.getCantidad();
+            int stockDisponible = inventario.getStock();
+
+            if (cantidadSolicitada <= 0) {
+                throw new DetallecomprasException("La cantidad debe ser mayor a 0");
+            }
+
+            // Recalcular stock: se suma la cantidad anterior y se descuenta la nueva
+            int stockConDevolucion = stockDisponible + existente.getCantidad().intValue();
+            if (cantidadSolicitada > stockConDevolucion) {
+                throw new DetallecomprasException("Stock insuficiente. Disponible: " + stockConDevolucion);
+            }
+
+            // Actualizar campos
+            existente.setCantidad(cantidadSolicitada);
+            existente.setTotal(cantidadSolicitada * producto.getPrecio());
+            existente.setIdProducto(detalleActualizado.getIdProducto());
+            existente.setIdBoleta(detalleActualizado.getIdBoleta());
+            existente.setIdInventario(inventario.getIdInventario());
+
+            // Actualizar inventario
+            int nuevoStock = stockConDevolucion - (int) cantidadSolicitada;
+            inventario.setStock(nuevoStock);
+            this.inventarioClientRest.update(inventario.getIdInventario(), inventario);
+
+            return this.detallecomprasRepository.save(existente);
+
+        } catch (FeignException ex) {
+            throw new DetallecomprasException("Error en servicios relacionados: producto, boleta o inventario.");
+        }
+    }
+
+
+    @Override
+    public void deleteById(Long id) {
+        this.detallecomprasRepository.deleteById(id);
+    }
+
 
 }

@@ -36,6 +36,18 @@ public class SucursalServicelmpl implements SucursalService {
     }
 
     @Override
+    public Sucursal update(Long id, Sucursal sucursalDetails) {
+        Sucursal sucursal = this.findById(id); // busca la sucursal o lanza excepción
+
+        // Actualiza los campos que quieres modificar
+        sucursal.setHorario(sucursalDetails.getHorario());
+        sucursal.setDireccion(sucursalDetails.getDireccion());
+
+
+        return this.sucursalRepository.save(sucursal);
+    }
+
+    @Override
     public void deleteById(Long id) {
         this.sucursalRepository.deleteById(id);
     }

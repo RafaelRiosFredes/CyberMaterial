@@ -1,10 +1,8 @@
 package com.squezada.msvc.detallecompras.msvc_detallecompras.controllers;
 
-
 import com.squezada.msvc.detallecompras.msvc_detallecompras.dtos.DetalledecomprasDTO;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.dtos.ErrorDTO;
 import com.squezada.msvc.detallecompras.msvc_detallecompras.models.entities.Detallecompras;
-
 import com.squezada.msvc.detallecompras.msvc_detallecompras.services.DetallecomprasService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -17,7 +15,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,11 +22,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
-@RequestMapping("/api/v1/detallecompras")
+@RequestMapping("/api/v2/detallecompras")
 @Validated
 @Tag(name = "Detallecompras", description = "Operaciones CRUD")
-public class DetallecomprasController {
+public class DetallecomprasControllerV2 {
 
     @Autowired
     private DetallecomprasService detallecomprasService;
@@ -51,8 +49,8 @@ public class DetallecomprasController {
 
     @GetMapping("/{id}")
     @Operation(
-    summary = "Obtiene un detalle de compras por su id",
-    description = "Devuelve un Detalle de compras en el body")
+            summary = "Obtiene un detalle de compras por su id",
+            description = "Devuelve un Detalle de compras en el body")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Completacion exitosa"),
             @ApiResponse(
@@ -102,6 +100,4 @@ public class DetallecomprasController {
         this.detallecomprasService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
-
 }
