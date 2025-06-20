@@ -16,9 +16,9 @@ public class SwaggerConfig {
         contact.setEmail("s.quezada@duocuc.cl");
         return new OpenAPI()
                 .info(new Info()
-                        .title("API - MSVC - Sucursales")
+                        .title("API - MSVC - Detallecompras")
                         .version("1.0.0")
-                        .description("Este es el microservicio de Sucursales, con el puedes realizar todas las consultas CRUD que necesites")
+                        .description("Este es el microservicio de Detalle Compras, con el puedes realizar todas las consultas CRUD que necesites")
                         .contact(contact)
                         .termsOfService("No colapsar la API")
                 );

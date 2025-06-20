@@ -46,15 +46,13 @@ public class ProductoControllerV2 {
             summary = "Obtiene todos los productos",
             description = "Devuelve un List de Productos en el body")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200"
-                    ,description = "Completacion exitosa",
+            @ApiResponse(responseCode = "200",description = "Operación exitosa",
                     content = @Content(
                             mediaType = MediaTypes.HAL_JSON_VALUE,
                             schema = @Schema(implementation = Producto.class)
                     )
-            )})
-    @Parameters(value = {
-            @Parameter(name = "Id",description = "Este es el id unico del producto",required = true)})
+            )}
+    )
     public ResponseEntity<CollectionModel<EntityModel<Producto>>> findAll(){
         List<EntityModel<Producto>> entityModels = this.productoService.findAll()
                 .stream()
@@ -73,7 +71,7 @@ public class ProductoControllerV2 {
             summary = "Obtiene un producto por su id",
             description = "Devuelve un Producto en el body")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = "Completacion exitosa"),
+            @ApiResponse(responseCode = "200",description = "Operación exitosa"),
             @ApiResponse(
                     responseCode = "404",
                     description = "Producto no encontrado con el id administrado",

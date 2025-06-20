@@ -36,9 +36,8 @@ public class ProductoController {
             summary = "Obtiene todos los productos",
             description = "Devuelve un List de Productos en el body")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = "Completacion exitosa")})
-    @Parameters(value = {
-            @Parameter(name = "Id",description = "Este es el id unico del producto",required = true)})
+            @ApiResponse(responseCode = "200",description = "Operación exitosa")}
+    )
     public ResponseEntity<List<Producto>> findAll(){
         List<Producto> productos = this.productoService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(productos);
@@ -49,7 +48,7 @@ public class ProductoController {
             summary = "Obtiene un producto por su id",
             description = "Devuelve un Producto en el body")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = "Completacion exitosa"),
+            @ApiResponse(responseCode = "200",description = "Operación exitosa"),
             @ApiResponse(
                     responseCode = "404",
                     description = "Producto no encontrado con el id administrado",
@@ -66,13 +65,13 @@ public class ProductoController {
     @PostMapping
     @Operation(
             summary = "Guarda un producto",
-            description = "Con este metodo podemos enviar datos a traves de un body y crear un producto"
+            description = "Con este método podemos enviar datos a través de un body y crear un producto."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201",description = "Guardado exitoso"),
+            @ApiResponse(responseCode = "201",description = "Guardado exitoso."),
             @ApiResponse(
                     responseCode = "409",
-                    description = "El producto ya se encuentra en la base de datos",
+                    description = "El producto ya se encuentra en la base de datos.",
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
@@ -83,7 +82,7 @@ public class ProductoController {
             )
     })
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
-            description = "Producto a crear",
+            description = "Producto a crear.",
             content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = Producto.class)
@@ -95,6 +94,12 @@ public class ProductoController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(
+            summary = "Elimina un producto por su Id.",
+            description = "Elimina un producto de la base de datos.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",description = "Eliminación exitosa.")
+    })
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         this.productoService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
