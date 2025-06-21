@@ -39,7 +39,7 @@ public class LoadDataBase implements CommandLineRunner {
                 cliente.setDireccion(faker.address().fullAddress());
 
                 cliente = clienteRepository.save(cliente);
-                log.info("El cliente creado es "+cliente.toString()); // REVISAR ESTA LINEA
+                log.info("El cliente creado es "+cliente.toString());
             }
         }
 
