@@ -33,8 +33,6 @@ public class ClienteServiceTest {
     @Mock
     private ClienteRepository clienteRepository;
 
-
-
     @InjectMocks
     private ClienteServiceImpl clienteService;
 
@@ -48,6 +46,8 @@ public class ClienteServiceTest {
         this.clientePrueba = new Cliente(
                 "11111111-1", "Maria Jose", "Arancibia Muñoz", "Ma.524@gmail.com","Calle falsa 123"
         );
+
+
         Faker faker = new Faker(Locale.of("es", "CL"));
         for(int i = 0; i < 100; i++){
             Cliente clienteCreate = new Cliente();

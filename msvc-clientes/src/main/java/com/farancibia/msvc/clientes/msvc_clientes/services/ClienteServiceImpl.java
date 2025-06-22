@@ -1,5 +1,6 @@
 package com.farancibia.msvc.clientes.msvc_clientes.services;
 
+import com.farancibia.msvc.clientes.msvc_clientes.dtos.ClienteDTO;
 import com.farancibia.msvc.clientes.msvc_clientes.exceptions.ClienteException;
 import com.farancibia.msvc.clientes.msvc_clientes.models.entities.Cliente;
 import com.farancibia.msvc.clientes.msvc_clientes.repositories.ClienteRepository;
@@ -26,8 +27,18 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Cliente save(Cliente cliente) {
-        return this.clienteRepository.save(cliente);
+    public Cliente save(ClienteDTO clienteDTO) {
+
+            Cliente cliente = new Cliente();
+            cliente.setRun(clienteDTO.getRun());
+            cliente.setNombres(clienteDTO.getNombres());
+            cliente.setApellidos(clienteDTO.getApellidos());
+            cliente.setCorreo(clienteDTO.getCorreo());
+            cliente.setDireccion(clienteDTO.getDireccion());
+
+
+            return this.clienteRepository.save(cliente);
+        }
     }
 
     @Override

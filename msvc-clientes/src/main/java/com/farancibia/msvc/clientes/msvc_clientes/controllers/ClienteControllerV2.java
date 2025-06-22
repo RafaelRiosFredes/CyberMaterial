@@ -1,14 +1,20 @@
 package com.farancibia.msvc.clientes.msvc_clientes.controllers;
 
 import com.farancibia.msvc.clientes.msvc_clientes.assemblers.ClienteModelAssembler;
+import com.farancibia.msvc.clientes.msvc_clientes.dtos.ClienteDTO;
+import com.farancibia.msvc.clientes.msvc_clientes.dtos.ErrorDTO;
 import com.farancibia.msvc.clientes.msvc_clientes.models.entities.Cliente;
 import com.farancibia.msvc.clientes.msvc_clientes.services.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.hateoas.CollectionModel;
@@ -16,11 +22,10 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaTypeEditor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -67,5 +72,64 @@ public class ClienteControllerV2 {
                 .body(collectionModel);
     }
 
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Obtiene un cliente por su id",
+            description = "Devuelve un cliente en el body")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Operación exitosa"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Producto no encontrado con el id administrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorDTO.class)))
+    })
+    @Parameters(value = {
+            @Parameter(name = "Id",description = "Este es el id unico del cliente",required = true)
+    })
 
+    public ResponseEntity<Cliente> findById(@PathVariable Long id){
+        EntityModel<Cliente> entityModel = this.clienteModelAssembler.toModel(
+                this.clienteService.findById(id)
+        );
+        Cliente cliente = this.clienteService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(cliente);
+    }
+
+    @PostMapping
+    @Operation(
+            summary = "Guarda un cliente",
+            description = "Con este metodo podemos enviar datos a traves de un body y crear un cliente"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",description = "Guardado exitoso"),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "El cliente ya se encuentra en la base de datos",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    name = "Error",
+                                    value = "{\"codigo\": \"statusCode\",\"date\":\"fecha\"}"
+                            )
+                    )
+            )
+    })
+
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cliente a crear",
+            content = @Content(
+
+            )
+    )
+    public ResponseEntity<EntityModel<Cliente>> save(@Valid @RequestBody ClienteDTO clienteDTO){
+        Cliente saved = this.clienteService.save(clienteDTO);
+        EntityModel<Cliente> entityModel = this.clienteModelAssembler.toModel(saved);
+
+        return ResponseEntity
+                .created(linkTo(methodOn(clienteModelAssembler.class).findById(saved.getIdCliente())).toUri())
+                .body(entityModel);
+    }
 }

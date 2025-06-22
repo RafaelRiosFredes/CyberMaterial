@@ -1,6 +1,7 @@
 package com.farancibia.msvc.clientes.msvc_clientes.controllers;
 
 
+import com.farancibia.msvc.clientes.msvc_clientes.dtos.ClienteDTO;
 import com.farancibia.msvc.clientes.msvc_clientes.dtos.ErrorDTO;
 import com.farancibia.msvc.clientes.msvc_clientes.models.entities.Cliente;
 import com.farancibia.msvc.clientes.msvc_clientes.services.ClienteService;
@@ -93,17 +94,16 @@ public class ClienteController {
                     )
             )
     })
-    @io.swagger.v3.oas.annotations.Parameter.ResquestBody(
+    @io.swagger.v3.oas.annotations.Parameter.RequestBody(
             description = "Cliente a crear",
             content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = Cliente.class)
             )
     )
-    public ResponseEntity<Cliente> create(@Valid @RequestBody Cliente cliente){
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(this.clienteService.save(cliente));
+    public ResponseEntity<Cliente> save(@Valid @RequestBody ClienteDTO clienteDTO){
+        Cliente saved = this.clienteService.save(clienteDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(saved);
     }
 
     @DeleteMapping("/{id}")
