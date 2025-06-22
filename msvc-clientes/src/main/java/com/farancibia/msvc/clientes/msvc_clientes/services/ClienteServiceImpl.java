@@ -33,6 +33,7 @@ public class ClienteServiceImpl implements ClienteService {
             cliente.setRun(clienteDTO.getRun());
             cliente.setNombres(clienteDTO.getNombres());
             cliente.setApellidos(clienteDTO.getApellidos());
+            cliente.setTelefono(clienteDTO.getTelefono());
             cliente.setCorreo(clienteDTO.getCorreo());
             cliente.setDireccion(clienteDTO.getDireccion());
 

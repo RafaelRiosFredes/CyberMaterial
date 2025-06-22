@@ -50,6 +50,12 @@ public class ClienteServiceTest {
                 "11111111-1", "Maria Jose", "Arancibia Muñoz", "Ma.524@gmail.com","Calle falsa 123"
         );
 
+        this.clienteTestDTO = new ClienteDTO();
+        clienteTestDTO.setRun("11111111-1");
+        clienteTestDTO.setNombres("Maria Jose");
+        clienteTestDTO.setApellidos("Arancibia Muñoz");
+        clienteTestDTO.setCorreo("Ma.524@gmail.com");
+        clienteTestDTO.setDireccion("Calle falsa 123");
 
         Faker faker = new Faker(Locale.of("es", "CL"));
         for(int i = 0; i < 100; i++){

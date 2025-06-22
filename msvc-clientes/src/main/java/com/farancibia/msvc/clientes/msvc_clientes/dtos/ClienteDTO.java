@@ -14,6 +14,7 @@ public class ClienteDTO {
     private String run;
     private String nombres;
     private String apellidos;
+    private String telefono;
     private String correo;
     private String direccion;
 }

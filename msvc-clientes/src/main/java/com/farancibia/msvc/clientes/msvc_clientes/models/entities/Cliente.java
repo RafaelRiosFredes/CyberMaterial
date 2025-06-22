@@ -33,7 +33,7 @@ public class Cliente {
 
     @Column(nullable = false)
     @NotNull(message = "El campo telefono no puede ser vacio")
-    private Integer telefono;
+    private String telefono;
 
     @Column(nullable = true)
     private String correo;
@@ -46,7 +46,7 @@ public class Cliente {
         this.run = run;
         this.nombres = nombres;
         this.apellidos = apellidos;
-        // REVISAR TELEFONO EN "CLIENTECONTROLLERTEST" this.telefono = 0;
+        this.telefono = telefono;
         this.correo = correo;
         this.direccion = direccion;
     }

@@ -91,7 +91,7 @@ public class ClienteController {
                     )
             )
     })
-    @io.swagger.v3.oas.annotations.Parameter.RequestBody(
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cliente a crear",
             content = @Content(
                     mediaType = "application/json",
