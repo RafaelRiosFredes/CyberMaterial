@@ -31,4 +31,9 @@ public class InventarioController {
     public ResponseEntity<Inventario> save(@Valid  @RequestBody Inventario inventario){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.inventarioService.save(inventario));
     }
+
+    @GetMapping
+    public ResponseEntity<List<InventarioDTO>> findAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(this.inventarioService.findAll());
+    }
 }
