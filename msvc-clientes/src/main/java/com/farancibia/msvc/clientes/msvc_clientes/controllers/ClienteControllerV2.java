@@ -33,7 +33,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/api/v2/cliente")
+@RequestMapping("/api/v2/clientes")
 @Validated
 @Tag(name = "Clientes V2", description = "Operaciones CRUD de clientes")
 public class ClienteControllerV2 {
@@ -46,13 +46,14 @@ public class ClienteControllerV2 {
 
 
     @GetMapping
-    @Operation(summary = "Obtiene todos los clientes", description = "Devuelve un list de Clientes en el body")
+    @Operation(summary = "Obtiene todos los clientes",
+            description = "Devuelve un list de Clientes en el body")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
                     description = "Operacion exitosa",
                     content = @Content(
-                            mediaType = MediaTypes.HAL_FORMS_JSON_VALUE,
+                            mediaType = MediaTypes.HAL_JSON_VALUE,
                             schema  = @Schema(implementation = Cliente.class)
                     )
             )
@@ -78,10 +79,15 @@ public class ClienteControllerV2 {
             description = "Devuelve un cliente en el body")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Operación exitosa"),
+                    description = "Operación exitosa",
+                    content = @Content(
+                            mediaType = MediaTypes.HAL_JSON_VALUE,
+                            schema = @Schema(implementation = Cliente.class)
+                    )
+            ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Producto no encontrado con el id administrado",
+                    description = "Cliente no encontrado con el id administrado",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorDTO.class)))
@@ -90,12 +96,11 @@ public class ClienteControllerV2 {
             @Parameter(name = "Id",description = "Este es el id unico del cliente",required = true)
     })
 
-    public ResponseEntity<Cliente> findById(@PathVariable Long id){
+    public ResponseEntity<EntityModel<Cliente>> findById(@PathVariable Long id){
         EntityModel<Cliente> entityModel = this.clienteModelAssembler.toModel(
                 this.clienteService.findById(id)
         );
-        Cliente cliente = this.clienteService.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(cliente);
+        return ResponseEntity.status(HttpStatus.OK).body(entityModel);
     }
 
     @PostMapping
@@ -104,7 +109,13 @@ public class ClienteControllerV2 {
             description = "Con este metodo podemos enviar datos a traves de un body y crear un cliente"
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201",description = "Guardado exitoso"),
+            @ApiResponse(responseCode = "201",
+                    description = "Guardado exitoso",
+                    content = @Content(
+                            mediaType = MediaTypes.HAL_JSON_VALUE,
+                            schema = @Schema(implementation = Cliente.class)
+                    )
+            ),
             @ApiResponse(
                     responseCode = "409",
                     description = "El cliente ya se encuentra en la base de datos",
@@ -121,15 +132,28 @@ public class ClienteControllerV2 {
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cliente a crear",
             content = @Content(
-
+                mediaType = "application/json",
+                schema = @Schema(implementation = Cliente.class)
             )
     )
     public ResponseEntity<EntityModel<Cliente>> save(@Valid @RequestBody ClienteDTO clienteDTO){
-        Cliente saved = this.clienteService.save(clienteDTO);
-        EntityModel<Cliente> entityModel = this.clienteModelAssembler.toModel(saved);
+        Cliente clienteNew = this.clienteService.save(clienteDTO);
+        EntityModel<Cliente> entityModel = this.clienteModelAssembler.toModel(clienteNew);
 
         return ResponseEntity
-                .created(linkTo(methodOn(ClienteControllerV2.class).findById(saved.getIdCliente())).toUri())
+                .created(linkTo(methodOn(ClienteControllerV2.class).findById(clienteNew.getIdCliente())).toUri())
                 .body(entityModel);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(
+            summary = "Elimina un cliente por su Id.",
+            description = "Elimina un cliente de la base de datos.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",description = "Eliminación exitosa.")
+    })
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        this.clienteService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

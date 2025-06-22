@@ -39,6 +39,11 @@ public class ProductoServiceTest {
         this.productoTest = new Producto(
                 "Lapiz pasta",1200,"Lapiz pasta azul"
         );
+        this.productoTestDTO = new ProductoDTO();
+        productoTestDTO.setNombreProducto("Lapiz pasta");
+        productoTestDTO.setPrecio(1200);
+        productoTestDTO.setDescripcion("Lapiz pasta azul");
+
         Faker faker = new Faker(Locale.of("es","CL"));
         for(int i=0;i<100;i++){
             Producto productoCreate = new Producto();
@@ -53,7 +58,7 @@ public class ProductoServiceTest {
     }
 
     @Test
-    @DisplayName("Debo listar todos los metodos")
+    @DisplayName("Debe listar todos los productos")
     public void shouldFindAllProductos(){
         List<Producto> productos = this.productos;
         productos.add(productoTest);
@@ -68,7 +73,7 @@ public class ProductoServiceTest {
     }
 
     @Test
-    @DisplayName("Debo buscar un producto")
+    @DisplayName("Debe buscar un producto")
     public void shouldFindById(){
         when(productoRepository.findById(Long.valueOf(1L))).thenReturn(Optional.of(productoTest));
 

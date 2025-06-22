@@ -32,7 +32,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/api/v2/productos")
 @Validated
-@Tag(name = "Productos V2",description = "Operaciones CRUD")
+@Tag(name = "Productos V2",description = "Operaciones CRUD de productos")
 public class ProductoControllerV2 {
 
     @Autowired

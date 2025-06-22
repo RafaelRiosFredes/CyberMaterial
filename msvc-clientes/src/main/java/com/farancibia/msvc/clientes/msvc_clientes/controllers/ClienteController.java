@@ -104,6 +104,12 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(
+            summary = "Elimina un cliente por su Id.",
+            description = "Elimina un producto de la base de datos.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",description = "Eliminación exitosa.")
+    })
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         this.clienteService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

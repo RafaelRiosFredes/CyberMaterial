@@ -4,6 +4,7 @@ import com.farancibia.msvc.clientes.msvc_clientes.dtos.ClienteDTO;
 import com.farancibia.msvc.clientes.msvc_clientes.exceptions.ClienteException;
 import com.farancibia.msvc.clientes.msvc_clientes.models.entities.Cliente;
 import com.farancibia.msvc.clientes.msvc_clientes.repositories.ClienteRepository;
+import com.farancibia.msvc.clientes.msvc_clientes.services.ClienteServiceImpl;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
@@ -113,7 +113,7 @@ public class ClienteServiceTest {
         }).isInstanceOf(ClienteException.class)
                 .hasMessageContaining("El Cliente con id " +
                 idInexistente + " no se encuentra en la base de datos");
-        verify(clienteRepository, Mockito.times(1)).findById(idInexistente);
+        verify(clienteRepository, times(1)).findById(idInexistente);
 
     }
 
@@ -125,5 +125,14 @@ public class ClienteServiceTest {
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(clientePrueba);
         verify(clienteRepository, times (1)).save(any(Cliente.class));
+    }
+
+    @Test
+    @DisplayName("Debe eliminar un cliente por su id")
+    public void shouldDeleteClienteById(){
+        Long id = (Long) 1L;
+        clienteService.deleteById(id);
+
+        verify(clienteRepository,times(1)).deleteById(id);
     }
 }

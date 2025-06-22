@@ -13,7 +13,7 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         Contact contact = new Contact();
-        contact.name("Francisca Arancibia");
+        contact.setName("Francisca Arancibia");
         contact.setEmail("fr.arancibiac@duocuc.cl");
         return new OpenAPI()
                 .info(new Info()

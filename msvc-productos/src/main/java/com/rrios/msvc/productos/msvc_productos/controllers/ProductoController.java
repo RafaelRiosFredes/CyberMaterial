@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/productos")
 @Validated
-@Tag(name = "Productos",description = "Operaciones CRUD")
+@Tag(name = "Productos",description = "Operaciones CRUD de Productos")
 public class ProductoController {
 
     @Autowired
@@ -36,7 +36,13 @@ public class ProductoController {
             summary = "Obtiene todos los productos",
             description = "Devuelve un List de Productos en el body")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = "Operación exitosa"),
+            @ApiResponse(responseCode = "200",
+                    description = "Operación exitosa",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = Producto.class)
+                    )
+            ),
     }
     )
     public ResponseEntity<List<Producto>> findAll(){
