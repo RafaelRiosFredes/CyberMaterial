@@ -71,7 +71,13 @@ public class ProductoControllerV2 {
             summary = "Obtiene un producto por su id",
             description = "Devuelve un Producto en el body")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = "Operación exitosa"),
+            @ApiResponse(responseCode = "200",
+                    description = "Operación exitosa",
+                    content = @Content(
+                            mediaType = MediaTypes.HAL_JSON_VALUE,
+                            schema = @Schema(implementation = Producto.class)
+                    )
+            ),
             @ApiResponse(
                     responseCode = "404",
                     description = "Producto no encontrado con el id administrado",
@@ -81,12 +87,11 @@ public class ProductoControllerV2 {
     @Parameters(value = {
             @Parameter(name = "Id",description = "Este es el id unico del producto",required = true)})
 
-    public ResponseEntity<Producto> findById(@PathVariable Long id){
+    public ResponseEntity<EntityModel<Producto>> findById(@PathVariable Long id){
         EntityModel<Producto> entityModel = this.productoModelAssembler.toModel(
                 this.productoService.findById(id)
         );
-        Producto producto = this.productoService.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(producto);
+        return ResponseEntity.status(HttpStatus.OK).body(entityModel);
     }
 
     @PostMapping
@@ -95,16 +100,19 @@ public class ProductoControllerV2 {
             description = "Con este metodo podemos enviar datos a traves de un body y crear un producto"
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201",description = "Guardado exitoso"),
+            @ApiResponse(responseCode = "201",
+                    description = "Guardado exitoso",
+                    content = @Content(
+                            mediaType = MediaTypes.HAL_JSON_VALUE,
+                            schema = @Schema(implementation = Producto.class)
+                    )
+            ),
             @ApiResponse(
                     responseCode = "409",
                     description = "El producto ya se encuentra en la base de datos",
                     content = @Content(
                             mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    name = "Error",
-                                    value = "{\"codigo\": \"statusCode\",\"date\":\"fecha\"}"
-                            )
+                            schema = @Schema(implementation =  ErrorDTO.class)
                     )
             )
     })
@@ -112,19 +120,26 @@ public class ProductoControllerV2 {
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Producto a crear",
             content = @Content(
-
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Producto.class)
             )
     )
     public ResponseEntity<EntityModel<Producto>> save(@Valid @RequestBody ProductoDTO productoDTO){
-        Producto saved = this.productoService.save(productoDTO);
-        EntityModel<Producto> entityModel = this.productoModelAssembler.toModel(saved);
+        Producto productoNew = this.productoService.save(productoDTO);
+        EntityModel<Producto> entityModel = this.productoModelAssembler.toModel(productoNew);
 
         return ResponseEntity
-                .created(linkTo(methodOn(ProductoControllerV2.class).findById(saved.getIdProducto())).toUri())
+                .created(linkTo(methodOn(ProductoControllerV2.class).findById(productoNew.getIdProducto())).toUri())
                 .body(entityModel);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(
+            summary = "Elimina un producto por su Id.",
+            description = "Elimina un producto de la base de datos.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",description = "Eliminación exitosa.")
+    })
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         this.productoService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
