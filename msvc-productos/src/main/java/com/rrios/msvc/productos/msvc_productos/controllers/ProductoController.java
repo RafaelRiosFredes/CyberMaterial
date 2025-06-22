@@ -36,11 +36,11 @@ public class ProductoController {
             summary = "Obtiene todos los productos",
             description = "Devuelve un List de Productos en el body")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = "Operación exitosa")}
+            @ApiResponse(responseCode = "200",description = "Operación exitosa"),
+    }
     )
     public ResponseEntity<List<Producto>> findAll(){
-        List<Producto> productos = this.productoService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(productos);
+        return ResponseEntity.status(HttpStatus.OK).body(this.productoService.findAll());
     }
 
     @GetMapping("/{id}")
@@ -54,12 +54,15 @@ public class ProductoController {
                     description = "Producto no encontrado con el id administrado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorDTO.class)))})
+                            schema = @Schema(implementation = ErrorDTO.class)
+                    )
+            )
+    })
     @Parameters(value = {
-            @Parameter(name = "Id",description = "Este es el id unico del producto",required = true)})
+            @Parameter(name = "Id",
+                    description = "Este es el id unico del producto",required = true)})
     public ResponseEntity<Producto> findById(@PathVariable Long id){
-        Producto producto = this.productoService.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(producto);
+        return ResponseEntity.status(HttpStatus.OK).body(this.productoService.findById(id));
     }
 
     @PostMapping
@@ -74,10 +77,7 @@ public class ProductoController {
                     description = "El producto ya se encuentra en la base de datos.",
                     content = @Content(
                             mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    name = "Error",
-                                    value = "{\"codigo\": \"statusCode\",\"date\":\"fecha\"}"
-                            )
+                            schema = @Schema(implementation =  ErrorDTO.class)
                     )
             )
     })
