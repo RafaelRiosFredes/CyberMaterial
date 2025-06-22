@@ -1,5 +1,6 @@
 package com.farancibia.msvc.clientes.msvc_clientes.services;
 
+import com.farancibia.msvc.clientes.msvc_clientes.dtos.ClienteDTO;
 import com.farancibia.msvc.clientes.msvc_clientes.exceptions.ClienteException;
 import com.farancibia.msvc.clientes.msvc_clientes.models.entities.Cliente;
 import com.farancibia.msvc.clientes.msvc_clientes.repositories.ClienteRepository;
@@ -37,6 +38,8 @@ public class ClienteServiceTest {
     private ClienteServiceImpl clienteService;
 
     private Cliente clientePrueba;
+
+    private ClienteDTO clienteTestDTO;
 
     private List<Cliente> clientes = new ArrayList<>();
 
@@ -112,11 +115,9 @@ public class ClienteServiceTest {
     @DisplayName("Debe guardar un nuevo cliente")
     public void shouldsaveCliente(){
         when(clienteRepository.save(any(Cliente.class))).thenReturn(this.clientePrueba);
-        Cliente result = clienteService.save(clientePrueba);
+        Cliente result = clienteService.save(clienteTestDTO);
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(clientePrueba);
         verify(clienteRepository, times (1)).save(any(Cliente.class));
     }
-
-
 }

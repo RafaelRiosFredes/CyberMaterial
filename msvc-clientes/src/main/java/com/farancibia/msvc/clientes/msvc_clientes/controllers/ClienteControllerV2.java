@@ -129,7 +129,7 @@ public class ClienteControllerV2 {
         EntityModel<Cliente> entityModel = this.clienteModelAssembler.toModel(saved);
 
         return ResponseEntity
-                .created(linkTo(methodOn(clienteModelAssembler.class).findById(saved.getIdCliente())).toUri())
+                .created(linkTo(methodOn(ClienteControllerV2.class).findById(saved.getIdCliente())).toUri())
                 .body(entityModel);
     }
 }

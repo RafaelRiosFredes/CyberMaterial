@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.sun.beans.introspect.PropertyInfo.Name.description;
-
-
 @RestController
 @RequestMapping("/api/v1/clientes")
 @Validated

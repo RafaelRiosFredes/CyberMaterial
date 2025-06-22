@@ -39,12 +39,11 @@ public class ClienteServiceImpl implements ClienteService {
 
             return this.clienteRepository.save(cliente);
         }
-    }
+
 
     @Override
     public void deleteById(Long id) {
         this.clienteRepository.deleteById(id);
     }
-
 
 }
