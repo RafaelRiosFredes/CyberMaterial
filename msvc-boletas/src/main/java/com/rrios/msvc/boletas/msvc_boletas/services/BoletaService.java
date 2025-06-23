@@ -5,9 +5,10 @@ import com.rrios.msvc.boletas.msvc_boletas.dtos.DetallecomprasDTO;
 import com.rrios.msvc.boletas.msvc_boletas.models.entities.Boleta;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BoletaService {
-    List<BoletaDTO> findAll();
-    BoletaDTO findById(Long id);
+    List<BoletaDTO> findAllDTOs();
+    Optional<BoletaDTO> findDTOById(Long id);
     Boleta save(Boleta boleta);
 }

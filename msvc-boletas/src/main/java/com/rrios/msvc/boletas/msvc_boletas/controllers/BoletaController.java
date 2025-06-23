@@ -24,12 +24,12 @@ public class BoletaController {
             su
     )
     public ResponseEntity<List<BoletaDTO>> findAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(this.boletaService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(this.boletaService.findAllDTOs());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BoletaDTO> findById(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(this.boletaService.findById(id));
+    public ResponseEntity<BoletaDTO> findDTOById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(this.boletaService.findDTOById(id));
     }
 
     @PostMapping

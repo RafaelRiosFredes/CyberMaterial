@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class BoletaServiceImpl implements BoletaService{
     @Autowired
@@ -34,7 +36,7 @@ public class BoletaServiceImpl implements BoletaService{
 
 
     @Override
-    public List<BoletaDTO> findAll() {
+    public List<BoletaDTO> findAllDTOs() {
         return this.boletaRepository.findAll().stream().map(boleta -> {
             Cliente cliente = null;
             try {
@@ -67,12 +69,12 @@ public class BoletaServiceImpl implements BoletaService{
     }
 
     @Override
-    public BoletaDTO findById(Long id) {
-        Boleta boleta = this.boletaRepository.findById(id).orElseThrow(
+    public Optional<BoletaDTO> findDTOById(Long id) {
+        BoletaDTO boleta = this.boletaRepository.findDTOById(id).orElseThrow(
                 () -> new BoletaException("La boleta con id: " + id + " no se encuentra en la base de datos")
         );
 
-        Detallecompras detallecompras = this.detallecomprasClientRest.getDetallecompras(id);
+        List<DetallecomprasDTO> detallecomprasDTOList = detallecomprasClientRest.
 
 
         BoletaDTO boletaDTO = new BoletaDTO();

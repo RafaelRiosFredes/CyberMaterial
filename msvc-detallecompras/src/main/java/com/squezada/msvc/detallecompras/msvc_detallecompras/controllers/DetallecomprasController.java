@@ -36,7 +36,7 @@ public class DetallecomprasController {
 
 
 
-    @GetMapping
+    @GetMapping("/boleta/{id}")
     @Operation(
             summary = "Obtiene todos los detalle de compras de una boleta",
             description = "Devuelve un List de detalle de compras de una boleta en el body")

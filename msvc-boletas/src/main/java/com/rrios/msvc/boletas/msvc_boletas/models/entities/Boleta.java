@@ -13,7 +13,7 @@ import java.util.Date;
 @Entity
 @Table(name="boletas")
 @Getter@Setter
-@NoArgsConstructor@AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 public class Boleta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,4 +39,7 @@ public class Boleta {
     @Column(name = "estado_pago")
     @NotNull(message = "El campo estado pago no puede estar vacío")
     private Boolean estadoPago;
+
+    public Boleta(long idCliente, long idSucursal, String date, boolean entregaPresencial, boolean estadoPago) {
+    }
 }
