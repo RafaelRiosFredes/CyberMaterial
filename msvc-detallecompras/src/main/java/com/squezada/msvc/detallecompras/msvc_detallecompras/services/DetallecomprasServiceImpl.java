@@ -37,11 +37,6 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
     private SucursalClientRest sucursalClientRest;
 
     @Override
-    public List<Detallecompras> findAll() {
-        return detallecomprasRepository.findAll();
-    }
-
-    @Override
     public DetalledecomprasDTO findById(Long id) {
         Detallecompras detallecompras =  this.detallecomprasRepository.findById(id).orElseThrow(
                 () -> new DetallecomprasException("El detalle de compra con id: " + id + " no se encuentra en la base de datos")
@@ -135,17 +130,13 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
 
 
     @Override
-    public List<DetalledecomprasDTO> findByIdBoleta(Long id) {
-        List<Detallecompras> detalles = this.detallecomprasRepository.findByIdBoleta(id);
-
-        return detalles.stream().map(detalle -> {
-            DetalledecomprasDTO dto = new DetalledecomprasDTO();
-            dto.setCantidad(detalle.getCantidad());
-            dto.setTotal(detalle.getTotal());
-
-
-            return dto;
-        }).toList();
+    public List<DetalledecomprasDTO> findByIdBoleta(Long idBoleta) {
+        List<DetalledecomprasDTO> detallesList = detallecomprasRepository.findByIdBoleta(idBoleta);
+        if(!detallesList.isEmpty()){
+            return detallesList;
+        }else {
+            throw new DetallecomprasException("Detalle no encontrado");
+        }
     }
 
     @Override

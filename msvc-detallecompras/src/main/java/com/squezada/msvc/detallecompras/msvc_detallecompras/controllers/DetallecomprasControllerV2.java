@@ -36,14 +36,14 @@ public class DetallecomprasControllerV2 {
 
     @GetMapping
     @Operation(
-            summary = "Obtiene todos los detalle de compras",
-            description = "Devuelve un List de detalle de compras en el body")
+            summary = "Obtiene todos los detalle de compras de una boleta",
+            description = "Devuelve un List de detalle de compras de una boleta en el body")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Completacion exitosa")})
     @Parameters(value = {
             @Parameter(name = "Id", description = "Este es el id unico de detalle de compras", required = true)})
-    public ResponseEntity<List<Detallecompras>> findAll(){
-        List<Detallecompras> detallecompras = this.detallecomprasService.findAll();
+    public ResponseEntity<List<DetalledecomprasDTO>> findByIdBoleta(@Valid@PathVariable Long id){
+        List<DetalledecomprasDTO> detallecompras = this.detallecomprasService.findByIdBoleta(id);
         return ResponseEntity.status(HttpStatus.OK).body(detallecompras);
     }
 

@@ -20,6 +20,9 @@ public class BoletaController {
     private BoletaService boletaService;
 
     @GetMapping
+    @Operation(
+            su
+    )
     public ResponseEntity<List<BoletaDTO>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(this.boletaService.findAll());
     }
