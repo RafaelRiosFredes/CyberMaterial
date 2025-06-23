@@ -26,14 +26,11 @@ public class SucursalServicelmpl implements SucursalService {
     }
 
     @Override
-    public Sucursal save(Sucursal sucursal)
-    {
-        sucursal = new Sucursal();
-        sucursal.setHorario(sucursal.getHorario());
-        sucursal.setDireccion(sucursal.getDireccion());
-
+    public Sucursal save(Sucursal sucursal) {
+        // Guardar directamente el objeto recibido con los datos válidos
         return this.sucursalRepository.save(sucursal);
     }
+
 
     @Override
     public Sucursal update(Long id, Sucursal sucursalDetails) {
