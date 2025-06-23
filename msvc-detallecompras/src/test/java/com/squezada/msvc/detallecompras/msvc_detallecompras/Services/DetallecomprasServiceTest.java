@@ -198,9 +198,9 @@ import static org.mockito.Mockito.times;
 
         Inventario inventarioMock = new Inventario();
         inventarioMock.setIdInventario(1L);
-        inventarioMock.setStock(5); // stock menor que cantidad solicitada
+        inventarioMock.setStock(5);
 
-        // Mockear los llamados a servicios externos
+
         when(productoClientRest.findById(1L)).thenReturn(productoMock);
         when(boletaClientRest.findById(1L)).thenReturn(boletaMock);
         when(inventarioClientRest.findByIdSucursalAndIdProducto(boletaMock.getIdSucursal(), productoMock.getIdProducto()))

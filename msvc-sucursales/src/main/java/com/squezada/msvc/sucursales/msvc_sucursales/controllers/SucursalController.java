@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -88,7 +89,13 @@ public class SucursalController {
                     schema = @Schema(implementation = Sucursal.class)
             )
     )
-    public ResponseEntity<Sucursal> save(@Valid @RequestBody Sucursal sucursal){
+    public ResponseEntity<?> save(@Valid @RequestBody Sucursal sucursal, BindingResult result) {
+        if (result.hasErrors()) {
+            List<String> errores = result.getFieldErrors().stream()
+                    .map(err -> "Campo '" + err.getField() + "': " + err.getDefaultMessage())
+                    .toList();
+            return ResponseEntity.badRequest().body(errores);
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(this.sucursalService.save(sucursal));
     }
 
