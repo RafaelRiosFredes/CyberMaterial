@@ -41,7 +41,7 @@ public class DetallecomprasControllerV2 {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Completacion exitosa")})
     @Parameters(value = {
-            @Parameter(name = "Id", description = "Este es el id unico de detalle de compras", required = true)})
+            @Parameter(name = "id", description = "Este es el id unico de detalle de compras", required = true)})
     public ResponseEntity<List<DetalledecomprasDTO>> findByIdBoleta(@Valid@PathVariable Long id){
         List<DetalledecomprasDTO> detallecompras = this.detallecomprasService.findByIdBoleta(id);
         return ResponseEntity.status(HttpStatus.OK).body(detallecompras);
@@ -60,7 +60,7 @@ public class DetallecomprasControllerV2 {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorDTO.class)))})
     @Parameters(value = {
-            @Parameter(name = "Id",description = "Este es el id unico del detalle de compras",required = true)})
+            @Parameter(name = "id",description = "Este es el id unico del detalle de compras",required = true)})
     public ResponseEntity<DetalledecomprasDTO> getDetallecompras(@Valid @PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.detallecomprasService.findById(id));
     }

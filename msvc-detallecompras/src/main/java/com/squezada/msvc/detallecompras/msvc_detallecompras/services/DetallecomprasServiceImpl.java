@@ -38,7 +38,7 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
 
     @Override
     public DetalledecomprasDTO findById(Long id) {
-        Detallecompras detallecompras =  this.detallecomprasRepository.findById(id).orElseThrow(
+        Detallecompras detallecompras = this.detallecomprasRepository.findById(id).orElseThrow(
                 () -> new DetallecomprasException("El detalle de compra con id: " + id + " no se encuentra en la base de datos")
         );
 
@@ -88,11 +88,11 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
     @Override
     public Detallecompras save(Detallecompras detallecompras) {
         try {
-            Producto producto = this.productoClientRest.findById(detallecompras.getIdProducto());
-            Boleta boleta = this.boletaClientRest.findById(detallecompras.getIdBoleta());
-            Long idSucursal = this.boletaClientRest.findById(detallecompras.getIdBoleta()).getIdSucursal();
-            Long idProducto = this.productoClientRest.findById(detallecompras.getIdProducto()).getIdProducto();
-            Inventario inventario = this.inventarioClientRest.findByIdSucursalAndIdProducto(idSucursal,idProducto);
+            Producto producto = productoClientRest.findById(detallecompras.getIdProducto());
+            Boleta boleta = boletaClientRest.findById(detallecompras.getIdBoleta());
+            Long idSucursal = boleta.getIdSucursal();
+            Long idProducto = producto.getIdProducto();
+            Inventario inventario = inventarioClientRest.findByIdSucursalAndIdProducto(idSucursal, idProducto);
 
             long cantidadSolicitada = detallecompras.getCantidad();
             int stockDisponible = inventario.getStock();
@@ -101,40 +101,58 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
                 throw new DetallecomprasException("La cantidad debe ser mayor a 0");
             }
 
-            if (cantidadSolicitada > stockDisponible) {
-                throw new DetallecomprasException("Stock insuficiente. Disponible: " + stockDisponible);
+            // Buscar si ya existe un detalle para producto y boleta
+            Optional<Detallecompras> detalleExistenteOpt =
+                    detallecomprasRepository.findByIdProductoAndIdBoleta(idProducto, boleta.getIdBoleta());
+
+            if (detalleExistenteOpt.isPresent()) {
+                Detallecompras detalleExistente = detalleExistenteOpt.get();
+
+                long nuevaCantidad = detalleExistente.getCantidad() + cantidadSolicitada;
+
+                if (nuevaCantidad > stockDisponible) {
+                    throw new DetallecomprasException("Stock insuficiente. Disponible: " + stockDisponible);
+                }
+
+                detalleExistente.setCantidad(nuevaCantidad);
+                detalleExistente.setTotal(nuevaCantidad * producto.getPrecio());
+
+                // Actualizar stock
+                int nuevoStock = stockDisponible - (int) cantidadSolicitada;
+                inventario.setStock(nuevoStock);
+                inventarioClientRest.update(inventario.getIdInventario(), inventario);
+
+                return detallecomprasRepository.save(detalleExistente);
+            } else {
+                // Nuevo detalle
+
+                if (cantidadSolicitada > stockDisponible) {
+                    throw new DetallecomprasException("Stock insuficiente. Disponible: " + stockDisponible);
+                }
+
+                double total = cantidadSolicitada * producto.getPrecio();
+                detallecompras.setTotal(total);
+
+                Detallecompras detalleGuardado = detallecomprasRepository.save(detallecompras);
+
+                int nuevoStock = stockDisponible - (int) cantidadSolicitada;
+                inventario.setStock(nuevoStock);
+                inventarioClientRest.update(inventario.getIdInventario(), inventario);
+
+                return detalleGuardado;
             }
 
-            // Calcular total
-            double total = cantidadSolicitada * producto.getPrecio();
-            detallecompras.setTotal(total);
-
-            // Guardar detalle
-            Detallecompras detalleGuardado = this.detallecomprasRepository.save(detallecompras);
-
-            // Descontar stock
-            int nuevoStock = inventario.getStock() - detallecompras.getCantidad().intValue();
-            inventario.setStock(nuevoStock);
-            this.inventarioClientRest.update(inventario.getIdInventario(), inventario);
-
-            return detalleGuardado;
-
-
-
-
-        }catch (FeignException ex){
+        } catch (FeignException ex) {
             throw new DetallecomprasException("Existen problemas con la asociación producto boleta");
         }
-
     }
-
 
     @Override
     public List<DetalledecomprasDTO> findByIdBoleta(Long idBoleta) {
         List<DetalledecomprasDTO> detallesList = detallecomprasRepository.findByIdBoleta(idBoleta);
-        if(!detallesList.isEmpty()){
+        if (!detallesList.isEmpty()) {
             return detallesList;
-        }else {
+        } else {
             throw new DetallecomprasException("Detalle no encontrado");
         }
     }
@@ -189,5 +207,9 @@ public class DetallecomprasServiceImpl  implements DetallecomprasService {
         this.detallecomprasRepository.deleteById(id);
     }
 
+    @Override
+    public List<Detallecompras> findAll() {
+        return detallecomprasRepository.findAll();
+    }
 
 }

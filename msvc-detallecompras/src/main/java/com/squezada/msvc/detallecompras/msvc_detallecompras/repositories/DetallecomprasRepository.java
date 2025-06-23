@@ -16,4 +16,7 @@ public interface DetallecomprasRepository  extends JpaRepository<Detallecompras,
 
 
     List<DetalledecomprasDTO>findByIdBoleta(Long idBoleta);
+
+    Optional<Detallecompras> findByIdProductoAndIdBoleta(Long idProducto, Long idBoleta);
+
 }

@@ -15,5 +15,5 @@ public interface DetallecomprasService {
     List<DetalledecomprasDTO> findByIdBoleta(Long idBoleta);
     Detallecompras update(Long id, Detallecompras detalleActualizado);
     void deleteById(Long id);
-
+    List<Detallecompras> findAll();
 }
