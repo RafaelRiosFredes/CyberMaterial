@@ -91,7 +91,7 @@ public class ProductoServiceTest {
         assertThatThrownBy(()->{
             productoService.findById(idInexistente);
         }).isInstanceOf(ProductoException.class)
-                .hasMessageNotContaining("El producto con id "+
+                .hasMessageNotContaining("El producto con id:"+
                         idInexistente +" no se encuentra en la base de datos");
         verify(productoRepository,times(1)).findById(idInexistente);
     }
