@@ -36,8 +36,6 @@ public class SucursalControllerV2 {
             description = "Devuelve un List de Sucursales en el body")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Completacion exitosa")})
-    @Parameters(value = {
-            @Parameter(name = "Id", description = "Este es el id unico de la sucursal", required = true)})
     public ResponseEntity<List<Sucursal>> findAll(){
         List<Sucursal> sucursales = this.sucursalService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(this.sucursalService.findAll());
