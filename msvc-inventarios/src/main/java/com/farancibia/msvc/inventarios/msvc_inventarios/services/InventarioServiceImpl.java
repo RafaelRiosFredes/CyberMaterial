@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class InventarioServiceImpl implements InventarioService{
+public class InventarioServiceImpl implements InventarioService {
 
     @Autowired
     private InventarioRepository inventarioRepository;
@@ -31,56 +31,62 @@ public class InventarioServiceImpl implements InventarioService{
     @Override
     public Inventario findByIdSucursalAndIdProducto(Long idSucursal, Long idProducto) {
         List<Inventario> inventarioList = inventarioRepository.findByIdSucursalAndIdProducto(idSucursal, idProducto);
-
-        if (!inventarioList.isEmpty()){
-            return inventarioList.getFirst();
-        }else{
-            throw new  InventarioException("Inventario no encontrado");
-        }
+        return inventarioList.stream().findFirst()
+                .orElseThrow(() -> new InventarioException("Inventario no encontrado"));
     }
 
     @Override
     public List<InventarioDTO> findAll() {
-        return this.inventarioRepository.findAll().stream().map(inventario-> {
-
-            Sucursal sucursal = null;
-            try {
-                sucursal = this.sucursalClientRest.findById(inventario.getIdSucursal());
-            } catch (FeignException ex) {
-                throw new InventarioException("La sucursal con ID" + inventario.getIdSucursal() + "no existe");
-            }
-
-            Producto producto = null;
-            try {
-                producto = this.productoClientRest.findById(inventario.getIdProducto());
-            } catch (FeignException ex) {
-                throw new InventarioException("El producto con ID" + inventario.getIdProducto() + "no existe");
-            }
+        return this.inventarioRepository.findAll().stream().map(inventario -> {
+            InventarioDTO dto = new InventarioDTO();
+            dto.setStock(inventario.getStock());
 
             SucursalDTO sucursalDTO = new SucursalDTO();
             sucursalDTO.setIdSucursal(inventario.getIdSucursal());
+            try {
+                Sucursal sucursal = this.sucursalClientRest.findById(inventario.getIdSucursal());
+                if(sucursal != null) {
+                    sucursalDTO.setNombreSucursal(sucursal.getDireccion());
+                }
+            } catch (FeignException ex) {
+                System.err.println("Error obteniendo sucursal: " + ex.getMessage());
+            }
+            dto.setSucursal(sucursalDTO);
 
             ProductoDTO productoDTO = new ProductoDTO();
             productoDTO.setIdProducto(inventario.getIdProducto());
+            try {
+                Producto producto = this.productoClientRest.findById(inventario.getIdProducto());
+                if(producto != null) {
+                    productoDTO.setNombreProducto(producto.getNombreProducto());
 
-            InventarioDTO inventarioDTO = new InventarioDTO();
-            inventarioDTO.setStock(inventario.getStock());
-            inventarioDTO.setSucursal(sucursalDTO);
-            inventarioDTO.setProducto(productoDTO);
+                }
+            } catch (FeignException ex) {
+                System.err.println("Error obteniendo producto: " + ex.getMessage());
+            }
+            dto.setProducto(productoDTO);
 
-
-            return inventarioDTO;
+            return dto;
         }).toList();
     }
 
     @Override
     public Inventario save(Inventario inventario) {
+        boolean relacionesExisten = true;
         try {
             Producto producto = this.productoClientRest.findById(inventario.getIdProducto());
             Sucursal sucursal = this.sucursalClientRest.findById(inventario.getIdSucursal());
-        }catch (FeignException ex){
-            throw new InventarioException("Existe problemas con la asociacion sucursal y producto");
+            if(producto == null || sucursal == null) {
+                relacionesExisten = false;
+            }
+        } catch (FeignException ex) {
+            relacionesExisten = false;
         }
+
+        if(!relacionesExisten) {
+            throw new InventarioException("El producto o sucursal asociados no existen");
+        }
+
         return this.inventarioRepository.save(inventario);
     }
 }

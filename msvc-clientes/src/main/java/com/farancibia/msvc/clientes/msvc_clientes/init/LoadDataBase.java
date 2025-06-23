@@ -34,8 +34,8 @@ public class LoadDataBase implements CommandLineRunner {
                 String restante = numeroStr.substring(0, numeroStr.length() - 1);
 
                 cliente.setRun(restante + "-" + ultimo);
-                cliente.setNombres(faker.name().fullName());
-                cliente.setApellidos(faker.name().fullName());
+                cliente.setNombres(faker.name().firstName());
+                cliente.setApellidos(faker.name().lastName());
                 cliente.setTelefono(faker.phoneNumber().phoneNumber());
                 cliente.setCorreo(faker.internet().emailAddress());
                 cliente.setDireccion(faker.address().fullAddress());
