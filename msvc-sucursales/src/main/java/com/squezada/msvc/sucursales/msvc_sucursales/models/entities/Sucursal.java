@@ -24,12 +24,13 @@ public class Sucursal {
     @Schema(description = "Codigo de la sucursal", example = "1")
     private Long idSucursal;
 
+    @NotBlank(message = "El horario de la sucursal no puede ser vacio")@NotBlank(message = "El horario de la sucursal no puede ser vacio")
     @Column(name = "horario", nullable = false, unique = true)
     @Schema(description = "Horario de la sucursal", example = "9:00-19:00 hrs")
     private String horario;
 
-    @Column(name = "direccion", nullable = false, unique = true)
     @NotBlank(message = "La direccion de la sucursal no puede ser vacio")
+    @Column(name = "direccion", nullable = false, unique = true)
     @Schema(description = "Direccion de la sucursal", example = "Av Matta 123, Villa Alemana" )
     private String direccion;
 
