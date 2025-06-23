@@ -9,6 +9,7 @@ import java.util.List;
 @Getter@Setter@ToString
 @NoArgsConstructor@AllArgsConstructor
 public class BoletaDTO {
+    private Long idBoletaDto;
     private ClienteDTO clienteDTO;
     private SucursalDTO sucursalDTO;
     private LocalDate fechaBoleta;

@@ -5,6 +5,7 @@ import com.rrios.msvc.boletas.msvc_boletas.clients.SucursalClientRest;
 import com.rrios.msvc.boletas.msvc_boletas.dtos.BoletaDTO;
 import com.rrios.msvc.boletas.msvc_boletas.dtos.ClienteDTO;
 import com.rrios.msvc.boletas.msvc_boletas.dtos.SucursalDTO;
+import com.rrios.msvc.boletas.msvc_boletas.exceptions.BoletaException;
 import com.rrios.msvc.boletas.msvc_boletas.models.Cliente;
 import com.rrios.msvc.boletas.msvc_boletas.models.Sucursal;
 import com.rrios.msvc.boletas.msvc_boletas.models.entities.Boleta;
@@ -18,9 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
@@ -159,8 +158,46 @@ public class BoletaServiceTest {
     @Test
     @DisplayName("Debe buscar una boleta")
     public void shouldFindDTOById(){
-        when(boletaRepository.findById(Long.valueOf(1L))).thenReturn(Optional.of(boletaTestDTO));
+        when(boletaRepository.findDTOById(Long.valueOf(1L))).thenReturn(boletaTestDTO);
 
-        B
+        BoletaDTO result = boletaService.findDTOById(Long.valueOf(1L));
+        assertThat(result).isNotNull();
+        assertThat(result).isEqualTo(boletaTestDTO);
+        verify(boletaRepository,times(1)).findDTOById(1L);
     }
+
+    @Test
+    @DisplayName("Debe buscar una boleta con un id que no existe")
+    public void shouldNotFindBoletaId(){
+        Long idInexistente = (Long) 999L;
+        assertThatThrownBy(()->{
+            boletaService.findDTOById(idInexistente);
+        }).isInstanceOf(BoletaException.class)
+                .hasMessageNotContaining("La boleta con id "+
+                        idInexistente + " no se encuentra en la base de datos.");
+        verify(boletaRepository,times(1)).findDTOById(idInexistente);
+    }
+
+    @Test
+    @DisplayName("Debe guardar una nueva boleta")
+    public void shouldSaveBoleta(){
+        when(boletaRepository.save(any(BoletaDTO.class))).thenReturn(boletaTest);
+        Boleta result = boletaService.save(boletaTestDTO);
+        assertThat(result).isNotNull();
+        assertThat(result).isEqualTo(boletaTestDTO);
+
+        verify(boletaRepository,times(1)).save(any(BoletaDTO.class));
+    }
+
+    @Test
+    @DisplayName("Debe eliminar una boleta por id")
+    public void shouldDeleteBoletaById(){
+        Long id = (Long) 1L;
+        boletaService.deleteById(id);
+
+        verify(boletaRepository,times(1)).deleteById(id);
+    }
+
 }
+
+

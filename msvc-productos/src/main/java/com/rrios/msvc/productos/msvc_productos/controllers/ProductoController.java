@@ -34,7 +34,7 @@ public class ProductoController {
     @GetMapping
     @Operation(
             summary = "Obtiene todos los productos",
-            description = "Devuelve un List de Productos en el body")
+            description = "Devuelve un List de productos en el body")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Operación exitosa",
@@ -67,7 +67,7 @@ public class ProductoController {
     @Parameters(value = {
             @Parameter(name = "Id",
                     description = "Este es el id unico del producto",required = true)})
-    public ResponseEntity<Producto> findById(@PathVariable Long id){
+    public ResponseEntity<Producto> findById(@Valid @PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.productoService.findById(id));
     }
 
@@ -106,7 +106,7 @@ public class ProductoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",description = "Eliminación exitosa.")
     })
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@Valid @PathVariable Long id) {
         this.productoService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

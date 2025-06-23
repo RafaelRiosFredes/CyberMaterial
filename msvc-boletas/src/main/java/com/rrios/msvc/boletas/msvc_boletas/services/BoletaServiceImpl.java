@@ -14,8 +14,16 @@ import com.rrios.msvc.boletas.msvc_boletas.models.Sucursal;
 import com.rrios.msvc.boletas.msvc_boletas.models.entities.Boleta;
 import com.rrios.msvc.boletas.msvc_boletas.repositories.BoletaRepository;
 import feign.FeignException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -69,34 +77,50 @@ public class BoletaServiceImpl implements BoletaService{
     }
 
     @Override
-    public Optional<BoletaDTO> findDTOById(Long id) {
-        BoletaDTO boleta = this.boletaRepository.findDTOById(id).orElseThrow(
-                () -> new BoletaException("La boleta con id: " + id + " no se encuentra en la base de datos")
-        );
+    public BoletaDTO findDTOById(Long id) {
+        BoletaDTO boleta = this.boletaRepository.findDTOById(id);
 
-        List<DetallecomprasDTO> detallecomprasDTOList = detallecomprasClientRest.
+        List<DetallecomprasDTO> detallecomprasDTOList = detallecomprasClientRest.findByIdBoleta(id);
 
+        boleta.setDetallesCompras(detallecomprasDTOList);
 
-        BoletaDTO boletaDTO = new BoletaDTO();
+        return boleta;
     }
 
 
 
     @Override
-    public Boleta save(Boleta boleta) {
+    public Boleta save(BoletaDTO boleta) {
         try {
-            Cliente cliente = this.clienteClientRest.findById(boleta.getIdCliente());
+            ClienteDTO cliente = boleta.getClienteDTO();
         }catch (FeignException ex){
             throw new BoletaException("Existen problemas con el cliente");
         }
         try {
-
-            Sucursal sucursal = this.sucursalClientRest.findById(boleta.getIdSucursal());
+            SucursalDTO sucursal = boleta.getSucursalDTO();
         }catch (FeignException ex){
             throw new BoletaException("Existen problemas con la sucursal");
         }
+        Boleta boletaNew = new Boleta();
 
-        return this.boletaRepository.save(boleta);
+        boletaNew.setIdCliente(boleta.getClienteDTO().getIdCliente());
+        boletaNew.setIdSucursal(boleta.getSucursalDTO().getIdSucursal());
+        boletaNew.setFechaBoleta(boleta.getFechaBoleta());
+        boletaNew.setEntregaPresencial(boleta.getEntregaPresencial());
+        boletaNew.setEstadoPago(boleta.getEstadoPago());
+
+        return this.boletaRepository.save(boletaNew);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(
+            summary = "Elimina un producto por su Id.",
+            description = "Elimina un producto de la base de datos.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",description = "Eliminación exitosa.")
+    })
+    public void deleteById(@Valid  @PathVariable Long id) {
+        this.boletaRepository.deleteById(id);
     }
 
 

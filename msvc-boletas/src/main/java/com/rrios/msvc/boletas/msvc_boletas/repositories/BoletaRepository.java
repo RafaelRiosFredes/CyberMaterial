@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface BoletaRepository extends JpaRepository<Boleta,Long> {
-
-    Optional<BoletaDTO> findDTOById(Long id);
+    BoletaDTO findDTOById(Long id);
+    Boleta save(BoletaDTO boleta);
     List<BoletaDTO> findAllDTOs();
 }

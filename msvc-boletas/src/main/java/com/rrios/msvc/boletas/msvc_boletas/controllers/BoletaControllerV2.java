@@ -1,5 +1,6 @@
 package com.rrios.msvc.boletas.msvc_boletas.controllers;
 
+import com.rrios.msvc.boletas.msvc_boletas.assemblers.BoletaDTOModelAssembler;
 import com.rrios.msvc.boletas.msvc_boletas.dtos.BoletaDTO;
 import com.rrios.msvc.boletas.msvc_boletas.models.entities.Boleta;
 import com.rrios.msvc.boletas.msvc_boletas.services.BoletaService;
@@ -11,8 +12,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,12 +26,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
-@RequestMapping("/api/v1/boletas")
+@RequestMapping("/api/v2/boletas")
 @Validated
-public class BoletaController {
+@Tag(name = "Boletas V2",description = "Operaciones CRUD de boletas")
+public class BoletaControllerV2 {
     @Autowired
     private BoletaService boletaService;
+
+    @Autowired
+    private BoletaDTOModelAssembler boletaDTOModelAssembler;
 
     @GetMapping
     @Operation(
@@ -36,13 +48,21 @@ public class BoletaController {
             @ApiResponse(responseCode = "200",
                     description = "Operación exitosa",
                     content = @Content(
-                            mediaType = "application/json",
+                            mediaType = MediaTypes.HAL_JSON_VALUE,
                             schema = @Schema(implementation = BoletaDTO.class)
                     )
             ),
     })
-    public ResponseEntity<List<BoletaDTO>> findAllDTOs(){
-        return ResponseEntity.status(HttpStatus.OK).body(this.boletaService.findAllDTOs());
+    public ResponseEntity<CollectionModel<EntityModel<BoletaDTO>>> findAllDTOs(){
+        List<EntityModel<BoletaDTO>> entityModels = this.boletaService.findAllDTOs()
+                .stream()
+                .map(boletaDTOModelAssembler::toModel)
+                .toList();
+        CollectionModel<EntityModel<BoletaDTO>> collectionModel = CollectionModel.of(
+                entityModels,
+                linkTo(methodOn(BoletaControllerV2.class).findAllDTOs()).withSelfRel());
+
+        return ResponseEntity.status(HttpStatus.OK).body(collectionModel);
     }
 
     @GetMapping("/{id}")
@@ -51,7 +71,12 @@ public class BoletaController {
             description = "Devuelve una boleta en el body")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Operación exitosa."),
+                    description = "Operación exitosa.",
+                    content = @Content(
+                            mediaType = MediaTypes.HAL_JSON_VALUE,
+                            schema = @Schema(implementation = BoletaDTO.class)
+                    )
+            ),
             @ApiResponse(
                     responseCode = "404",
                     description = "Boleta no encontrada con el id administrado.",
@@ -64,8 +89,11 @@ public class BoletaController {
     @Parameters(value = {
             @Parameter(name = "Id",
             description = "Este es el id unico de la boleta",required = true)})
-    public ResponseEntity<BoletaDTO> findDTOById(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(this.boletaService.findDTOById(id));
+    public ResponseEntity<EntityModel<BoletaDTO>> findDTOById(@PathVariable Long id){
+        EntityModel<BoletaDTO> entityModel = this.boletaDTOModelAssembler.toModel(
+                this.boletaService.findDTOById(id)
+        );
+        return ResponseEntity.status(HttpStatus.OK).body(entityModel);
     }
 
     @PostMapping
@@ -74,7 +102,12 @@ public class BoletaController {
             description = "Con este método podemos enviar datos a través de un body y crear un producto."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201",description = "Guardado exitoso."),
+            @ApiResponse(responseCode = "201",
+                    description = "Guardado exitoso.",
+            content = @Content(
+                    mediaType = MediaTypes.HAL_JSON_VALUE,
+                    schema = @Schema(implementation = BoletaDTO.class)
+            )),
             @ApiResponse(
                     responseCode = "409",
                     description = "La boleta ya se encuentra en la base de datos.",
@@ -88,7 +121,7 @@ public class BoletaController {
             description = "Boleta a crear.",
             content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = Boleta.class)
+                    schema = @Schema(implementation = BoletaDTO.class)
             )
     )
     public ResponseEntity<Boleta> save(@Valid @RequestBody BoletaDTO boleta){

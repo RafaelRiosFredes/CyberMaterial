@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface BoletaService {
     List<BoletaDTO> findAllDTOs();
-    Optional<BoletaDTO> findDTOById(Long id);
-    Boleta save(Boleta boleta);
+    BoletaDTO findDTOById(Long id);
+    Boleta save(BoletaDTO boleta);
+    void deleteById(Long id);
 }
