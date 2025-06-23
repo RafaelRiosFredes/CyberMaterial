@@ -25,7 +25,7 @@ public class Sucursal {
     @Schema(description = "Codigo de la sucursal", example = "1", accessMode = Schema.AccessMode.READ_ONLY)
     private Long idSucursal;
 
-    @NotBlank(message = "El horario de la sucursal no puede ser vacio")@NotBlank(message = "El horario de la sucursal no puede ser vacio")
+    @NotBlank(message = "El horario de la sucursal no puede ser vacio")
     @Column(name = "horario", nullable = false, unique = true)
     @Schema(description = "Horario de la sucursal", example = "9:00-19:00 hrs")
     private String horario;
