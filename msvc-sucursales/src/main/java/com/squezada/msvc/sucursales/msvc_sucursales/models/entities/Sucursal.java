@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+
 @Entity
 @Table( name = "sucursales")
 @Getter
@@ -21,7 +22,7 @@ public class Sucursal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sucursal")
-    @Schema(description = "Codigo de la sucursal", example = "1")
+    @Schema(description = "Codigo de la sucursal", example = "1", accessMode = Schema.AccessMode.READ_ONLY)
     private Long idSucursal;
 
     @NotBlank(message = "El horario de la sucursal no puede ser vacio")@NotBlank(message = "El horario de la sucursal no puede ser vacio")
