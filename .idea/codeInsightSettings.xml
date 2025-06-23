@@ -3,6 +3,7 @@
   <component name="JavaProjectCodeInsightSettings">
     <included-static-names>
       <name>org.mockito.internal.verification.VerificationModeFactory.times</name>
+      <name>org.mockito.Mockito</name>
     </included-static-names>
   </component>
 </project>

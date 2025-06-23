@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/boletas")
 @Validated
+@Tag(name = "Boletas",description = "Operaciones CRUD de Boletas")
 public class BoletaController {
     @Autowired
     private BoletaService boletaService;
@@ -42,7 +44,7 @@ public class BoletaController {
             ),
     })
     public ResponseEntity<List<BoletaDTO>> findAllDTOs(){
-        return ResponseEntity.status(HttpStatus.OK).body(this.boletaService.findAllDTOs());
+        return ResponseEntity.status(HttpStatus.OK).body(this.boletaService.findAll());
     }
 
     @GetMapping("/{id}")

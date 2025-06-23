@@ -53,14 +53,14 @@ public class BoletaControllerV2 {
                     )
             ),
     })
-    public ResponseEntity<CollectionModel<EntityModel<BoletaDTO>>> findAllDTOs(){
-        List<EntityModel<BoletaDTO>> entityModels = this.boletaService.findAllDTOs()
+    public ResponseEntity<CollectionModel<EntityModel<BoletaDTO>>> findAll(){
+        List<EntityModel<BoletaDTO>> entityModels = this.boletaService.findAll()
                 .stream()
                 .map(boletaDTOModelAssembler::toModel)
                 .toList();
         CollectionModel<EntityModel<BoletaDTO>> collectionModel = CollectionModel.of(
                 entityModels,
-                linkTo(methodOn(BoletaControllerV2.class).findAllDTOs()).withSelfRel());
+                linkTo(methodOn(BoletaControllerV2.class).findAll()).withSelfRel());
 
         return ResponseEntity.status(HttpStatus.OK).body(collectionModel);
     }

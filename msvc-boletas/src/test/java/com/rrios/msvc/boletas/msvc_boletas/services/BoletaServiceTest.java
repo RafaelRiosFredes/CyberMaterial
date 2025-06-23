@@ -145,25 +145,24 @@ public class BoletaServiceTest {
     {
         List<BoletaDTO> boletaDTOS = this.boletaDTOList;
         boletaDTOS.add(boletaTestDTO);
-        when(boletaRepository.findAllDTOs()).thenReturn(boletaDTOS);
 
-        List<BoletaDTO> result = boletaService.findAllDTOs();
+        List<BoletaDTO> result = boletaService.findAll();
 
         assertThat(result).hasSize(101);
         assertThat(result).contains(boletaTestDTO);
 
-        verify(boletaRepository,times(1)).findAllDTOs();
+        verify(boletaRepository,times(1)).findAll();
     }
 
     @Test
     @DisplayName("Debe buscar una boleta")
     public void shouldFindDTOById(){
-        when(boletaRepository.findDTOById(Long.valueOf(1L))).thenReturn(boletaTestDTO);
+        when(boletaRepository.findDTOByIdBoleta(Long.valueOf(1L))).thenReturn(boletaTestDTO);
 
         BoletaDTO result = boletaService.findDTOById(Long.valueOf(1L));
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(boletaTestDTO);
-        verify(boletaRepository,times(1)).findDTOById(1L);
+        verify(boletaRepository,times(1)).findDTOByIdBoleta(1L);
     }
 
     @Test
@@ -175,7 +174,7 @@ public class BoletaServiceTest {
         }).isInstanceOf(BoletaException.class)
                 .hasMessageNotContaining("La boleta con id "+
                         idInexistente + " no se encuentra en la base de datos.");
-        verify(boletaRepository,times(1)).findDTOById(idInexistente);
+        verify(boletaRepository,times(1)).findDTOByIdBoleta(idInexistente);
     }
 
     @Test

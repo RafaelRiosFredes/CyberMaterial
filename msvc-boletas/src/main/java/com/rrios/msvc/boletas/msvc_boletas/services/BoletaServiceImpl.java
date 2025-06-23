@@ -44,7 +44,7 @@ public class BoletaServiceImpl implements BoletaService{
 
 
     @Override
-    public List<BoletaDTO> findAllDTOs() {
+    public List<BoletaDTO> findAll() {
         return this.boletaRepository.findAll().stream().map(boleta -> {
             Cliente cliente = null;
             try {
@@ -78,7 +78,7 @@ public class BoletaServiceImpl implements BoletaService{
 
     @Override
     public BoletaDTO findDTOById(Long id) {
-        BoletaDTO boleta = this.boletaRepository.findDTOById(id);
+        BoletaDTO boleta = this.boletaRepository.findDTOByIdBoleta(id);
 
         List<DetallecomprasDTO> detallecomprasDTOList = detallecomprasClientRest.findByIdBoleta(id);
 
