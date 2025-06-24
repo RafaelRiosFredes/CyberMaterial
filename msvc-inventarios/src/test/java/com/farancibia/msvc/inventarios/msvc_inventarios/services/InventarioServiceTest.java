@@ -45,7 +45,7 @@ public class InventarioServiceTest {
         productoTest.setIdProducto(Long.valueOf(1L));
         productoTest.setNombreProducto("Lapiz pasta");
         productoTest.setDescripcion("Lapiz pasta de color azul");
-        productoTest.setPrecio(Long.valueOf("450")); //revisar tipo de dato en precio
+        productoTest.setPrecio(Long.valueOf("450"));
 
         sucursalTest = new Sucursal();
         sucursalTest.setIdSucursal(Long.valueOf(1L));

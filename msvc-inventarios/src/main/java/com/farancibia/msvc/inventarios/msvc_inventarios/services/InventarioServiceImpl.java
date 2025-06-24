@@ -11,6 +11,7 @@ import com.farancibia.msvc.inventarios.msvc_inventarios.models.Sucursal;
 import com.farancibia.msvc.inventarios.msvc_inventarios.models.entities.Inventario;
 import com.farancibia.msvc.inventarios.msvc_inventarios.repositories.InventarioRepository;
 import feign.FeignException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,10 +30,40 @@ public class InventarioServiceImpl implements InventarioService {
     private ProductoClientRest productoClientRest;
 
     @Override
-    public Inventario findByIdSucursalAndIdProducto(Long idSucursal, Long idProducto) {
-        List<Inventario> inventarioList = inventarioRepository.findByIdSucursalAndIdProducto(idSucursal, idProducto);
-        return inventarioList.stream().findFirst()
+    public InventarioDTO findByIdSucursalAndIdProducto(Long idSucursal, Long idProducto) {
+        Inventario inventario = inventarioRepository.findByIdSucursalAndIdProducto(idSucursal, idProducto)
+                .stream()
+                .findFirst()
                 .orElseThrow(() -> new InventarioException("Inventario no encontrado"));
+
+        InventarioDTO dto = new InventarioDTO();
+        dto.setStock(inventario.getStock());
+
+        ProductoDTO productoDTO = new ProductoDTO();
+        productoDTO.setIdProducto(inventario.getIdProducto());
+        try {
+            Producto producto = productoClientRest.findById(inventario.getIdProducto());
+            if (producto != null) {
+                productoDTO.setNombreProducto(producto.getNombreProducto());
+            }
+        } catch (FeignException e) {
+            System.err.println("Error obteniendo producto: " + e.getMessage());
+        }
+        dto.setProducto(productoDTO);
+
+        SucursalDTO sucursalDTO = new SucursalDTO();
+        sucursalDTO.setIdSucursal(inventario.getIdSucursal());
+        try {
+            Sucursal sucursal = sucursalClientRest.findById(inventario.getIdSucursal());
+            if (sucursal != null) {
+                sucursalDTO.setNombreSucursal(sucursal.getDireccion());
+            }
+        } catch (FeignException e) {
+            System.err.println("Error obteniendo sucursal: " + e.getMessage());
+        }
+        dto.setSucursal(sucursalDTO);
+
+        return dto;
     }
 
     @Override
@@ -45,7 +76,7 @@ public class InventarioServiceImpl implements InventarioService {
             sucursalDTO.setIdSucursal(inventario.getIdSucursal());
             try {
                 Sucursal sucursal = this.sucursalClientRest.findById(inventario.getIdSucursal());
-                if(sucursal != null) {
+                if (sucursal != null) {
                     sucursalDTO.setNombreSucursal(sucursal.getDireccion());
                 }
             } catch (FeignException ex) {
@@ -57,9 +88,8 @@ public class InventarioServiceImpl implements InventarioService {
             productoDTO.setIdProducto(inventario.getIdProducto());
             try {
                 Producto producto = this.productoClientRest.findById(inventario.getIdProducto());
-                if(producto != null) {
+                if (producto != null) {
                     productoDTO.setNombreProducto(producto.getNombreProducto());
-
                 }
             } catch (FeignException ex) {
                 System.err.println("Error obteniendo producto: " + ex.getMessage());
@@ -69,9 +99,8 @@ public class InventarioServiceImpl implements InventarioService {
             return dto;
         }).toList();
     }
-
     @Override
-    public Inventario save(Inventario inventario) {
+    public Inventario save(@Valid Inventario inventario) {
         boolean relacionesExisten = true;
         try {
             Producto producto = this.productoClientRest.findById(inventario.getIdProducto());
