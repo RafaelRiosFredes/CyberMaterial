@@ -112,7 +112,7 @@ import static org.mockito.Mockito.times;
 
         Cliente clienteMock = new Cliente();
         clienteMock.setIdCliente(1L);
-        // Usar matcher anyLong para aceptar cualquier ID
+
         when(clienteClientRest.findById(any())).thenReturn(clienteMock);
 
         Sucursal sucursalMock = new Sucursal();
