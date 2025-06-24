@@ -71,7 +71,7 @@ public class SucursalesServiceTest {
 
     @Test
     @DisplayName("Debe guardar una nueva sucursal")
-    public void ShouldSaveProducto(){
+    public void ShouldSaveSucursal(){
         when(sucursalRepository.save(any(Sucursal.class))).thenReturn(sucursalPrueba);
         Sucursal result = sucursalService.save(sucursalPrueba);
         assertThat(result).isNotNull();
