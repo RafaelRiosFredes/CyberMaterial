@@ -44,7 +44,7 @@ public class BoletaServiceImpl implements BoletaService{
 
 
     @Override
-    public List<BoletaDTO> findAll() {
+    public List<BoletaDTO> findAllDTOs() {
         return this.boletaRepository.findAll().stream().map(boleta -> {
             Cliente cliente = null;
             try {

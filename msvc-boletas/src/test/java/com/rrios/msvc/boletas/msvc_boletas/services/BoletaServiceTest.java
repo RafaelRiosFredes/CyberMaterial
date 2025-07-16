@@ -1,12 +1,14 @@
 package com.rrios.msvc.boletas.msvc_boletas.services;
 
 import com.rrios.msvc.boletas.msvc_boletas.clients.ClienteClientRest;
+import com.rrios.msvc.boletas.msvc_boletas.clients.DetallecomprasClientRest;
+import com.rrios.msvc.boletas.msvc_boletas.clients.ProductoClientRest;
 import com.rrios.msvc.boletas.msvc_boletas.clients.SucursalClientRest;
-import com.rrios.msvc.boletas.msvc_boletas.dtos.BoletaDTO;
-import com.rrios.msvc.boletas.msvc_boletas.dtos.ClienteDTO;
-import com.rrios.msvc.boletas.msvc_boletas.dtos.SucursalDTO;
+import com.rrios.msvc.boletas.msvc_boletas.dtos.*;
 import com.rrios.msvc.boletas.msvc_boletas.exceptions.BoletaException;
 import com.rrios.msvc.boletas.msvc_boletas.models.Cliente;
+import com.rrios.msvc.boletas.msvc_boletas.models.Detallecompras;
+import com.rrios.msvc.boletas.msvc_boletas.models.Producto;
 import com.rrios.msvc.boletas.msvc_boletas.models.Sucursal;
 import com.rrios.msvc.boletas.msvc_boletas.models.entities.Boleta;
 import com.rrios.msvc.boletas.msvc_boletas.repositories.BoletaRepository;
@@ -36,6 +38,12 @@ public class BoletaServiceTest {
     @Mock
     private SucursalClientRest sucursalClientRest;
 
+    @Mock
+    private DetallecomprasClientRest detallecomprasClientRest;
+
+    @Mock
+    private ProductoClientRest productoClientRest;
+
     @InjectMocks
     private BoletaServiceImpl boletaService;
 
@@ -43,8 +51,16 @@ public class BoletaServiceTest {
     private ClienteDTO clienteTestDTO;
     private Sucursal sucursalTest;
     private SucursalDTO sucursalTestDTO;
+    private Producto productoTest;
+    private ProductoDTO productoDTOTest;
+    private Detallecompras detallecomprasTest;
+    private DetallecomprasDTO detallecomprasDTOTest;
     private Boleta boletaTest;
     private BoletaDTO boletaTestDTO;
+
+    private List<Detallecompras> detallecomprasList = new ArrayList<>();
+
+    private List<DetallecomprasDTO> detallecomprasDTOS = new ArrayList<>();
 
     private List<BoletaDTO> boletaDTOList = new ArrayList<>();
 
@@ -55,7 +71,7 @@ public class BoletaServiceTest {
         clienteTest.setRun("20.333.666-2");
         clienteTest.setNombres("Rafael Ignacio");
         clienteTest.setApellidos("Ríos Fredes");
-        clienteTest.setTelefono(1234567);
+        clienteTest.setTelefono("(29) 123 4567");
         clienteTest.setCorreo("micorreo@duocuc.cl");
         clienteTest.setDireccion("Direccion Falsa 123");
 
@@ -64,13 +80,27 @@ public class BoletaServiceTest {
         sucursalTest.setHorario("09:00-19:00");
         sucursalTest.setDireccion("Av Falsa 321, Peñablanca");
 
+        productoTest = new Producto();
+
+        productoTest.setIdProducto(1L);
+        productoTest.setNombreProducto("Cartulina");
+        productoTest.setPrecio(5000);
+        productoTest.setDescripcion("Cartulina española rosa");
+
+        productoDTOTest = new ProductoDTO();
+        productoDTOTest.setIdProducto(productoTest.getIdProducto());
+        productoDTOTest.setNombreProducto(productoTest.getNombreProducto());
+        productoDTOTest.setPrecio(productoTest.getPrecio());
+        productoDTOTest.setDescripcion(productoTest.getDescripcion());
+
         this.boletaTest = new Boleta(
                 1L,1L,"2025-05-25",true,true
         );
 
         this.boletaTestDTO = new BoletaDTO();
 
-        clienteTestDTO.setIdCliente(clienteTest.getIdCliente());
+        clienteTestDTO = new ClienteDTO();
+
         clienteTestDTO.setRun(clienteTest.getRun());
         clienteTestDTO.setNombres(clienteTest.getNombres());
         clienteTestDTO.setApellidos(clienteTest.getApellidos());
@@ -78,35 +108,66 @@ public class BoletaServiceTest {
         clienteTestDTO.setCorreo(clienteTest.getCorreo());
         clienteTestDTO.setDireccion(clienteTest.getDireccion());
 
+        sucursalTestDTO = new SucursalDTO();
+
         sucursalTestDTO.setIdSucursal(sucursalTest.getIdSucursal());
         sucursalTestDTO.setHorario(sucursalTest.getHorario());
         sucursalTestDTO.setDireccion(sucursalTest.getDireccion());
+
+        detallecomprasTest = new Detallecompras();
+
+        detallecomprasTest.setIdDetallecompras(Long.valueOf(1L));
+        detallecomprasTest.setCantidad(1L);
+        detallecomprasTest.setTotal(1000.0);
+        detallecomprasTest.setIdProducto(productoTest.getIdProducto());
+
+        detallecomprasList.add(detallecomprasTest);
+
+        detallecomprasDTOTest = new DetallecomprasDTO();
+        detallecomprasDTOTest.setIdDetallecompras(detallecomprasTest.getIdDetallecompras());
+        detallecomprasDTOTest.setCantidad(detallecomprasTest.getCantidad());
+        detallecomprasDTOTest.setTotal(detallecomprasTest.getTotal());
+        detallecomprasDTOTest.setProductoDTO(productoDTOTest);
+
+        detallecomprasDTOS.add(detallecomprasDTOTest);
 
         boletaTestDTO.setClienteDTO(clienteTestDTO);
         boletaTestDTO.setSucursalDTO(sucursalTestDTO);
         boletaTestDTO.setFechaBoleta(boletaTest.getFechaBoleta());
         boletaTestDTO.setEstadoPago(boletaTest.getEstadoPago());
         boletaTestDTO.setEntregaPresencial(boletaTest.getEntregaPresencial());
+        boletaTestDTO.setDetallesCompras(detallecomprasDTOS);
 
         Faker faker = new Faker(Locale.of("es","CL"));
         for(int i=0;i<100;i++){
             Boleta boletaCreate = new Boleta();
-            String numeroStr = faker.idNumber().valid();
+
 
             Cliente clienteCreate = new Cliente();
             clienteCreate.setIdCliente(Long.valueOf(1L));
             clienteCreate.setRun("20.333.666-2");
             clienteCreate.setNombres("Rafael Ignacio");
             clienteCreate.setApellidos("Ríos Fredes");
-            clienteCreate.setTelefono(1234567);
+            clienteCreate.setTelefono("(29) 123 4567");
             clienteCreate.setCorreo("micorreo@duocuc.cl");
             clienteCreate.setDireccion("Direccion Falsa 123");
 
             Sucursal sucursalCreate = new Sucursal();
-            sucursalCreate = new Sucursal();
             sucursalCreate.setIdSucursal(Long.valueOf(1L));
             sucursalCreate.setHorario("09:00-19:00");
             sucursalCreate.setDireccion("Av Falsa 341, Peñablanca");
+
+            Producto productoCreate = new Producto();
+            productoCreate.setIdProducto(1L);
+            productoCreate.setNombreProducto("Cartulina");
+            productoCreate.setPrecio(5000);
+            productoCreate.setDescripcion("Cartulina española rosa");
+
+            Detallecompras detallecomprasCreate = new Detallecompras();
+            detallecomprasCreate.setIdDetallecompras(Long.valueOf(1L));
+            detallecomprasCreate.setCantidad(1L);
+            detallecomprasCreate.setTotal(1000.0);
+            detallecomprasCreate.setIdProducto(productoCreate.getIdProducto());
 
             boletaCreate.setIdCliente(1L);
             boletaCreate.setIdSucursal(1L);
@@ -116,9 +177,10 @@ public class BoletaServiceTest {
 
             ClienteDTO clienteDTOCreate = new ClienteDTO();
             SucursalDTO sucursalDTOCreate = new SucursalDTO();
+            ProductoDTO productoDTOCreate = new ProductoDTO();
+            DetallecomprasDTO detallecomprasDTOCreate = new DetallecomprasDTO();
             BoletaDTO boletaDTOCreate = new BoletaDTO();
 
-            clienteDTOCreate.setIdCliente(clienteCreate.getIdCliente());
             clienteDTOCreate.setRun(clienteCreate.getRun());
             clienteDTOCreate.setNombres(clienteCreate.getNombres());
             clienteDTOCreate.setApellidos(clienteCreate.getApellidos());
@@ -130,11 +192,26 @@ public class BoletaServiceTest {
             sucursalDTOCreate.setHorario(sucursalCreate.getHorario());
             sucursalDTOCreate.setDireccion(sucursalCreate.getDireccion());
 
+            productoDTOCreate.setIdProducto(productoCreate.getIdProducto());
+            productoDTOCreate.setNombreProducto(productoCreate.getNombreProducto());
+            productoDTOCreate.setPrecio(productoCreate.getPrecio());
+            productoDTOCreate.setDescripcion(productoCreate.getDescripcion());
+
+            detallecomprasDTOCreate.setIdDetallecompras(detallecomprasCreate.getIdDetallecompras());
+            detallecomprasDTOCreate.setCantidad(detallecomprasCreate.getCantidad());
+            detallecomprasDTOCreate.setTotal(detallecomprasCreate.getTotal());
+            detallecomprasDTOCreate.setProductoDTO(productoDTOCreate);
+
+            detallecomprasDTOS.add(detallecomprasDTOCreate);
+
             boletaDTOCreate.setClienteDTO(clienteDTOCreate);
             boletaDTOCreate.setSucursalDTO(sucursalDTOCreate);
             boletaDTOCreate.setFechaBoleta(boletaCreate.getFechaBoleta());
             boletaDTOCreate.setEstadoPago(boletaCreate.getEstadoPago());
             boletaDTOCreate.setEntregaPresencial(boletaCreate.getEntregaPresencial());
+            boletaDTOCreate.setDetallesCompras(detallecomprasDTOS);
+
+            String numeroStr = faker.idNumber().valid();
 
             boletaDTOList.add(boletaDTOCreate);
         }
@@ -143,25 +220,32 @@ public class BoletaServiceTest {
     @DisplayName("Debe listar todas las boletas")
     public void shouldFindAllBoletaDTOs()
     {
-        List<BoletaDTO> boletaDTOS = this.boletaDTOList;
-        boletaDTOS.add(boletaTestDTO);
+        boletaDTOList.add(boletaTestDTO);
+        when(boletaRepository.findAllDTOs()).thenReturn(boletaDTOList);
 
-        List<BoletaDTO> result = boletaService.findAll();
+        List<BoletaDTO> result = boletaService.findAllDTOs();
 
         assertThat(result).hasSize(101);
         assertThat(result).contains(boletaTestDTO);
 
+        verify(clienteClientRest,times(1)).findById(1L);
+        verify(sucursalClientRest,times(1)).findById(1L);
+        verify(productoClientRest,times(1)).getProducto(1L);
         verify(boletaRepository,times(1)).findAll();
     }
 
     @Test
     @DisplayName("Debe buscar una boleta")
     public void shouldFindDTOById(){
-        when(boletaRepository.findDTOByIdBoleta(Long.valueOf(1L))).thenReturn(boletaTestDTO);
+        when(boletaRepository.findById(1L)).thenReturn(Optional.of(boletaTest));
+        when(boletaRepository.findDTOByIdBoleta(boletaTest.getIdBoleta())).thenReturn(boletaTestDTO);
 
         BoletaDTO result = boletaService.findDTOById(Long.valueOf(1L));
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(boletaTestDTO);
+        verify(clienteClientRest,times(1)).findById(boletaTest.getIdCliente());
+        verify(sucursalClientRest,times(1)).findById(boletaTest.getIdSucursal());
+        verify(productoClientRest,times(1)).getProducto(1L);
         verify(boletaRepository,times(1)).findDTOByIdBoleta(1L);
     }
 
@@ -180,12 +264,21 @@ public class BoletaServiceTest {
     @Test
     @DisplayName("Debe guardar una nueva boleta")
     public void shouldSaveBoleta(){
-        when(boletaRepository.save(any(BoletaDTO.class))).thenReturn(boletaTest);
+        when(productoClientRest.getProducto(1L)).thenReturn(productoTest);
+        when(clienteClientRest.findById(1L)).thenReturn(clienteTest);
+        when(sucursalClientRest.findById(1L)).thenReturn(sucursalTest);
+        when(detallecomprasClientRest.findByIdBoleta(1L)).thenReturn(detallecomprasDTOS);
+
+        when(boletaRepository.save(any(Boleta.class))).thenReturn(boletaTest);
         Boleta result = boletaService.save(boletaTest);
         assertThat(result).isNotNull();
-        assertThat(result).isEqualTo(boletaTestDTO);
+        assertThat(result).isEqualTo(boletaTest);
 
-        verify(boletaRepository,times(1)).save(any(BoletaDTO.class));
+        verify(clienteClientRest,times(1)).findById(boletaTest.getIdCliente());
+        verify(sucursalClientRest,times(1)).findById(boletaTest.getIdSucursal());
+        verify(productoClientRest,times(1)).getProducto(1L);
+        verify(detallecomprasClientRest,times(1)).findByIdBoleta(1L);
+        verify(boletaRepository,times(1)).save(any(Boleta.class));
     }
 
     @Test
@@ -194,6 +287,9 @@ public class BoletaServiceTest {
         Long id = (Long) 1L;
         boletaService.deleteById(id);
 
+        verify(clienteClientRest,times(1)).findById(1L);
+        verify(sucursalClientRest,times(1)).findById(1L);
+        verify(productoClientRest,times(1)).getProducto(1L);
         verify(boletaRepository,times(1)).deleteById(id);
     }
 

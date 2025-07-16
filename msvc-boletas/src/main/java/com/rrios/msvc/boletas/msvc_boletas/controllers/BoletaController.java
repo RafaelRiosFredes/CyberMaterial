@@ -44,7 +44,7 @@ public class BoletaController {
             ),
     })
     public ResponseEntity<List<BoletaDTO>> findAllDTOs(){
-        return ResponseEntity.status(HttpStatus.OK).body(this.boletaService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(this.boletaService.findAllDTOs());
     }
 
     @GetMapping("/{id}")

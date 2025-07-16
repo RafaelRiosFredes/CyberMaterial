@@ -54,7 +54,7 @@ public class BoletaControllerV2 {
             ),
     })
     public ResponseEntity<CollectionModel<EntityModel<BoletaDTO>>> findAll(){
-        List<EntityModel<BoletaDTO>> entityModels = this.boletaService.findAll()
+        List<EntityModel<BoletaDTO>> entityModels = this.boletaService.findAllDTOs()
                 .stream()
                 .map(boletaDTOModelAssembler::toModel)
                 .toList();

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BoletaService {
-    List<BoletaDTO> findAll();
+    List<BoletaDTO> findAllDTOs();
     BoletaDTO findDTOById(Long id);
     Boleta save(Boleta boleta);
     void deleteById(Long id);

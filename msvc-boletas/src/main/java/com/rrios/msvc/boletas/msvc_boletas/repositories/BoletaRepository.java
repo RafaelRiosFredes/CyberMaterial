@@ -11,5 +11,6 @@ import java.util.Optional;
 @Repository
 public interface BoletaRepository extends JpaRepository<Boleta,Long> {
     BoletaDTO findDTOByIdBoleta(Long id);
+    List<BoletaDTO> findAllDTOs();
     Boleta save(BoletaDTO boleta);
 }

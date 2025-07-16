@@ -10,6 +10,6 @@ import lombok.*;
 public class Producto {
     private Long idProducto;
     private String nombreProducto;
-    private Double precio;
+    private Integer precio;
     private String descripcion;
 }
