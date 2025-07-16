@@ -99,25 +99,24 @@ public class InventarioServiceImpl implements InventarioService {
             return dto;
         }).toList();
     }
+
     @Override
     public Inventario save(@Valid Inventario inventario) {
-        boolean relacionesExisten = true;
         try {
             Producto producto = this.productoClientRest.findById(inventario.getIdProducto());
+            if (producto == null) {
+                throw new IllegalArgumentException("El producto no existe");
+            }
             Sucursal sucursal = this.sucursalClientRest.findById(inventario.getIdSucursal());
-            if(producto == null || sucursal == null) {
-                relacionesExisten = false;
+            if (sucursal == null) {
+                throw new IllegalArgumentException("La sucursal no existe");
             }
         } catch (FeignException ex) {
-            relacionesExisten = false;
+            throw new InventarioException("Error al consultar servicios externos");
         }
-
-        if(!relacionesExisten) {
-            throw new InventarioException("El producto o sucursal asociados no existen");
-        }
-
         return this.inventarioRepository.save(inventario);
     }
+
 
 
 }

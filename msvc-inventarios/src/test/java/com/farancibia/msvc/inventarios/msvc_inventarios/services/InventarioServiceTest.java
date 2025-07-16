@@ -16,6 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -70,7 +73,6 @@ public class InventarioServiceTest {
         //Realizar el guardado
         when(inventarioRepository.save(any(Inventario.class))).thenReturn(inventarioTest);
 
-        //Llamo al servicio
         Inventario result = inventarioService.save(inventarioTest);
 
         assertThat(result).isNotNull();
@@ -82,4 +84,35 @@ public class InventarioServiceTest {
     }
 
 
+    @Test
+    @DisplayName("Debe lanzar excepción si la sucursal no existe al guardar inventario")
+    public void shouldThrowExceptionIfSucursalNotFound() {
+
+        when(productoClientRest.findById(1L)).thenReturn(productoTest);
+        when(sucursalClientRest.findById(1L)).thenReturn(null);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            inventarioService.save(inventarioTest);
+        });
+
+        assertEquals("La sucursal no existe", exception.getMessage());
+        verify(productoClientRest, times(1)).findById(1L);
+        verify(sucursalClientRest, times(1)).findById(1L);
+        verify(inventarioRepository, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Debe lanzar excepción si el producto no existe al guardar inventario")
+    public void shouldThrowExceptionIfProductoNotFound() {
+        when(productoClientRest.findById(1L)).thenReturn(null);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            inventarioService.save(inventarioTest);
+        });
+
+        assertEquals("El producto no existe", exception.getMessage());
+        verify(productoClientRest, times(1)).findById(1L);
+        verify(sucursalClientRest, never()).findById(anyLong());
+        verify(inventarioRepository, never()).save(any());
+    }
 }
