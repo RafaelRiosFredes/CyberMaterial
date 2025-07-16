@@ -93,7 +93,7 @@ public class BoletaController {
                     schema = @Schema(implementation = Boleta.class)
             )
     )
-    public ResponseEntity<Boleta> save(@Valid @RequestBody BoletaDTO boleta){
+    public ResponseEntity<Boleta> save(@Valid @RequestBody Boleta boleta){
         return ResponseEntity.status((HttpStatus.CREATED)).body(this.boletaService.save(boleta));
     }
 

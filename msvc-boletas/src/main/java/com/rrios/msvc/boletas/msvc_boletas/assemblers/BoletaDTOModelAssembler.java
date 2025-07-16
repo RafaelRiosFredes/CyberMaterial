@@ -16,7 +16,7 @@ public class BoletaDTOModelAssembler implements RepresentationModelAssembler<Bol
     public EntityModel<BoletaDTO> toModel(BoletaDTO entity){
         return EntityModel.of(
                 entity,
-                linkTo(methodOn(BoletaControllerV2.class).findDTOById(entity.getIdBoletaDto())).withSelfRel(),
+                linkTo(methodOn(BoletaControllerV2.class).findDTOById(entity.getIdBoleta())).withSelfRel(),
                 linkTo(methodOn(BoletaControllerV2.class).findAll()).withRel("boletas")
         );
     }

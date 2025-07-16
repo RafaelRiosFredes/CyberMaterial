@@ -60,12 +60,22 @@ public class BoletaServiceImpl implements BoletaService{
             }
 
             ClienteDTO clienteDTO = new ClienteDTO();
-            clienteDTO.setIdCliente(boleta.getIdCliente());
+
+            clienteDTO.setRun(cliente.getRun());
+            clienteDTO.setNombres(cliente.getNombres());
+            clienteDTO.setApellidos(cliente.getApellidos());
+            clienteDTO.setTelefono(cliente.getTelefono());
+            clienteDTO.setCorreo(cliente.getCorreo());
+            clienteDTO.setDireccion(cliente.getDireccion());
 
             SucursalDTO sucursalDTO = new SucursalDTO();
-            sucursalDTO.setIdSucursal(boleta.getIdSucursal());
+
+            sucursalDTO.setIdSucursal(sucursal.getIdSucursal());
+            sucursalDTO.setHorario(sucursal.getHorario());
+            sucursalDTO.setDireccion(sucursal.getDireccion());
 
             BoletaDTO boletaDTO = new BoletaDTO();
+            boletaDTO.setIdBoleta(boleta.getIdBoleta());
             boletaDTO.setClienteDTO(clienteDTO);
             boletaDTO.setSucursalDTO(sucursalDTO);
             boletaDTO.setFechaBoleta(boleta.getFechaBoleta());
@@ -78,38 +88,63 @@ public class BoletaServiceImpl implements BoletaService{
 
     @Override
     public BoletaDTO findDTOById(Long id) {
-        BoletaDTO boleta = this.boletaRepository.findDTOByIdBoleta(id);
+
+        Optional<Boleta> boleta = this.boletaRepository.findById(id);
+
+        Cliente cliente = clienteClientRest.findById(boleta.get().getIdCliente());
+
+        Sucursal sucursal = sucursalClientRest.findById(boleta.get().getIdSucursal());
+
+        ClienteDTO clienteDTO = new ClienteDTO();
+
+        clienteDTO.setRun(cliente.getRun());
+        clienteDTO.setNombres(cliente.getNombres());
+        clienteDTO.setApellidos(cliente.getApellidos());
+        clienteDTO.setTelefono(cliente.getTelefono());
+        clienteDTO.setCorreo(cliente.getCorreo());
+        clienteDTO.setDireccion(cliente.getDireccion());
+
+        SucursalDTO sucursalDTO = new SucursalDTO();
+
+        sucursalDTO.setIdSucursal(sucursal.getIdSucursal());
+        sucursalDTO.setHorario(sucursal.getHorario());
+        sucursalDTO.setDireccion(sucursal.getDireccion());
 
         List<DetallecomprasDTO> detallecomprasDTOList = detallecomprasClientRest.findByIdBoleta(id);
 
-        boleta.setDetallesCompras(detallecomprasDTOList);
+        BoletaDTO boletaDTO = new BoletaDTO();
 
-        return boleta;
+        boletaDTO.setIdBoleta(boleta.get().getIdBoleta());
+        boletaDTO.setClienteDTO(clienteDTO);
+        boletaDTO.setSucursalDTO(sucursalDTO);
+        boletaDTO.setFechaBoleta(boleta.get().getFechaBoleta());
+        boletaDTO.setEntregaPresencial(boleta.get().getEntregaPresencial());
+        boletaDTO.setEstadoPago(boleta.get().getEstadoPago());
+        boletaDTO.setDetallesCompras(detallecomprasDTOList);
+
+        return boletaDTO;
     }
 
 
 
     @Override
-    public Boleta save(BoletaDTO boleta) {
+    public Boleta save(Boleta boleta) {
         try {
-            ClienteDTO cliente = boleta.getClienteDTO();
+            Long idCliente = boleta.getIdCliente();
         }catch (FeignException ex){
             throw new BoletaException("Existen problemas con el cliente");
         }
         try {
-            SucursalDTO sucursal = boleta.getSucursalDTO();
+            Long idSucursal = boleta.getIdSucursal();
         }catch (FeignException ex){
             throw new BoletaException("Existen problemas con la sucursal");
         }
-        Boleta boletaNew = new Boleta();
 
-        boletaNew.setIdCliente(boleta.getClienteDTO().getIdCliente());
-        boletaNew.setIdSucursal(boleta.getSucursalDTO().getIdSucursal());
-        boletaNew.setFechaBoleta(boleta.getFechaBoleta());
-        boletaNew.setEntregaPresencial(boleta.getEntregaPresencial());
-        boletaNew.setEstadoPago(boleta.getEstadoPago());
+        boleta.setFechaBoleta(boleta.getFechaBoleta());
+        boleta.setEntregaPresencial(boleta.getEntregaPresencial());
+        boleta.setEstadoPago(boleta.getEstadoPago());
 
-        return this.boletaRepository.save(boletaNew);
+        return this.boletaRepository.save(boleta);
     }
 
     @DeleteMapping("/{id}")

@@ -9,7 +9,7 @@ public class Cliente {
     private String run;
     private String nombres;
     private String apellidos;
-    private Integer telefono;
+    private String telefono;
     private String correo;
     private String direccion;
 }

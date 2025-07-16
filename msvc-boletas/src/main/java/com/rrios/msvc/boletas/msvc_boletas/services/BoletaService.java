@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface BoletaService {
     List<BoletaDTO> findAll();
     BoletaDTO findDTOById(Long id);
-    Boleta save(BoletaDTO boleta);
+    Boleta save(Boleta boleta);
     void deleteById(Long id);
 }

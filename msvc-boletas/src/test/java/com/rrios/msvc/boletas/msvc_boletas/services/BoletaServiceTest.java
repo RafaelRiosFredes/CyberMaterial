@@ -181,7 +181,7 @@ public class BoletaServiceTest {
     @DisplayName("Debe guardar una nueva boleta")
     public void shouldSaveBoleta(){
         when(boletaRepository.save(any(BoletaDTO.class))).thenReturn(boletaTest);
-        Boleta result = boletaService.save(boletaTestDTO);
+        Boleta result = boletaService.save(boletaTest);
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(boletaTestDTO);
 
