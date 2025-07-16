@@ -175,6 +175,9 @@ import static org.mockito.Mockito.times;
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(detallePrueba);
 
+        verify(productoClientRest, times(1)).findById(1L);
+        verify(boletaClientRest, times(1)).findById(1L);
+        verify(inventarioClientRest, times(1)).findByIdSucursalAndIdProducto(1L, 1L);
         verify(detallecomprasRepository, times(1)).save(any(Detallecompras.class));
         verify(inventarioClientRest).update(eq(1L), any(Inventario.class));
     }
@@ -206,13 +209,20 @@ import static org.mockito.Mockito.times;
         when(inventarioClientRest.findByIdSucursalAndIdProducto(boletaMock.getIdSucursal(), productoMock.getIdProducto()))
                 .thenReturn(inventarioMock);
 
-        // Verificar que al intentar guardar lanza la excepción
+        // Verifica que lanza excepción por falta de stock
         assertThatThrownBy(() -> detallecomprasService.save(detalle))
                 .isInstanceOf(DetallecomprasException.class)
                 .hasMessageContaining("Stock insuficiente");
 
-        // Verificar que no se llamó a guardar en el repositorio porque falla antes
+        // Verificaciones de mocks
+        verify(productoClientRest).findById(1L);
+        verify(boletaClientRest).findById(1L);
+        verify(inventarioClientRest)
+                .findByIdSucursalAndIdProducto(boletaMock.getIdSucursal(), productoMock.getIdProducto());
+
+        // Asegura que NO se llamó a save en el repositorio
         verify(detallecomprasRepository, never()).save(any(Detallecompras.class));
+        verify(inventarioClientRest, never()).update(anyLong(), any(Inventario.class));
     }
 }
 
