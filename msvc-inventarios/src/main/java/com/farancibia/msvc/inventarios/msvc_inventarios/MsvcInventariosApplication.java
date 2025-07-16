@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableFeignClients
-@SpringBootTest
+@SpringBootApplication
 public class MsvcInventariosApplication {
 
 	public static void main(String[] args) {

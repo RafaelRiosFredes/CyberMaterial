@@ -56,7 +56,7 @@ public class InventarioServiceImpl implements InventarioService {
         try {
             Sucursal sucursal = sucursalClientRest.findById(inventario.getIdSucursal());
             if (sucursal != null) {
-                sucursalDTO.setNombreSucursal(sucursal.getDireccion());
+                sucursalDTO.setDireccionSucursal(sucursal.getDireccion());
             }
         } catch (FeignException e) {
             System.err.println("Error obteniendo sucursal: " + e.getMessage());
@@ -77,7 +77,7 @@ public class InventarioServiceImpl implements InventarioService {
             try {
                 Sucursal sucursal = this.sucursalClientRest.findById(inventario.getIdSucursal());
                 if (sucursal != null) {
-                    sucursalDTO.setNombreSucursal(sucursal.getDireccion());
+                    sucursalDTO.setDireccionSucursal(sucursal.getDireccion());
                 }
             } catch (FeignException ex) {
                 System.err.println("Error obteniendo sucursal: " + ex.getMessage());
@@ -118,4 +118,6 @@ public class InventarioServiceImpl implements InventarioService {
 
         return this.inventarioRepository.save(inventario);
     }
+
+
 }

@@ -28,7 +28,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/v2/inventarios")
 @Validated
 @Tag(name = "Inventario V2", description = "Operaciones CRUD de Inventario")
 public class InventarioControllerV2 {
@@ -43,8 +43,8 @@ public class InventarioControllerV2 {
 
     @GetMapping
     @Operation(
-            summary = "Obtiene todos los productos",
-            description = "Devuelve un List de Productos en el body")
+            summary = "Obtiene el stock de los productos por sucursal",
+            description = "Devuelve un List de el stock de los productos por sucursal en el body")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Operación exitosa",
                     content = @Content(
@@ -90,10 +90,15 @@ public class InventarioControllerV2 {
         return ResponseEntity.ok(entityModel);
     }
 
+
+    @Operation(
+            summary = "Ingresa un inventario",
+            description = "Ingresa un inventario con IdSucursal, IdProducto y su stock")
     @PostMapping
     public ResponseEntity<Inventario> save(@Valid @RequestBody Inventario inventario){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.inventarioService.save(inventario));
     }
+
 
 }
 

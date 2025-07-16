@@ -8,5 +8,7 @@ import lombok.*;
 public class SucursalDTO {
 
     private Long idSucursal;
-    private String nombreSucursal;
+    private String direccionSucursal;
+
+
 }

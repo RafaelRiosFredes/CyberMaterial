@@ -60,7 +60,7 @@ public class InventarioServiceTest {
     }
 
     @Test
-    @DisplayName("Creacion de test")
+    @DisplayName("Debe listar la cantidad de stock del producto por sucursal")
     public void shouldCreateInventario(){
 
         //Realiza las validaciones
